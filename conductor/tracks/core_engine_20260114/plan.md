@@ -21,7 +21,7 @@
 - [x] Task: Implement Line Clearing Logic 0c85c1c
   - [ ] Subtask: Write tests for `checkLines` (detect full rows/cols).
   - [ ] Subtask: Implement `clearLines` to remove full lines and return count.
-- [~] Task: Implement Scoring System
+- [x] Task: Implement Scoring System b3b2db4
   - [ ] Subtask: Write tests for score calculation (base points + line bonuses).
   - [ ] Subtask: Implement scoring function.
 - [x] Task: Implement Game Over Detection c6df6b4
@@ -32,4 +32,4 @@
 - [x] Task: Create specific Game Engine entry point ac23bd9
   - [ ] Subtask: Export a unified `GameEngine` class or set of functions.
   - [ ] Subtask: Write an integration test simulating a short game sequence.
-- [ ] Task: Conductor - User Manual Verification 'Integration & Review' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Integration & Review' (Protocol in workflow.md)
