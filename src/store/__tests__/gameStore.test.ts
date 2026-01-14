@@ -1,6 +1,26 @@
 import { useGameStore } from '../gameStore';
 import { PIECES } from '../../engine/pieces';
 
+// Mock MMKV for useGameStore persistence
+jest.mock('react-native-mmkv', () => {
+  return {
+    createMMKV: jest.fn().mockImplementation(() => {
+      const mockStorage: Record<string, string> = {};
+      return {
+        set: (key: string, value: string) => {
+          mockStorage[key] = value;
+        },
+        getString: (key: string) => mockStorage[key] || undefined,
+        remove: (key: string) => {
+          const existed = !!mockStorage[key];
+          delete mockStorage[key];
+          return existed;
+        },
+      };
+    }),
+  };
+});
+
 describe('gameStore', () => {
   beforeEach(() => {
     useGameStore.getState().newGame();
@@ -42,32 +62,24 @@ describe('gameStore', () => {
     // Place a single block at (0,0)
     useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
     
-        const state = useGameStore.getState();
+    const state = useGameStore.getState();
+    expect(state.grid[0][0]).toBe(1);
+    expect(state.score).toBe(1);
+  });
+
+  it('should not update state on invalid move', () => {
+    // Place a piece out of bounds
+    useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9);
     
-        expect(state.grid[0][0]).toBe(1);
-    
-        expect(state.score).toBe(1);
-    
-      });
-    
-    
-    
-      it('should not update state on invalid move', () => {
-    
-        // Place a piece out of bounds
-    
-        useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9);
-    
-        
-    
-        const state = useGameStore.getState();
-    
-        expect(state.grid[9][9]).toBe(0);
-    
-        expect(state.score).toBe(0);
-    
-      });
-    
+    const state = useGameStore.getState();
+    expect(state.grid[9][9]).toBe(0);
+    expect(state.score).toBe(0);
+  });
+
+  describe('Persistence', () => {
+    it('should have persist middleware configured', () => {
+      expect((useGameStore as any).persist).toBeDefined();
+      expect((useGameStore as any).persist.getOptions().name).toBe('game-storage');
     });
-    
-    
+  });
+});
