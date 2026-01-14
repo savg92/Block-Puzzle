@@ -13,7 +13,7 @@
 - [x] Task: Implement Board Validation Logic 8d909a2
   - [ ] Subtask: Write tests for `canPlacePiece` (boundary checks, collision checks).
   - [ ] Subtask: Implement `canPlacePiece` function.
-- [ ] Task: Implement Piece Placement
+- [x] Task: Implement Piece Placement 2c30373
   - [ ] Subtask: Write tests for `placePiece` (update grid correctly).
   - [ ] Subtask: Implement `placePiece` function to return new grid state.
 
