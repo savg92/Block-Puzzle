@@ -12,11 +12,11 @@
 - [x] Task: Conductor - User Manual Verification 'Project Setup & Theming' (890d41d)
 
 ## Phase 2: Grid & Cell Components [~]
-- [~] Task: Build Grid Component
-  - [ ] Subtask: Create `src/components/Grid/Grid.tsx` with 10x10 layout
-  - [ ] Subtask: Implement `Cell` component with rounded corners
-  - [ ] Subtask: Add filled/empty state visual distinction
-  - [ ] Subtask: Write component tests for grid rendering
+- [x] Task: Build Grid Component (f5e4416)
+  - [x] Subtask: Create `src/components/Grid/Grid.tsx` with 10x10 layout
+  - [x] Subtask: Implement `Cell` component with rounded corners
+  - [x] Subtask: Add filled/empty state visual distinction
+  - [x] Subtask: Write component tests for grid rendering
 - [ ] Task: Conductor - User Manual Verification 'Grid & Cell Components' (Protocol in workflow.md)
 
 ## Phase 3: Piece Components
