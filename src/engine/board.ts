@@ -135,3 +135,32 @@ export const clearLines = (grid: Grid): { grid: Grid; clearedLines: number } => 
 
   return { grid: newGrid, clearedLines };
 };
+
+/**
+ * Checks if any of the available pieces can fit anywhere on the current grid.
+ * @param grid The current game board
+ * @param availablePieces The pieces available to the player
+ * @returns true if at least one piece can fit, false otherwise
+ */
+export const canAnyPieceFit = (grid: Grid, availablePieces: Piece[]): boolean => {
+  if (availablePieces.length === 0) return false;
+
+  const gridHeight = grid.length;
+  const gridWidth = grid[0].length;
+
+  for (const piece of availablePieces) {
+    const pieceHeight = piece.length;
+    const pieceWidth = piece[0].length;
+
+    // Brute force check: try placing the piece at every possible (row, col)
+    for (let r = 0; r <= gridHeight - pieceHeight; r++) {
+      for (let c = 0; c <= gridWidth - pieceWidth; c++) {
+        if (canPlacePiece(grid, piece, r, c)) {
+          return true; // Found a valid spot!
+        }
+      }
+    }
+  }
+
+  return false;
+};

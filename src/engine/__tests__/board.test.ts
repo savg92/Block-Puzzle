@@ -1,8 +1,7 @@
-import { canPlacePiece, placePiece, clearLines } from '../board';
+import { canPlacePiece, placePiece, clearLines, canAnyPieceFit } from '../board';
 import { Grid, Piece } from '../types';
 
 describe('canPlacePiece', () => {
-  // ... existing tests ...
   // 3x3 Grid for simplicity
   const emptyGrid: Grid = [
     [0, 0, 0],
@@ -159,5 +158,41 @@ describe('clearLines', () => {
         const { grid: newGrid, clearedLines } = clearLines(grid);
         expect(clearedLines).toBe(0);
         expect(newGrid).toEqual(grid);
+    });
+});
+
+describe('canAnyPieceFit', () => {
+    const piece2x2: Piece = [[1, 1], [1, 1]];
+    const piece1x1: Piece = [[1]];
+
+    it('should return true if at least one piece can fit', () => {
+        const grid: Grid = [
+            [0, 0],
+            [0, 0],
+        ];
+        expect(canAnyPieceFit(grid, [piece2x2])).toBe(true);
+    });
+
+    it('should return false if no pieces can fit', () => {
+        const grid: Grid = [
+            [1, 1],
+            [1, 0],
+        ];
+        // 2x2 won't fit anywhere in 2x2 grid with blocks
+        expect(canAnyPieceFit(grid, [piece2x2])).toBe(false);
+    });
+
+    it('should check all available pieces', () => {
+        const grid: Grid = [
+            [1, 1],
+            [1, 0],
+        ];
+        // 2x2 won't fit, but 1x1 will
+        expect(canAnyPieceFit(grid, [piece2x2, piece1x1])).toBe(true);
+    });
+
+    it('should return false if availablePieces is empty', () => {
+        const grid: Grid = [[0]];
+        expect(canAnyPieceFit(grid, [])).toBe(false);
     });
 });
