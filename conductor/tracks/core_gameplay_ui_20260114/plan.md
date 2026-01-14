@@ -1,14 +1,14 @@
 # Track Plan: Core Gameplay UI
 
-## Phase 1: Main Layout & Score Display [~]
+## Phase 1: Main Layout & Score Display ✅ [checkpoint: 98c5c21]
 - [x] Task: Create Game Screen Container (631edb4)
-  - [ ] Subtask: Build `src/screens/GameScreen.tsx` with safe area support
-  - [ ] Subtask: Integrate `Grid` and placeholder components for Score/Tray
+  - [x] Subtask: Build `src/screens/GameScreen.tsx` with safe area support
+  - [x] Subtask: Integrate `Grid` and placeholder components for Score/Tray
 - [x] Task: Build Score Display Component (5dbdba9)
-  - [ ] Subtask: Create `src/components/UI/ScoreDisplay.tsx`
-  - [ ] Subtask: Implement rapid-increment animation using Reanimated
-  - [ ] Subtask: Add High Score persistence logic with MMKV
-- [ ] Task: Conductor - User Manual Verification 'Main Layout & Score Display' (Protocol in workflow.md)
+  - [x] Subtask: Create `src/components/UI/ScoreDisplay.tsx`
+  - [x] Subtask: Implement rapid-increment animation using Reanimated
+  - [x] Subtask: Add High Score persistence logic with MMKV
+- [x] Task: Conductor - User Manual Verification 'Main Layout & Score Display' (98c5c21)
 
 ## Phase 2: Piece Tray & Selection
 - [ ] Task: Build Piece Tray Component
