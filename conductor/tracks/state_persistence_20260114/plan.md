@@ -5,7 +5,7 @@
   - [ ] Subtask: Create `src/store/gameStore.ts` with initial state shape
   - [ ] Subtask: Define store actions for game operations
   - [ ] Subtask: Write unit tests for store state transitions
-- [ ] Task: Integrate Game Engine with Store
+- [x] Task: Integrate Game Engine with Store f2d0f29
   - [ ] Subtask: Connect engine functions to store actions
   - [ ] Subtask: Implement `newGame`, `placePiece`, `selectPiece` actions
   - [ ] Subtask: Write integration tests for store-engine flow
