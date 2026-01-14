@@ -29,7 +29,7 @@
   - [ ] Subtask: Implement `canAnyPieceFit` logic.
 
 ## Phase 4: Integration & Review
-- [ ] Task: Create specific Game Engine entry point
+- [x] Task: Create specific Game Engine entry point ac23bd9
   - [ ] Subtask: Export a unified `GameEngine` class or set of functions.
   - [ ] Subtask: Write an integration test simulating a short game sequence.
 - [ ] Task: Conductor - User Manual Verification 'Integration & Review' (Protocol in workflow.md)
