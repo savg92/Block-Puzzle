@@ -16,7 +16,7 @@
   - [ ] Subtask: Create `src/store/storage.ts` with MMKV configuration
   - [ ] Subtask: Implement `saveState` and `loadState` functions
   - [ ] Subtask: Write tests for serialization/deserialization
-- [ ] Task: Add Persistence Middleware to Store
+- [x] Task: Add Persistence Middleware to Store d93a4b0
   - [ ] Subtask: Integrate Zustand persist middleware
   - [ ] Subtask: Test state restoration on app restart
   - [ ] Subtask: Handle migration for future state shape changes
