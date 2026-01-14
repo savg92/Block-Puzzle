@@ -46,3 +46,39 @@ export const canPlacePiece = (
 
   return true;
 };
+
+/**
+ * Places a piece on the grid and returns a new grid state.
+ * Throws an error if the placement is invalid.
+ * @param grid The current game board
+ * @param piece The piece to place
+ * @param row The row index
+ * @param col The column index
+ * @returns A new grid with the piece placed
+ */
+export const placePiece = (
+  grid: Grid,
+  piece: Piece,
+  row: number,
+  col: number
+): Grid => {
+  if (!canPlacePiece(grid, piece, row, col)) {
+    throw new Error('Invalid piece placement');
+  }
+
+  // Deep copy the grid to ensure immutability
+  const newGrid = grid.map((r) => [...r]);
+
+  const pieceHeight = piece.length;
+  const pieceWidth = piece[0].length;
+
+  for (let r = 0; r < pieceHeight; r++) {
+    for (let c = 0; c < pieceWidth; c++) {
+      if (piece[r][c] !== 0) {
+        newGrid[row + r][col + c] = 1; // Mark as filled
+      }
+    }
+  }
+
+  return newGrid;
+};

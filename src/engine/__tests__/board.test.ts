@@ -1,7 +1,8 @@
-import { canPlacePiece } from '../board';
+import { canPlacePiece, placePiece } from '../board';
 import { Grid, Piece } from '../types';
 
 describe('canPlacePiece', () => {
+  // ... existing tests ...
   // 3x3 Grid for simplicity
   const emptyGrid: Grid = [
     [0, 0, 0],
@@ -57,4 +58,39 @@ describe('canPlacePiece', () => {
       // (1,1) -> 1
       expect(canPlacePiece(grid, lPiece, 0, 0)).toBe(true);
   });
+});
+
+describe('placePiece', () => {
+    const emptyGrid: Grid = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0],
+    ];
+    const piece: Piece = [[1], [1]];
+
+    it('should return a new grid with the piece placed', () => {
+        const newGrid = placePiece(emptyGrid, piece, 0, 0);
+        
+        // Original grid should remain unchanged (immutability)
+        expect(emptyGrid).toEqual([
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ]);
+
+        // New grid should have the piece
+        expect(newGrid).toEqual([
+            [1, 0, 0],
+            [1, 0, 0],
+            [0, 0, 0],
+        ]);
+        
+        // Ensure it's a deep copy
+        expect(newGrid).not.toBe(emptyGrid);
+        expect(newGrid[0]).not.toBe(emptyGrid[0]);
+    });
+
+    it('should throw an error if placement is invalid', () => {
+        expect(() => placePiece(emptyGrid, piece, -1, 0)).toThrow();
+    });
 });
