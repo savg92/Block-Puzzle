@@ -3,14 +3,12 @@
 A high-quality, fully offline, single-player block puzzle game for iOS and Android.
 
 ## Features
+- **Core Engine:** Full 10x10 logic, line clearing, and scoring system.
+- **UI Foundation:** High-performance 10x10 Grid and Draggable Piece components.
+- **Arcade Aesthetic:** Polished slate/blue/emerald theme with smooth animations.
+- **State Persistence:** Synchronous, high-speed state saving via MMKV.
+- **Undo System:** Revert moves with full state restoration.
 
-- 🎮 **Classic Gameplay** - 10x10 grid with 9 unique piece shapes
-- 🔄 **Line Clearing** - Clear rows and columns to score points
-- 🏆 **Combo System** - Earn bonus points for multi-line clears
-- 🌙 **Dark Mode** - Beautiful dark theme with arcade aesthetics
-- 📱 **Fully Offline** - No internet required, no ads, no tracking
-- 💾 **Auto-Save** - Game state preserved instantly
-13: - ⏪ **Undo** - Revert recent moves with 20-step history
 
 ## Getting Started
 
