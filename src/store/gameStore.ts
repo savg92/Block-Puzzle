@@ -1,23 +1,42 @@
 import { create } from 'zustand';
 import { Grid, Piece } from '../engine/types';
+import { GameEngine } from '../engine';
 
 interface GameState {
   grid: Grid;
   score: number;
   availablePieces: Piece[];
+  selectedPiece: Piece | null;
   isGameOver: boolean;
-  resetGame: () => void;
+  newGame: () => void;
+  placePiece: (piece: Piece, row: number, col: number) => void;
+  selectPiece: (piece: Piece | null) => void;
 }
 
-export const useGameStore = create<GameState>((set) => ({
+export const useGameStore = create<GameState>((set, get) => ({
   grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
   score: 0,
   availablePieces: [],
+  selectedPiece: null,
   isGameOver: false,
-  resetGame: () => set({
+  newGame: () => set({
     grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
     score: 0,
     availablePieces: [],
+    selectedPiece: null,
     isGameOver: false,
   }),
+  placePiece: (piece, row, col) => {
+    const { grid, score } = get();
+    const engine = new GameEngine(grid, score);
+    const result = engine.makeMove(piece, row, col);
+    
+    if (result.success) {
+      set({
+        grid: engine.getGrid(),
+        score: engine.getScore(),
+      });
+    }
+  },
+  selectPiece: (piece) => set({ selectedPiece: piece }),
 }));
