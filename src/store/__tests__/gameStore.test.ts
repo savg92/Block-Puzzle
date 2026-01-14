@@ -68,12 +68,15 @@ describe('gameStore', () => {
   });
 
   it('should not update state on invalid move', () => {
-    // Place a piece out of bounds
+    const initialGrid = useGameStore.getState().grid;
+    const initialScore = useGameStore.getState().score;
+    
+    // Attempt to place a 2x2 piece at the very edge where it won't fit
     useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9);
     
     const state = useGameStore.getState();
-    expect(state.grid[9][9]).toBe(0);
-    expect(state.score).toBe(0);
+    expect(state.grid).toEqual(initialGrid);
+    expect(state.score).toBe(initialScore);
   });
 
   describe('Persistence', () => {
