@@ -21,10 +21,10 @@
 - [x] Task: Implement Line Clearing Logic 0c85c1c
   - [ ] Subtask: Write tests for `checkLines` (detect full rows/cols).
   - [ ] Subtask: Implement `clearLines` to remove full lines and return count.
-- [ ] Task: Implement Scoring System
+- [~] Task: Implement Scoring System
   - [ ] Subtask: Write tests for score calculation (base points + line bonuses).
   - [ ] Subtask: Implement scoring function.
-- [ ] Task: Implement Game Over Detection
+- [x] Task: Implement Game Over Detection c6df6b4
   - [ ] Subtask: Write tests for `canAnyPieceFit` with various board states.
   - [ ] Subtask: Implement `canAnyPieceFit` logic.
 
