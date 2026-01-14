@@ -79,10 +79,55 @@ describe('gameStore', () => {
     expect(state.score).toBe(initialScore);
   });
 
+  describe('Undo', () => {
+    it('should undo a piece placement', () => {
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
+      expect(useGameStore.getState().score).toBe(1);
+      
+      useGameStore.getState().undo();
+      
+      expect(useGameStore.getState().score).toBe(0);
+      expect(useGameStore.getState().grid[0][0]).toBe(0);
+    });
+
+    it('should undo multiple steps', () => {
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1);
+      expect(useGameStore.getState().score).toBe(2);
+      
+      useGameStore.getState().undo();
+      expect(useGameStore.getState().score).toBe(1);
+      
+      useGameStore.getState().undo();
+      expect(useGameStore.getState().score).toBe(0);
+    });
+
+    it('should do nothing if history is empty', () => {
+      useGameStore.getState().undo();
+      expect(useGameStore.getState().score).toBe(0);
+    });
+
+    it('should clear history on new game', () => {
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
+      useGameStore.getState().newGame();
+      useGameStore.getState().undo(); // Should do nothing
+      expect(useGameStore.getState().score).toBe(0);
+    });
+  });
+
   describe('Persistence', () => {
     it('should have persist middleware configured', () => {
       expect((useGameStore as any).persist).toBeDefined();
       expect((useGameStore as any).persist.getOptions().name).toBe('game-storage');
+    });
+
+    it('should exclude history from persisted state', () => {
+      const state = useGameStore.getState();
+      const options = (useGameStore as any).persist.getOptions();
+      const persistedState = options.partialize(state);
+      
+      expect(persistedState.history).toBeUndefined();
+      expect(persistedState.score).toBeDefined();
     });
   });
 });
