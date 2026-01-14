@@ -11,7 +11,7 @@
   - [ ] Subtask: Write integration tests for store-engine flow
 - [x] Task: Conductor - User Manual Verification 'Zustand Store Setup' (Protocol in workflow.md)
 
-## Phase 2: Persistence Layer
+## Phase 2: Persistence Layer [checkpoint: 8c644ee]
 - [x] Task: Implement MMKV Storage Adapter 01a39f4
   - [ ] Subtask: Create `src/store/storage.ts` with MMKV configuration
   - [ ] Subtask: Implement `saveState` and `loadState` functions
@@ -20,7 +20,7 @@
   - [ ] Subtask: Integrate Zustand persist middleware
   - [ ] Subtask: Test state restoration on app restart
   - [ ] Subtask: Handle migration for future state shape changes
-- [x] Task: Conductor - User Manual Verification 'Persistence Layer' (Protocol in workflow.md) ac23bd9
+- [x] Task: Conductor - User Manual Verification 'Persistence Layer' (Protocol in workflow.md)
 
 ## Phase 3: Undo System
 - [ ] Task: Implement Undo Functionality
