@@ -1,0 +1,8 @@
+{
+  "track_id": "core_engine_20260114",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-01-14T00:00:00Z",
+  "updated_at": "2026-01-14T00:00:00Z",
+  "description": "Build the core Game Engine and Board logic, including placement, line clearing, and basic scoring."
+}
