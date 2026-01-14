@@ -9,5 +9,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [ ] Track: UI Foundation
+## [~] Track: UI Foundation
 *Link: [./conductor/tracks/ui_foundation_20260114/](./conductor/tracks/ui_foundation_20260114/)*

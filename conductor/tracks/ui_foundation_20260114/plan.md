@@ -1,7 +1,7 @@
 # Track Plan: UI Foundation
 
 ## Phase 1: Project Setup & Theming
-- [ ] Task: Initialize Expo Project Structure
+- [~] Task: Initialize Expo Project Structure
   - [ ] Subtask: Configure NativeWind with Tailwind CSS
   - [ ] Subtask: Set up React Native Reanimated
   - [ ] Subtask: Configure React Native Gesture Handler

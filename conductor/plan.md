@@ -16,42 +16,21 @@ All core engine logic is complete and tested:
 - **Phase 4:** Integration & Entry Point
 
 **Files:** `src/engine/types.ts`, `src/engine/pieces.ts`, `src/engine/board.ts`, `src/engine/scoring.ts`, `src/engine/index.ts`
-
----
+19: 
+20: ### ✅ Track: State Management & Persistence [checkpoint: 8c644ee]
+21: > **Status:** Archived to `conductor/archive/state_persistence_20260114/`
+22: 
+23: Integrated the game engine with Zustand and added persistent storage with MMKV:
+24: - **Phase 1.1:** Zustand Store Setup (reactive state for grid, score, pieces)
+25: - **Phase 1.2:** Persistence Layer (MMKV adapter and store hydration)
+26: - **Phase 1.3:** Undo System (multi-step undo with history)
+27: 
+28: **Files:** `src/store/gameStore.ts`, `src/store/storage.ts`
+29: 
+30: ---
 
 ## Active Tracks
 
-### Track 1: State Management & Persistence
-
-**Objective:** Integrate the game engine with Zustand for reactive state and MMKV for persistent storage.
-
-#### Phase 1.1: Zustand Store Setup
-- [ ] Task: Create base Zustand store structure
-  - [ ] Subtask: Create `src/store/gameStore.ts` with initial state shape
-  - [ ] Subtask: Define store actions for game operations
-  - [ ] Subtask: Write unit tests for store state transitions
-
-- [ ] Task: Integrate Game Engine with Store
-  - [ ] Subtask: Connect engine functions to store actions
-  - [ ] Subtask: Implement `newGame`, `placePiece`, `selectPiece` actions
-  - [ ] Subtask: Write integration tests for store-engine flow
-
-#### Phase 1.2: Persistence Layer
-- [ ] Task: Implement MMKV Storage Adapter
-  - [ ] Subtask: Create `src/store/storage.ts` with MMKV configuration
-  - [ ] Subtask: Implement `saveState` and `loadState` functions
-  - [ ] Subtask: Write tests for serialization/deserialization
-
-- [ ] Task: Add Persistence Middleware to Store
-  - [ ] Subtask: Integrate Zustand persist middleware
-  - [ ] Subtask: Test state restoration on app restart
-  - [ ] Subtask: Handle migration for future state shape changes
-
-#### Phase 1.3: Undo System
-- [ ] Task: Implement Undo Functionality
-  - [ ] Subtask: Create state history stack in store
-  - [ ] Subtask: Implement `undo` action with state restoration
-  - [ ] Subtask: Write tests for multi-step undo scenarios
 
 ---
 

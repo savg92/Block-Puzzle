@@ -10,6 +10,7 @@ A high-quality, fully offline, single-player block puzzle game for iOS and Andro
 - 🌙 **Dark Mode** - Beautiful dark theme with arcade aesthetics
 - 📱 **Fully Offline** - No internet required, no ads, no tracking
 - 💾 **Auto-Save** - Game state preserved instantly
+13: - ⏪ **Undo** - Revert recent moves with 20-step history
 
 ## Getting Started
 
@@ -66,6 +67,9 @@ bun run android
 │       ├── board.ts     # Board validation & line clearing
 │       ├── scoring.ts   # Score calculation
 │       └── index.ts     # Engine entry point
+69: │   └── store/           # Zustand state management ✅
+70: │       ├── gameStore.ts # Central game state & actions
+71: │       └── storage.ts   # MMKV persistence adapter
 ├── conductor/           # Project documentation
 │   ├── plan.md          # Development roadmap
 │   ├── workflow.md      # Development process
@@ -78,8 +82,9 @@ bun run android
 
 ✅ **Core Engine Complete** - Board logic, piece mechanics, scoring, line clearing
 
+✅ **State Management Complete** - Zustand integration, MMKV persistence, Undo system
+
 🚧 **In Progress:**
-- State Management (Zustand)
 - UI Foundation (NativeWind)
 - Core Gameplay Screen
 
