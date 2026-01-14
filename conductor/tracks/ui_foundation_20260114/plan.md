@@ -19,13 +19,13 @@
   - [x] Subtask: Write component tests for grid rendering
 - [x] Task: Conductor - User Manual Verification 'Grid & Cell Components' (f5e4416)
 
-## Phase 3: Piece Components [~]
+## Phase 3: Piece Components ✅ [checkpoint: 305f0af]
 - [x] Task: Build Piece Preview Component (a66cfee)
-  - [ ] Subtask: Create `src/components/Piece/PiecePreview.tsx`
-  - [ ] Subtask: Implement piece visualization from matrix data
-  - [ ] Subtask: Add selection state styling
+  - [x] Subtask: Create `src/components/Piece/PiecePreview.tsx`
+  - [x] Subtask: Implement piece visualization from matrix data
+  - [x] Subtask: Add selection state styling
 - [x] Task: Build Draggable Piece Component (aac3134)
-  - [ ] Subtask: Create `src/components/Piece/DraggablePiece.tsx`
-  - [ ] Subtask: Integrate Gesture Handler for drag operations
-  - [ ] Subtask: Add visual feedback during drag (transparency, shadow)
-- [ ] Task: Conductor - User Manual Verification 'Piece Components' (Protocol in workflow.md)
+  - [x] Subtask: Create `src/components/Piece/DraggablePiece.tsx`
+  - [x] Subtask: Integrate Gesture Handler for drag operations
+  - [x] Subtask: Add visual feedback during drag (transparency, shadow)
+- [x] Task: Conductor - User Manual Verification 'Piece Components' (305f0af)
