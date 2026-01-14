@@ -79,6 +79,13 @@ jest.mock('react-native-reanimated', () => {
     withTiming: (val) => val,
     runOnJS: (fn) => fn,
     View: (props) => React.createElement('View', props),
+    Easing: {
+      out: (fn) => fn,
+      quad: (n) => n,
+      linear: (n) => n,
+    },
+    useDerivedValue: (cb) => ({ value: cb() }),
+    useAnimatedProps: (cb) => cb(),
   };
 });
 
