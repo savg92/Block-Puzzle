@@ -4,7 +4,7 @@
 - [x] Task: Define TypeScript interfaces and types d2ca29d
 
   - [ ] Subtask: Create `src/engine/types.ts` with `Grid`, `Piece`, and `GameState` definitions.
-- [ ] Task: Implement Canonical Piece Definitions
+- [x] Task: Implement Canonical Piece Definitions 047305c
   - [ ] Subtask: Create `src/engine/pieces.ts` exporting the 9 fixed shapes.
   - [ ] Subtask: Implement `rotatePiece` utility function.
   - [ ] Subtask: Write unit tests for piece rotation.
