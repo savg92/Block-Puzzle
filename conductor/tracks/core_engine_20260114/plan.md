@@ -18,7 +18,7 @@
   - [ ] Subtask: Implement `placePiece` function to return new grid state.
 
 ## Phase 3: Rules & Scoring
-- [ ] Task: Implement Line Clearing Logic
+- [x] Task: Implement Line Clearing Logic 0c85c1c
   - [ ] Subtask: Write tests for `checkLines` (detect full rows/cols).
   - [ ] Subtask: Implement `clearLines` to remove full lines and return count.
 - [ ] Task: Implement Scoring System
