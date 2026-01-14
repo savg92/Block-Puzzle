@@ -2,7 +2,7 @@ module.exports = {
   projects: [
     {
       preset: 'jest-expo/universal',
-      testMatch: ['**/src/App.test.tsx', '**/src/components/**/*.test.tsx'],
+      testMatch: ['**/src/**/*.test.tsx'],
       moduleNameMapper: {
         '\.css$': 'identity-obj-proxy',
       },

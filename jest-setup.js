@@ -31,7 +31,19 @@ jest.mock('react-native', () => {
       getColorScheme: () => 'light',
       addChangeListener: () => ({ remove: () => {} }),
     },
+    useColorScheme: jest.fn(() => 'light'),
     NativeModules: {},
+  };
+});
+
+// Mock mmkv
+jest.mock('react-native-mmkv', () => {
+  return {
+    createMMKV: jest.fn(() => ({
+      set: jest.fn(),
+      getString: jest.fn(),
+      remove: jest.fn(),
+    })),
   };
 });
 
