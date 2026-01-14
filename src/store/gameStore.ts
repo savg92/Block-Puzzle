@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Grid, Piece } from '../engine/types';
 import { GameEngine } from '../engine';
-import { appStorage } from './storage';
+import { mmkvStorage } from './storage';
 
 interface GameState {
   grid: Grid;
@@ -66,7 +66,7 @@ export const useGameStore = create<GameState>()(
     }),
     {
       name: 'game-storage',
-      storage: createJSONStorage(() => appStorage),
+      storage: createJSONStorage(() => mmkvStorage),
       // Only persist the core game state, not the history
       partialize: (state) => {
         const { history, ...rest } = state;

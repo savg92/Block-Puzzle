@@ -1,19 +1,23 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { createMMKV } from 'react-native-mmkv';
 import { StateStorage } from 'zustand/middleware';
 
+export const storage = createMMKV({
+  id: 'game-storage',
+});
+
 /**
- * appStorage implements Zustand's StateStorage interface using AsyncStorage.
- * This ensures compatibility with Expo Go.
+ * mmkvStorage implements Zustand's StateStorage interface using MMKV.
+ * This provides high-performance, synchronous persistence.
  */
-export const appStorage: StateStorage = {
-  setItem: async (name, value) => {
-    return await AsyncStorage.setItem(name, value);
+export const mmkvStorage: StateStorage = {
+  setItem: (name, value) => {
+    return storage.set(name, value);
   },
-  getItem: async (name) => {
-    const value = await AsyncStorage.getItem(name);
+  getItem: (name) => {
+    const value = storage.getString(name);
     return value ?? null;
   },
-  removeItem: async (name) => {
-    return await AsyncStorage.removeItem(name);
+  removeItem: (name) => {
+    return storage.remove(name);
   },
 };

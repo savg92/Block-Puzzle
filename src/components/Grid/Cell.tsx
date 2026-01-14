@@ -2,27 +2,26 @@ import React from 'react';
 import { View } from 'react-native';
 
 interface CellProps {
-  row: number;
-  col: number;
   color?: string | number | null;
+  size?: number;
   testID?: string;
 }
 
-export const Cell: React.FC<CellProps> = ({ color, testID }) => {
-  // If color is 0 (number), it means empty. If it's a string, it's a filled color.
+export const Cell: React.FC<CellProps> = ({ color, size = 30, testID }) => {
   const isFilled = typeof color === 'string';
+  const isEmpty = !color || color === 0;
   
   return (
     <View
       testID={testID}
       style={{
-        width: 30,
-        height: 30,
+        width: size,
+        height: size,
         borderRadius: 4,
-        margin: 2,
-        backgroundColor: isFilled ? (color as string) : '#1e293b', // slate-800 for empty
-        borderColor: '#334155', // slate-700
-        borderWidth: isFilled ? 0 : 1,
+        margin: 1,
+        backgroundColor: isFilled ? (color as string) : (isEmpty ? '#1e293b' : 'transparent'),
+        borderColor: isFilled ? 'rgba(255,255,255,0.3)' : '#334155',
+        borderWidth: isEmpty && color !== 'transparent' ? 1 : 0,
       }}
     />
   );

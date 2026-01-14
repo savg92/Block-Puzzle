@@ -9,7 +9,7 @@ export const Grid: React.FC = () => {
   return (
     <View 
       style={{
-        padding: 4,
+        padding: 4, // Padding around the cells
         borderRadius: 8,
         backgroundColor: '#0f172a', // slate-950
         borderWidth: 4,
@@ -24,8 +24,6 @@ export const Grid: React.FC = () => {
           {row.map((cell, colIndex) => (
             <Cell
               key={`cell-${rowIndex}-${colIndex}`}
-              row={rowIndex}
-              col={colIndex}
               color={cell}
               testID={`cell-${rowIndex}-${colIndex}`}
             />

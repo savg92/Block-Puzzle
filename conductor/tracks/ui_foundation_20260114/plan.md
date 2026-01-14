@@ -20,11 +20,11 @@
 - [x] Task: Conductor - User Manual Verification 'Grid & Cell Components' (f5e4416)
 
 ## Phase 3: Piece Components [~]
-- [~] Task: Build Piece Preview Component
+- [x] Task: Build Piece Preview Component (a66cfee)
   - [ ] Subtask: Create `src/components/Piece/PiecePreview.tsx`
   - [ ] Subtask: Implement piece visualization from matrix data
   - [ ] Subtask: Add selection state styling
-- [ ] Task: Build Draggable Piece Component
+- [x] Task: Build Draggable Piece Component (aac3134)
   - [ ] Subtask: Create `src/components/Piece/DraggablePiece.tsx`
   - [ ] Subtask: Integrate Gesture Handler for drag operations
   - [ ] Subtask: Add visual feedback during drag (transparency, shadow)

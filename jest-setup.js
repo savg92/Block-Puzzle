@@ -14,6 +14,7 @@ jest.mock('react-native', () => {
     View: mockView,
     Text: mockText,
     SafeAreaView: mockView,
+    ScrollView: mockView,
     StyleSheet: {
       create: (styles) => styles,
       flatten: (styles) => styles,
@@ -28,6 +29,17 @@ jest.mock('react-native', () => {
     },
     useColorScheme: jest.fn(() => 'light'),
     NativeModules: {},
+  };
+});
+
+// Mock react-native-safe-area-context
+jest.mock('react-native-safe-area-context', () => {
+  const React = require('react');
+  const View = (props) => React.createElement('View', props);
+  return {
+    SafeAreaProvider: View,
+    SafeAreaView: View,
+    useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
   };
 });
 

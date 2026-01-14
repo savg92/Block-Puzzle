@@ -21,7 +21,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   piece, 
   color, 
   onDragEnd,
-  size = 35 
+  size = 29 // Adjusted to 29px per user feedback
 }) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -50,9 +50,8 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       transform: [
         { translateX: translateX.value },
         { translateY: translateY.value },
-        { scale: withSpring(isDragging.value ? 1.1 : 1) },
       ],
-      opacity: isDragging.value ? 0.8 : 1,
+      opacity: isDragging.value ? 0.9 : 1,
       zIndex: isDragging.value ? 1000 : 1,
     };
   });
@@ -61,7 +60,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     <GestureDetector gesture={gesture}>
       <Animated.View 
         testID="draggable-piece"
-        style={[animatedStyle, { alignSelf: 'flex-start' }]}
+        style={animatedStyle}
       >
         <PiecePreview piece={piece} color={color} size={size} />
       </Animated.View>

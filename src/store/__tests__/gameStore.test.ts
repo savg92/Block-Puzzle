@@ -1,6 +1,23 @@
 import { useGameStore } from '../gameStore';
 import { PIECES } from '../../engine/pieces';
 
+// Mock storage module
+jest.mock('../storage', () => {
+  const mockStorage: Record<string, string> = {};
+  return {
+    storage: {
+      set: jest.fn((key, value) => { mockStorage[key] = value; }),
+      getString: jest.fn((key) => mockStorage[key] || undefined),
+      remove: jest.fn((key) => { delete mockStorage[key]; }),
+    },
+    mmkvStorage: {
+      setItem: jest.fn((key, value) => { mockStorage[key] = value; }),
+      getItem: jest.fn((key) => mockStorage[key] || null),
+      removeItem: jest.fn((key) => { delete mockStorage[key]; }),
+    }
+  };
+});
+
 // Mock MMKV for useGameStore persistence
 jest.mock('react-native-mmkv', () => {
   return {

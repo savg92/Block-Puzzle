@@ -24,7 +24,7 @@ describe('App', () => {
     expect(getByText('UI Foundation Ready')).toBeTruthy();
     
     // Check if grid is rendered (100 cells)
-    const cells = getAllByTestId(/cell-\d+-\d+/);
+    const cells = getAllByTestId(/^cell-\d+-\d+$/);
     expect(cells).toHaveLength(100);
   });
 });
