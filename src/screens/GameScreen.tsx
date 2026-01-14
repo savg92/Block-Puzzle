@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
+import { ScoreDisplay } from '../components/UI/ScoreDisplay';
 import { StatusBar } from 'expo-status-bar';
 
 export const GameScreen: React.FC = () => {
@@ -12,10 +13,7 @@ export const GameScreen: React.FC = () => {
       {/* Top Section: Score & Title */}
       <View style={styles.topSection}>
         <Text style={styles.title}>Block Puzzle</Text>
-        <View testID="score-container" style={styles.scorePlaceholder}>
-          {/* ScoreDisplay will go here */}
-          <Text style={styles.placeholderText}>Score: 0</Text>
-        </View>
+        <ScoreDisplay />
       </View>
 
       {/* Center Section: Grid */}
@@ -50,13 +48,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#3b82f6', // blue-500
     marginBottom: 10,
-  },
-  scorePlaceholder: {
-    padding: 10,
-    backgroundColor: '#1e293b',
-    borderRadius: 8,
-    minWidth: 150,
-    alignItems: 'center',
   },
   gridSection: {
     flex: 1,
