@@ -28,7 +28,7 @@
   - [ ] Subtask: Write tests for `canAnyPieceFit` with various board states.
   - [ ] Subtask: Implement `canAnyPieceFit` logic.
 
-## Phase 4: Integration & Review
+## Phase 4: Integration & Review [checkpoint: 04bb294]
 - [x] Task: Create specific Game Engine entry point ac23bd9
   - [ ] Subtask: Export a unified `GameEngine` class or set of functions.
   - [ ] Subtask: Write an integration test simulating a short game sequence.
