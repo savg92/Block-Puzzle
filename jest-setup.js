@@ -3,22 +3,17 @@ process.env.NATIVEWIND_NATIVE = 'true';
 
 // Mock react-native
 jest.mock('react-native', () => {
-  const mockReact = require('react');
-  const mockPropTypes = require('prop-types');
-
-  const mockView = (props) => mockReact.createElement('View', props);
+  const React = require('react');
+  const mockView = (props) => React.createElement('View', props);
   mockView.displayName = 'View';
-  mockView.propTypes = {
-    children: mockPropTypes.node,
-    style: mockPropTypes.any,
-  };
-
-  const mockText = (props) => mockReact.createElement('Text', props);
+  
+  const mockText = (props) => React.createElement('Text', props);
   mockText.displayName = 'Text';
 
   return {
     View: mockView,
     Text: mockText,
+    SafeAreaView: mockView,
     StyleSheet: {
       create: (styles) => styles,
       flatten: (styles) => styles,
@@ -61,6 +56,7 @@ jest.mock('react-native-css-interop', () => {
 
 // Mock reanimated
 jest.mock('react-native-reanimated', () => {
+  const React = require('react');
   return {
     default: {
       call: () => {},
@@ -69,6 +65,8 @@ jest.mock('react-native-reanimated', () => {
     useAnimatedStyle: (cb) => cb(),
     withSpring: (val) => val,
     withTiming: (val) => val,
+    runOnJS: (fn) => fn,
+    View: (props) => React.createElement('View', props),
   };
 });
 
@@ -81,10 +79,21 @@ jest.mock('expo-status-bar', () => {
 
 // Mock gesture handler
 jest.mock('react-native-gesture-handler', () => {
-  const mockReact = require('react');
+  const React = require('react');
+  const View = (props) => React.createElement('View', props);
   return {
-    GestureHandlerRootView: (props) => mockReact.createElement('View', props),
-    PanGestureHandler: (props) => mockReact.createElement('View', props),
+    GestureHandlerRootView: View,
+    PanGestureHandler: View,
+    GestureDetector: View,
+    Gesture: {
+      Pan: () => ({
+        onStart: function() { return this; },
+        onUpdate: function() { return this; },
+        onEnd: function() { return this; },
+        runOnJS: function() { return this; },
+      }),
+    },
+    runOnJS: (fn) => fn,
     State: {},
   };
 });
