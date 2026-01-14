@@ -11,16 +11,16 @@
   - [x] Subtask: Set up theme context with user preference persistence
 - [x] Task: Conductor - User Manual Verification 'Project Setup & Theming' (890d41d)
 
-## Phase 2: Grid & Cell Components [~]
+## Phase 2: Grid & Cell Components ✅
 - [x] Task: Build Grid Component (f5e4416)
   - [x] Subtask: Create `src/components/Grid/Grid.tsx` with 10x10 layout
   - [x] Subtask: Implement `Cell` component with rounded corners
   - [x] Subtask: Add filled/empty state visual distinction
   - [x] Subtask: Write component tests for grid rendering
-- [ ] Task: Conductor - User Manual Verification 'Grid & Cell Components' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Grid & Cell Components' (f5e4416)
 
-## Phase 3: Piece Components
-- [ ] Task: Build Piece Preview Component
+## Phase 3: Piece Components [~]
+- [~] Task: Build Piece Preview Component
   - [ ] Subtask: Create `src/components/Piece/PiecePreview.tsx`
   - [ ] Subtask: Implement piece visualization from matrix data
   - [ ] Subtask: Add selection state styling

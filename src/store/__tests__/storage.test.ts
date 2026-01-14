@@ -1,4 +1,4 @@
-import { mmkvStorage } from '../storage';
+import { mmkvStorage, storage } from '../storage';
 
 // Mock MMKV
 jest.mock('react-native-mmkv', () => {
@@ -20,22 +20,35 @@ jest.mock('react-native-mmkv', () => {
   };
 });
 
-describe('mmkvStorage', () => {
-  it('should set and get items', () => {
-    const data = { foo: 'bar' };
-    mmkvStorage.setItem('test-key', JSON.stringify(data));
-    
-    const result = mmkvStorage.getItem('test-key');
-    expect(result).toBe(JSON.stringify(data));
+describe('storage module', () => {
+  describe('mmkvStorage adapter', () => {
+    it('should set and get items', () => {
+      const data = { foo: 'bar' };
+      mmkvStorage.setItem('test-key', JSON.stringify(data));
+      
+      const result = mmkvStorage.getItem('test-key');
+      expect(result).toBe(JSON.stringify(data));
+    });
+
+    it('should return null for non-existent items', () => {
+      expect(mmkvStorage.getItem('non-existent')).toBeNull();
+    });
+
+    it('should remove items', () => {
+      mmkvStorage.setItem('delete-me', 'val');
+      mmkvStorage.removeItem('delete-me');
+      expect(mmkvStorage.getItem('delete-me')).toBeNull();
+    });
   });
 
-  it('should return null for non-existent items', () => {
-    expect(mmkvStorage.getItem('non-existent')).toBeNull();
-  });
+  describe('storage instance', () => {
+    it('should be defined', () => {
+      expect(storage).toBeDefined();
+    });
 
-  it('should remove items', () => {
-    mmkvStorage.setItem('delete-me', 'val');
-    mmkvStorage.removeItem('delete-me');
-    expect(mmkvStorage.getItem('delete-me')).toBeNull();
+    it('should allow setting and getting strings', () => {
+      storage.set('test', 'value');
+      expect(storage.getString('test')).toBe('value');
+    });
   });
 });

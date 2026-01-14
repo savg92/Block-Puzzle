@@ -7,9 +7,20 @@ export const Grid: React.FC = () => {
   const { grid } = useGameStore();
 
   return (
-    <View className="bg-slate-800 p-1 rounded-md shadow-2xl border-4 border-slate-700">
+    <View 
+      style={{
+        padding: 4,
+        borderRadius: 8,
+        backgroundColor: '#0f172a', // slate-950
+        borderWidth: 4,
+        borderColor: '#1e293b',     // slate-800
+      }}
+    >
       {grid.map((row, rowIndex) => (
-        <View key={`row-${rowIndex}`} className="flex-row">
+        <View 
+          key={`row-${rowIndex}`} 
+          style={{ flexDirection: 'row' }}
+        >
           {row.map((cell, colIndex) => (
             <Cell
               key={`cell-${rowIndex}-${colIndex}`}
