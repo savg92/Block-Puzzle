@@ -1,15 +1,105 @@
-# block-puzzle
+# Block Puzzle 10x10
 
-To install dependencies:
+A high-quality, fully offline, single-player block puzzle game for iOS and Android.
+
+## Features
+
+- 🎮 **Classic Gameplay** - 10x10 grid with 9 unique piece shapes
+- 🔄 **Line Clearing** - Clear rows and columns to score points
+- 🏆 **Combo System** - Earn bonus points for multi-line clears
+- 🌙 **Dark Mode** - Beautiful dark theme with arcade aesthetics
+- 📱 **Fully Offline** - No internet required, no ads, no tracking
+- 💾 **Auto-Save** - Game state preserved instantly
+
+## Getting Started
+
+### Prerequisites
+
+- [Bun](https://bun.sh/) (v1.3+)
+- [Node.js](https://nodejs.org/) (v18+)
+- Expo CLI (for mobile development)
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone <repo-url>
+cd block-puzzle
+
+# Install dependencies
 bun install
 ```
 
-To run:
+### Development
 
 ```bash
-bun run index.ts
+# Run tests
+bun x jest
+
+# Run tests with coverage
+bun x jest --coverage
+
+# Run linting
+bun run lint
 ```
 
-This project was created using `bun init` in bun v1.3.6. [Bun](https://bun.com) is a fast all-in-one JavaScript runtime.
+### Mobile Development (Coming Soon)
+
+```bash
+# Start Expo dev server
+bun start
+
+# iOS simulator
+bun run ios
+
+# Android emulator
+bun run android
+```
+
+## Project Structure
+
+```
+├── src/
+│   └── engine/          # Pure TypeScript game logic ✅
+│       ├── types.ts     # Core type definitions
+│       ├── pieces.ts    # 9 canonical piece shapes
+│       ├── board.ts     # Board validation & line clearing
+│       ├── scoring.ts   # Score calculation
+│       └── index.ts     # Engine entry point
+├── conductor/           # Project documentation
+│   ├── plan.md          # Development roadmap
+│   ├── workflow.md      # Development process
+│   ├── product.md       # Game specifications
+│   └── tech-stack.md    # Technology decisions
+└── README.md
+```
+
+## Current Status
+
+✅ **Core Engine Complete** - Board logic, piece mechanics, scoring, line clearing
+
+🚧 **In Progress:**
+- State Management (Zustand)
+- UI Foundation (NativeWind)
+- Core Gameplay Screen
+
+See [`conductor/plan.md`](conductor/plan.md) for detailed progress.
+
+## Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| Framework | Expo + React Native |
+| Language | TypeScript (strict) |
+| State | Zustand |
+| Styling | NativeWind |
+| Storage | MMKV |
+| Testing | Jest |
+
+## Contributing
+
+This project follows a TDD workflow. See [`conductor/workflow.md`](conductor/workflow.md) for development guidelines.
+
+## License
+
+Private - All rights reserved.

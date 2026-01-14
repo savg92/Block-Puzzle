@@ -42,8 +42,32 @@ describe('gameStore', () => {
     // Place a single block at (0,0)
     useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
     
-    const state = useGameStore.getState();
-    expect(state.grid[0][0]).toBe(1);
-    expect(state.score).toBe(1);
-  });
-});
+        const state = useGameStore.getState();
+    
+        expect(state.grid[0][0]).toBe(1);
+    
+        expect(state.score).toBe(1);
+    
+      });
+    
+    
+    
+      it('should not update state on invalid move', () => {
+    
+        // Place a piece out of bounds
+    
+        useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9);
+    
+        
+    
+        const state = useGameStore.getState();
+    
+        expect(state.grid[9][9]).toBe(0);
+    
+        expect(state.score).toBe(0);
+    
+      });
+    
+    });
+    
+    

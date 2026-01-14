@@ -134,6 +134,44 @@ All tasks follow a strict lifecycle:
 
 10.  **Announce Completion:** Inform the user that the phase is complete and the checkpoint has been created, with the detailed verification report attached as a git note.
 
+### Track Completion Protocol
+
+**Trigger:** This protocol is executed when ALL phases within a track are completed.
+
+1.  **Update `plan.md`:**
+    -   Move the completed track from "Active Tracks" to "Completed Work" section.
+    -   Ensure all tasks are marked `[x]` with their commit SHAs.
+    -   Add final checkpoint SHA to track heading if applicable.
+
+2.  **Update `README.md`:**
+    -   Add any new features to the Features section.
+    -   Update setup instructions if dependencies changed.
+    -   Add new commands if scripts were added.
+    -   Update the project description if scope expanded.
+
+3.  **Archive Track Documentation:**
+    -   Create archive folder: `conductor/archive/<track_id>_<YYYYMMDD>/`
+    -   Move or copy track-specific `spec.md` and `plan.md` to archive.
+    -   Create `metadata.json` with completion info:
+        ```json
+        {
+          "track_id": "<track_id>",
+          "type": "feature",
+          "status": "completed",
+          "completed_at": "<ISO timestamp>",
+          "description": "<brief description>"
+        }
+        ```
+
+4.  **Commit Documentation Updates:**
+    -   Stage `plan.md`, `README.md`, and archive files.
+    -   Commit with message: `conductor(track): Complete track '<TRACK NAME>'`
+
+5.  **Sync `AGENTS.md`:**
+    -   Update "Current Status" section if needed.
+    -   Ensure all references remain accurate.
+    -   Update "Last updated" timestamp.
+
 ### Quality Gates
 
 Before marking any task complete, verify:

@@ -9,7 +9,7 @@
   - [ ] Subtask: Connect engine functions to store actions
   - [ ] Subtask: Implement `newGame`, `placePiece`, `selectPiece` actions
   - [ ] Subtask: Write integration tests for store-engine flow
-- [ ] Task: Conductor - User Manual Verification 'Zustand Store Setup' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Zustand Store Setup' (Protocol in workflow.md)
 
 ## Phase 2: Persistence Layer
 - [ ] Task: Implement MMKV Storage Adapter
