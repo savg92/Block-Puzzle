@@ -82,3 +82,56 @@ export const placePiece = (
 
   return newGrid;
 };
+
+/**
+ * Checks for full rows and columns, clears them, and returns a new grid.
+ * @param grid The current game board
+ * @returns An object containing the new grid and the number of lines cleared
+ */
+export const clearLines = (grid: Grid): { grid: Grid; clearedLines: number } => {
+  const rows = grid.length;
+  const cols = grid[0].length;
+  
+  const fullRows = new Set<number>();
+  const fullCols = new Set<number>();
+
+  // Identify full rows
+  for (let r = 0; r < rows; r++) {
+    if (grid[r].every((cell) => cell !== 0)) {
+      fullRows.add(r);
+    }
+  }
+
+  // Identify full columns
+  for (let c = 0; c < cols; c++) {
+    let isFull = true;
+    for (let r = 0; r < rows; r++) {
+      if (grid[r][c] === 0) {
+        isFull = false;
+        break;
+      }
+    }
+    if (isFull) {
+      fullCols.add(c);
+    }
+  }
+
+  const clearedLines = fullRows.size + fullCols.size;
+
+  if (clearedLines === 0) {
+    return { grid, clearedLines: 0 };
+  }
+
+  // Create new grid with cleared lines
+  const newGrid = grid.map((row, r) => {
+    return row.map((cell, c) => {
+      // If this cell belongs to a full row or full column, clear it
+      if (fullRows.has(r) || fullCols.has(c)) {
+        return 0;
+      }
+      return cell;
+    });
+  });
+
+  return { grid: newGrid, clearedLines };
+};
