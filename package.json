@@ -1,6 +1,5 @@
 {
   "name": "block-puzzle",
-
   "private": true,
   "devDependencies": {
     "@types/bun": "latest",
@@ -10,5 +9,10 @@
   },
   "peerDependencies": {
     "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@types/react": "^19.2.8",
+    "react": "^19.2.3",
+    "zustand": "^5.0.10"
   }
 }
