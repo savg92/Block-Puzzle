@@ -38,16 +38,16 @@ All core engine logic is complete and tested:
 
 **Objective:** Build the core visual components using NativeWind with the arcade aesthetic.
 
-#### Phase 2.1: Project Setup & Theming
-- [ ] Task: Initialize Expo Project Structure
-  - [ ] Subtask: Configure NativeWind with Tailwind CSS
-  - [ ] Subtask: Set up React Native Reanimated
-  - [ ] Subtask: Configure React Native Gesture Handler
-
-- [ ] Task: Create Theme System
-  - [ ] Subtask: Define color palette in `src/styles/theme.ts` (Dark/Light)
-  - [ ] Subtask: Create arcade-inspired color tokens
-  - [ ] Subtask: Set up theme context with user preference persistence
+#### Phase 2.1: Project Setup & Theming ✅
+- [x] Task: Initialize Expo Project Structure
+  - [x] Subtask: Configure NativeWind with Tailwind CSS
+  - [x] Subtask: Set up React Native Reanimated
+  - [x] Subtask: Configure React Native Gesture Handler
+- [x] Task: Create Theme System
+  - [x] Subtask: Define color palette in `src/styles/theme.ts` (Dark/Light)
+  - [x] Subtask: Create arcade-inspired color tokens
+  - [x] Subtask: Set up theme context with user preference persistence
+- **Checkpoint SHA:** 890d41deb464cdfadb8a20bcbf9f599d971cfb84
 
 #### Phase 2.2: Grid & Cell Components
 - [ ] Task: Build Grid Component
