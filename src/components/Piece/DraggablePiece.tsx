@@ -9,6 +9,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
 import { theme } from '../../styles/theme';
+import { useGameStore } from '../../store/gameStore';
 
 interface DraggablePieceProps {
   piece: number[][];
@@ -21,8 +22,9 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   piece, 
   color, 
   onDragEnd,
-  size = 29 // Adjusted to 29px per user feedback
+  size = 29 
 }) => {
+  const { selectPiece } = useGameStore();
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
@@ -30,6 +32,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   const gesture = Gesture.Pan()
     .onStart(() => {
       isDragging.value = true;
+      runOnJS(selectPiece)(piece);
     })
     .onUpdate((event) => {
       translateX.value = event.translationX;

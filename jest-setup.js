@@ -17,7 +17,12 @@ jest.mock('react-native', () => {
     ScrollView: mockView,
     StyleSheet: {
       create: (styles) => styles,
-      flatten: (styles) => styles,
+      flatten: (styles) => {
+        if (Array.isArray(styles)) {
+          return Object.assign({}, ...styles.flat().filter(Boolean));
+        }
+        return styles || {};
+      },
     },
     Platform: {
       OS: 'ios',

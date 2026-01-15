@@ -4,7 +4,7 @@ import { useGameStore } from '../../store/gameStore';
 import { DraggablePiece } from '../Piece/DraggablePiece';
 
 export const PieceTray: React.FC = () => {
-  const { availablePieces, selectPiece } = useGameStore();
+  const { availablePieces, selectPiece, selectedPiece } = useGameStore();
 
   const handleDragEnd = (absoluteX: number, absoluteY: number) => {
     // This will be connected to drop logic later
@@ -14,21 +14,32 @@ export const PieceTray: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      {availablePieces.map((piece, index) => (
-        <View key={`piece-container-${index}`} style={styles.pieceWrapper}>
-          <DraggablePiece
-            piece={piece}
-            color={getPiceColor(index)}
-            onDragEnd={handleDragEnd}
-            size={25} // Smaller size for the tray
-          />
-        </View>
-      ))}
+      {availablePieces.map((piece, index) => {
+        // Dim the piece if another piece is selected
+        const isDimmed = selectedPiece !== null && selectedPiece !== piece;
+        
+        return (
+          <View 
+            key={`piece-container-${index}`} 
+            testID="piece-tray-item"
+            style={[
+              styles.pieceWrapper,
+              { opacity: isDimmed ? 0.4 : 1 }
+            ]}
+          >
+            <DraggablePiece
+              piece={piece}
+              color={getPiceColor(index)}
+              onDragEnd={handleDragEnd}
+              size={25}
+            />
+          </View>
+        );
+      })}
     </View>
   );
 };
 
-// Utility to get consistent colors for tray positions
 const getPiceColor = (index: number): any => {
   const colors = ['orange', 'blue', 'green'] as const;
   return colors[index % colors.length];
@@ -41,7 +52,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: 120,
-    backgroundColor: '#0f172a', // slate-900
+    backgroundColor: '#0f172a',
     borderTopWidth: 1,
     borderTopColor: '#1e293b',
     paddingHorizontal: 20,
