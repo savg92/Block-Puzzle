@@ -10,10 +10,10 @@
   - [x] Subtask: Add High Score persistence logic with MMKV
 - [x] Task: Conductor - User Manual Verification 'Main Layout & Score Display' (98c5c21)
 
-## Phase 2: Piece Tray & Selection
-- [ ] Task: Build Piece Tray Component
-  - [ ] Subtask: Create `src/components/PieceTray/PieceTray.tsx`
-  - [ ] Subtask: Fetch and display `availablePieces` from `gameStore`
+## Phase 2: Piece Tray & Selection [~]
+- [x] Task: Build Piece Tray Component (6a12c9f)
+  - [x] Subtask: Create `src/components/PieceTray/PieceTray.tsx`
+  - [x] Subtask: Fetch and display `availablePieces` from `gameStore`
 - [ ] Task: Synchronize Selection State
   - [ ] Subtask: Update `DraggablePiece` to trigger `selectPiece` on drag start
   - [ ] Subtask: Add visual feedback for the selected piece in the tray (e.g., dimming)
