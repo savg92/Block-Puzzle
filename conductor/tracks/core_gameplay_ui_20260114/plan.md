@@ -14,9 +14,9 @@
 - [x] Task: Build Piece Tray Component (6a12c9f)
   - [x] Subtask: Create `src/components/PieceTray/PieceTray.tsx`
   - [x] Subtask: Fetch and display `availablePieces` from `gameStore`
-- [ ] Task: Synchronize Selection State
-  - [ ] Subtask: Update `DraggablePiece` to trigger `selectPiece` on drag start
-  - [ ] Subtask: Add visual feedback for the selected piece in the tray (e.g., dimming)
+- [x] Task: Synchronize Selection State (d364dca)
+  - [x] Subtask: Update `DraggablePiece` to trigger `selectPiece` on drag start
+  - [x] Subtask: Add visual feedback for the selected piece in the tray (e.g., dimming)
 - [ ] Task: Conductor - User Manual Verification 'Piece Tray & Selection' (Protocol in workflow.md)
 
 ## Phase 3: Drag & Drop Logic
