@@ -1,6 +1,6 @@
 # Track Plan: Ghost Piece Alignment Fix
 
-## Phase 1: Investigation & Fix
+## Phase 1: Investigation & Fix ✅ [checkpoint: 08d2a88]
 - [x] Task: Synchronize Piece and Ghost (4f4876e)
   - [x] Subtask: Review `DraggablePiece.tsx` `onUpdate` math.
   - [x] Subtask: Compare `translateY` vs `adjustedY` logic.
