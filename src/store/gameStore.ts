@@ -11,17 +11,19 @@ interface GameState {
   highScore: number;
   availablePieces: Piece[];
   selectedPiece: Piece | null;
+  hoverPosition: { row: number; col: number } | null;
   gridLayout: { x: number; y: number; width: number; height: number } | null;
   isGameOver: boolean;
   powerUps: {
     deleteBlock: number;
     swapPiece: number;
   };
-  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore'>[];
+  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
   newGame: () => void;
   initStore: () => Promise<void>;
   placePiece: (piece: Piece, row: number, col: number, color: string) => void;
   selectPiece: (piece: Piece | null) => void;
+  setHoverPosition: (pos: { row: number; col: number } | null) => void;
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
   usePowerUp: (type: 'deleteBlock' | 'swapPiece', row?: number, col?: number) => void;
   undo: () => void;
@@ -37,6 +39,7 @@ export const useGameStore = create<GameState>()(
       highScore: 0,
       availablePieces: [],
       selectedPiece: null,
+      hoverPosition: null,
       gridLayout: null,
       isGameOver: false,
       powerUps: {
@@ -56,6 +59,7 @@ export const useGameStore = create<GameState>()(
           score: 0,
           availablePieces: getRandomPieces(3),
           selectedPiece: null,
+          hoverPosition: null,
           isGameOver: false,
           powerUps: {
             deleteBlock: 1,
@@ -64,13 +68,13 @@ export const useGameStore = create<GameState>()(
           history: [],
         }),
       placePiece: (piece, row, col, color) => {
-        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps } = get();
+        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition } = get();
         const engine = new GameEngine(grid, score);
         const result = engine.makeMove(piece, row, col, color);
 
         if (result.success) {
           // Push current state to history before updating
-          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps };
+          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
           // Remove the piece from available pieces
@@ -103,10 +107,12 @@ export const useGameStore = create<GameState>()(
             selectedPiece: null,
             isGameOver: gameOver,
             history: newHistory,
+            hoverPosition: null, // Clear hover
           });
         }
       },
       selectPiece: (piece) => set({ selectedPiece: piece }),
+      setHoverPosition: (pos) => set({ hoverPosition: pos }),
       setGridLayout: (layout) => set({ gridLayout: layout }),
       usePowerUp: (type, row, col) => {
         const { grid, powerUps, history, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout } = get();

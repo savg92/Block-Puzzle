@@ -25,6 +25,7 @@ describe('gameStore', () => {
     expect(state.score).toBe(0);
     expect(state.availablePieces).toHaveLength(3);
     expect(state.selectedPiece).toBeNull();
+    expect(state.hoverPosition).toBeNull();
     expect(state.gridLayout).toBeNull();
     expect(state.isGameOver).toBe(false);
     expect(state.powerUps).toEqual({ deleteBlock: 1, swapPiece: 1 });
@@ -35,6 +36,7 @@ describe('gameStore', () => {
     useGameStore.setState({
       score: 100,
       isGameOver: true,
+      hoverPosition: { row: 1, col: 1 },
     });
 
     useGameStore.getState().newGame();
@@ -42,6 +44,7 @@ describe('gameStore', () => {
     const state = useGameStore.getState();
     expect(state.score).toBe(0);
     expect(state.isGameOver).toBe(false);
+    expect(state.hoverPosition).toBeNull();
   });
 
   it('should select a piece', () => {
@@ -50,6 +53,12 @@ describe('gameStore', () => {
 
     useGameStore.getState().selectPiece(null);
     expect(useGameStore.getState().selectedPiece).toBeNull();
+  });
+
+  it('should set hover position', () => {
+    const pos = { row: 5, col: 5 };
+    useGameStore.getState().setHoverPosition(pos);
+    expect(useGameStore.getState().hoverPosition).toEqual(pos);
   });
 
   it('should set grid layout', () => {
@@ -64,12 +73,14 @@ describe('gameStore', () => {
     const pieceToPlace = initialAvailable[0];
 
     // Place a single block at (0,0)
+    useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
     useGameStore.getState().placePiece(pieceToPlace, 0, 0, '#FF0000');
     
     const state = useGameStore.getState();
     expect(state.grid[0][0]).toBe('#FF0000');
     expect(state.score).toBeGreaterThan(0);
     expect(state.availablePieces).toHaveLength(2); // Decreased from 3
+    expect(state.hoverPosition).toBeNull(); // Should be cleared
   });
 
   it('should refill available pieces when all are placed', () => {

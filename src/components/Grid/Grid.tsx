@@ -2,9 +2,10 @@ import React, { useRef } from 'react';
 import { View } from 'react-native';
 import { Cell } from './Cell';
 import { useGameStore } from '../../store/gameStore';
+import { canPlacePiece } from '../../engine/board';
 
 export const Grid: React.FC = () => {
-  const { grid, setGridLayout } = useGameStore();
+  const { grid, setGridLayout, selectedPiece, hoverPosition } = useGameStore();
   const gridRef = useRef<View>(null);
 
   const handleLayout = () => {
@@ -13,6 +14,23 @@ export const Grid: React.FC = () => {
         setGridLayout({ x, y, width, height });
       });
     }
+  };
+
+  const isGhostCell = (row: number, col: number) => {
+    if (!selectedPiece || !hoverPosition) return false;
+    
+    // Check if the piece fits at this position
+    if (!canPlacePiece(grid, selectedPiece, hoverPosition.row, hoverPosition.col)) {
+      return false;
+    }
+
+    const pieceRows = selectedPiece.length;
+    const pieceCols = selectedPiece[0].length;
+
+    const r = row - hoverPosition.row;
+    const c = col - hoverPosition.col;
+
+    return r >= 0 && r < pieceRows && c >= 0 && c < pieceCols && selectedPiece[r][c] === 1;
   };
 
   return (
@@ -34,10 +52,11 @@ export const Grid: React.FC = () => {
           style={{ flexDirection: 'row' }}
         >
           {row.map((cell, colIndex) => {
+            const isGhost = isGhostCell(rowIndex, colIndex);
             return (
               <Cell
                 key={`cell-${rowIndex}-${colIndex}`}
-                color={cell}
+                color={cell || (isGhost ? 'rgba(255, 255, 255, 0.3)' : null)}
                 testID={`cell-${rowIndex}-${colIndex}`}
               />
             );

@@ -10,6 +10,7 @@ import Animated, {
 import { PiecePreview } from './PiecePreview';
 import { theme } from '../../styles/theme';
 import { useGameStore } from '../../store/gameStore';
+import { mapScreenToGrid } from '../../utils/gridUtils';
 
 interface DraggablePieceProps {
   piece: number[][];
@@ -25,48 +26,62 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   size = 29 
 }) => {
   const selectPiece = useGameStore((state) => state.selectPiece);
+  const setHoverPosition = useGameStore((state) => state.setHoverPosition);
+  const gridLayout = useGameStore((state) => state.gridLayout);
   
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
   
-  // Track where the user grabbed the piece relative to its top-left
-  const touchOffsetX = useSharedValue(0);
-  const touchOffsetY = useSharedValue(0);
+  // Visual dimensions of the piece
+  const pieceWidth = piece[0].length * size;
+  const pieceHeight = piece.length * size;
+  
+  // Vertical offset to float the piece above the finger (so it's not hidden)
+  const DRAG_VERTICAL_OFFSET = 60;
 
   const gesture = Gesture.Pan()
     .runOnJS(true)
     .onStart((event) => {
       isDragging.value = true;
-      touchOffsetX.value = event.x;
-      touchOffsetY.value = event.y;
       selectPiece(piece);
+      
+      // When we start, we want to animate the piece to be centered under the finger
+      // with the vertical offset. Translation is relative to the start position.
+      // But GestureHandler's translationX/Y handles the delta.
+      // To "jump" to center, we'd need to adjust the visual offset.
+      // However, usually we just want the LOGIC to be centered.
     })
     .onUpdate((event) => {
       translateX.value = event.translationX;
-      translateY.value = event.translationY;
+      translateY.value = event.translationY - DRAG_VERTICAL_OFFSET;
+
+      if (gridLayout) {
+        // Calculate the top-left of the piece if it were centered on the finger
+        // absoluteX/Y is the finger position
+        const adjustedX = event.absoluteX - pieceWidth / 2;
+        const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
+        
+        const hoverPos = mapScreenToGrid(
+          adjustedX,
+          adjustedY,
+          gridLayout
+        );
+        setHoverPosition(hoverPos);
+      }
     })
     .onEnd((event) => {
       isDragging.value = false;
       
-      // Calculate the top-left position of the piece based on where it was grabbed
-      // absoluteX is the finger position on screen
-      // touchOffsetX is the distance from piece-left to finger
-      // So: pieceLeft = finger - offset
-      
-      // We also need to account for the fact that during drag, the visual might be centered on finger
-      // but translation moves the original frame.
-      // Actually, absoluteX/Y tracks the finger.
-      // If we subtract touchOffset, we get the coordinate of the view's origin (top-left).
-      
-      const adjustedX = event.absoluteX - touchOffsetX.value;
-      const adjustedY = event.absoluteY - touchOffsetY.value;
+      const adjustedX = event.absoluteX - pieceWidth / 2;
+      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
 
       onDragEnd(adjustedX, adjustedY);
       
       // Reset position
       translateX.value = withSpring(0);
       translateY.value = withSpring(0);
+      setHoverPosition(null);
     });
 
   const animatedStyle = useAnimatedStyle(() => {
@@ -76,7 +91,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
         { translateY: translateY.value },
         { scale: withSpring(isDragging.value ? 1.2 : 1) },
       ],
-      opacity: withSpring(isDragging.value ? 0.7 : 1),
+      opacity: withSpring(isDragging.value ? 0.8 : 1),
       zIndex: isDragging.value ? 9999 : 1,
     };
   });
