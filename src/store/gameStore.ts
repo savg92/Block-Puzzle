@@ -2,7 +2,8 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Grid, Piece } from '../engine/types';
 import { GameEngine } from '../engine';
-import { mmkvStorage } from './storage';
+import { getRandomPieces } from '../engine/pieces';
+import { appStorage } from './storage';
 
 interface GameState {
   grid: Grid;
@@ -30,7 +31,7 @@ export const useGameStore = create<GameState>()(
         set({
           grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
           score: 0,
-          availablePieces: [],
+          availablePieces: getRandomPieces(3),
           selectedPiece: null,
           isGameOver: false,
           history: [],
@@ -66,7 +67,7 @@ export const useGameStore = create<GameState>()(
     }),
     {
       name: 'game-storage',
-      storage: createJSONStorage(() => mmkvStorage),
+      storage: createJSONStorage(() => appStorage),
       // Only persist the core game state, not the history
       partialize: (state) => {
         const { history, ...rest } = state;

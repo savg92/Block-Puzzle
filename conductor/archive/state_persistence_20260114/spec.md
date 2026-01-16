@@ -1,14 +1,14 @@
 # Track Specification: State Management & Persistence
 
 ## 1. Overview
-The goal of this track is to integrate the core game engine logic with a reactive state management layer using Zustand and a persistent storage layer using MMKV. This will allow the game to maintain a consistent state across sessions and support advanced features like an Undo system.
+The goal of this track is to integrate the core game engine logic with a reactive state management layer using Zustand and a persistent storage layer using AsyncStorage. This will allow the game to maintain a consistent state across sessions and support advanced features like an Undo system.
 
 ## 2. Functional Requirements
 - **Zustand Integration:**
   - Implement multiple Zustand stores to manage different parts of the game state (e.g., `gameStore` for board and pieces, `inventoryStore` for power-ups, `settingsStore` for user preferences).
   - Define actions for `newGame`, `placePiece`, `selectPiece`, and `undo`.
-- **MMKV Persistence:**
-  - Use MMKV for fast, synchronous local storage.
+- **AsyncStorage Persistence:**
+  - Use AsyncStorage for reliable local storage compatible with Expo Go.
   - Automatically persist the state of all stores.
   - Ensure the game state is correctly restored when the app is restarted.
 - **Undo System:**
@@ -17,7 +17,7 @@ The goal of this track is to integrate the core game engine logic with a reactiv
 
 ## 3. Tech Stack Integration
 - **Zustand:** Core state management.
-- **MMKV:** Persistent storage.
+- **AsyncStorage:** Persistent storage.
 - **TypeScript:** Ensuring type safety for store states and actions.
 
 ## 4. Acceptance Criteria

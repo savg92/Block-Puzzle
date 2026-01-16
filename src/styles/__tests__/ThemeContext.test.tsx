@@ -1,23 +1,15 @@
 import React from 'react';
-import { renderHook, act } from '@testing-library/react-native';
+import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { ThemeProvider, useTheme } from '../ThemeContext';
-import { storage } from '../../store/storage';
-
-// Mock storage
-jest.mock('../../store/storage', () => ({
-  storage: {
-    getString: jest.fn(),
-    set: jest.fn(),
-  },
-}));
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 describe('ThemeContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('provides default theme', () => {
-    (storage.getString as jest.Mock).mockReturnValue('system');
+  it('provides default theme', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('system');
     
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
@@ -25,12 +17,14 @@ describe('ThemeContext', () => {
 
     const { result } = renderHook(() => useTheme(), { wrapper });
 
-    expect(result.current.theme).toBeDefined();
-    expect(result.current.mode).toBe('system');
+    await waitFor(() => {
+      expect(result.current.theme).toBeDefined();
+      expect(result.current.mode).toBe('system');
+    });
   });
 
-  it('allows changing theme mode', () => {
-    (storage.getString as jest.Mock).mockReturnValue('system');
+  it('allows changing theme mode', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('system');
     
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
@@ -38,12 +32,17 @@ describe('ThemeContext', () => {
 
     const { result } = renderHook(() => useTheme(), { wrapper });
 
-    act(() => {
+    // Wait for initial load
+    await waitFor(() => {
+      expect(result.current.mode).toBe('system');
+    });
+
+    await act(async () => {
       result.current.setMode('dark');
     });
 
     expect(result.current.mode).toBe('dark');
-    expect(storage.set).toHaveBeenCalledWith('app_theme_mode', 'dark');
+    expect(AsyncStorage.setItem).toHaveBeenCalledWith('app_theme_mode', 'dark');
   });
 
   it('throws error if used outside ThemeProvider', () => {

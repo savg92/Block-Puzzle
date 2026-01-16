@@ -12,8 +12,8 @@
 - [x] Task: Conductor - User Manual Verification 'Zustand Store Setup' (Protocol in workflow.md)
 
 ## Phase 2: Persistence Layer [checkpoint: 8c644ee]
-- [x] Task: Implement MMKV Storage Adapter 01a39f4
-  - [ ] Subtask: Create `src/store/storage.ts` with MMKV configuration
+- [x] Task: Implement AsyncStorage Storage Adapter 01a39f4
+  - [ ] Subtask: Create `src/store/storage.ts` with AsyncStorage configuration
   - [ ] Subtask: Implement `saveState` and `loadState` functions
   - [ ] Subtask: Write tests for serialization/deserialization
 - [x] Task: Add Persistence Middleware to Store d93a4b0

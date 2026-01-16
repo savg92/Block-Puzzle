@@ -29,9 +29,9 @@
   - Native-driven gesture handling for piece dragging and dropping.
 
 ## 4. Persistence & Storage
-- **Local Storage:** MMKV (Preferred) or AsyncStorage
-  - Synchronous, high-speed storage for immediate state saving.
-  - MMKV is preferred for its performance in game state persistence.
+- **Local Storage:** AsyncStorage (Required for Expo Go)
+  - Provides reliable persistence compatible with the standard Expo Go environment.
+  - Used for persisting high scores, game state, and theme settings.
 - **Offline Strategy:** 100% Local-first. No external data dependencies.
 
 ## 5. Development & Testing

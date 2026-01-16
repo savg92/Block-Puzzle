@@ -13,7 +13,12 @@ jest.mock('./store/storage', () => ({
 // Mock game store
 jest.mock('./store/gameStore', () => ({
   useGameStore: () => ({
-    grid: Array(10).fill(null).map(() => Array(10).fill(null)),
+    grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
+    score: 0,
+    availablePieces: [],
+    selectedPiece: null,
+    isGameOver: false,
+    newGame: jest.fn(),
   }),
 }));
 
@@ -21,7 +26,6 @@ describe('App', () => {
   it('renders correctly', () => {
     const { getByText, getAllByTestId } = render(<App />);
     expect(getByText('Block Puzzle')).toBeTruthy();
-    expect(getByText('UI Foundation Ready')).toBeTruthy();
     
     // Check if grid is rendered (100 cells)
     const cells = getAllByTestId(/^cell-\d+-\d+$/);

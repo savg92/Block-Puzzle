@@ -7,7 +7,7 @@
 - [x] Task: Build Score Display Component (5dbdba9)
   - [x] Subtask: Create `src/components/UI/ScoreDisplay.tsx`
   - [x] Subtask: Implement rapid-increment animation using Reanimated
-  - [x] Subtask: Add High Score persistence logic with MMKV
+  - [x] Subtask: Add High Score persistence logic with AsyncStorage
 - [x] Task: Conductor - User Manual Verification 'Main Layout & Score Display' (98c5c21)
 
 ## Phase 2: Piece Tray & Selection [~]

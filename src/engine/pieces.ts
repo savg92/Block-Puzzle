@@ -64,3 +64,16 @@ export const rotatePiece = (piece: Piece): Piece => {
 
   return rotated;
 };
+
+/**
+ * Returns a specified number of random pieces.
+ */
+export const getRandomPieces = (count: number): Piece[] => {
+  const allPieces = Object.values(PIECES);
+  const selected: Piece[] = [];
+  for (let i = 0; i < count; i++) {
+    const randomIndex = Math.floor(Math.random() * allPieces.length);
+    selected.push(allPieces[randomIndex]);
+  }
+  return selected;
+};

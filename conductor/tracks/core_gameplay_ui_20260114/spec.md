@@ -16,7 +16,7 @@ The goal of this track is to assemble the main game screen by integrating the ex
   - Connect the drop action to the `placePiece` method in the game store.
 - **Animated Score Display:**
   - Implement a score display that uses "Rapid Increment" animations (counting up) when points are gained.
-  - Persist and display the High Score using MMKV.
+  - Persist and display the High Score using AsyncStorage.
 - **Game Over Flow:**
   - Trigger an "Arcade Modal" when no more moves are possible.
   - The modal must feature an "Emergency Save" section, allowing the player to use an available power-up (e.g., Delete Block, Swap Piece) to continue the game if they have one.
@@ -26,7 +26,7 @@ The goal of this track is to assemble the main game screen by integrating the ex
 - **Zustand:** Managing game state (grid, score, inventory).
 - **React Native Reanimated:** Handling the ghost piece transition and score increment animations.
 - **React Native Gesture Handler:** Managing the drag-to-grid interaction logic.
-- **MMKV:** Persisting high scores and active game state.
+- **AsyncStorage:** Persisting high scores and active game state (Expo Go compatible).
 
 ## 4. Acceptance Criteria
 - [ ] The game screen displays the score, 10x10 grid, and 3 pieces in a balanced portrait layout.

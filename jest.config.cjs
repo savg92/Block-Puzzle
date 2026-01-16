@@ -16,12 +16,13 @@ module.exports = {
     },
     {
       preset: 'ts-jest',
-      testEnvironment: 'node',
+      testEnvironment: 'jsdom',
       testMatch: ['**/src/engine/__tests__/**/*.test.ts', '**/src/store/__tests__/**/*.test.ts'],
       moduleDirectories: ['node_modules', '<rootDir>'],
       moduleNameMapper: {
         '^react-native-mmkv$': '<rootDir>/__mocks__/react-native-mmkv.js',
       },
+      setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
     }
   ],
   collectCoverage: true,

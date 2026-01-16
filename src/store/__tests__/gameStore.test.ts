@@ -3,43 +3,18 @@ import { PIECES } from '../../engine/pieces';
 
 // Mock storage module
 jest.mock('../storage', () => {
-  const mockStorage: Record<string, string> = {};
   return {
-    storage: {
-      set: jest.fn((key, value) => { mockStorage[key] = value; }),
-      getString: jest.fn((key) => mockStorage[key] || undefined),
-      remove: jest.fn((key) => { delete mockStorage[key]; }),
-    },
-    mmkvStorage: {
-      setItem: jest.fn((key, value) => { mockStorage[key] = value; }),
-      getItem: jest.fn((key) => mockStorage[key] || null),
-      removeItem: jest.fn((key) => { delete mockStorage[key]; }),
+    appStorage: {
+      setItem: jest.fn(),
+      getItem: jest.fn(),
+      removeItem: jest.fn(),
     }
-  };
-});
-
-// Mock MMKV for useGameStore persistence
-jest.mock('react-native-mmkv', () => {
-  return {
-    createMMKV: jest.fn().mockImplementation(() => {
-      const mockStorage: Record<string, string> = {};
-      return {
-        set: (key: string, value: string) => {
-          mockStorage[key] = value;
-        },
-        getString: (key: string) => mockStorage[key] || undefined,
-        remove: (key: string) => {
-          const existed = !!mockStorage[key];
-          delete mockStorage[key];
-          return existed;
-        },
-      };
-    }),
   };
 });
 
 describe('gameStore', () => {
   beforeEach(() => {
+    // Reset store before each test
     useGameStore.getState().newGame();
   });
 
@@ -48,7 +23,7 @@ describe('gameStore', () => {
     expect(state.grid).toHaveLength(10);
     expect(state.grid[0]).toHaveLength(10);
     expect(state.score).toBe(0);
-    expect(state.availablePieces).toHaveLength(0);
+    expect(state.availablePieces).toHaveLength(3);
     expect(state.selectedPiece).toBeNull();
     expect(state.isGameOver).toBe(false);
   });

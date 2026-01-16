@@ -48,6 +48,11 @@ jest.mock('react-native-safe-area-context', () => {
   };
 });
 
+// Mock AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () =>
+  require('@react-native-async-storage/async-storage/jest/async-storage-mock')
+);
+
 // Mock mmkv
 jest.mock('react-native-mmkv', () => {
   return {

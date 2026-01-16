@@ -20,9 +20,9 @@ All core engine logic is complete and tested:
 20: ### ✅ Track: State Management & Persistence [checkpoint: 8c644ee]
 21: > **Status:** Archived to `conductor/archive/state_persistence_20260114/`
 22: 
-23: Integrated the game engine with Zustand and added persistent storage with MMKV:
+23: Integrated the game engine with Zustand and added persistent storage with AsyncStorage (reverted from MMKV for Expo Go compatibility):
 24: - **Phase 1.1:** Zustand Store Setup (reactive state for grid, score, pieces)
-25: - **Phase 1.2:** Persistence Layer (MMKV adapter and store hydration)
+25: - **Phase 1.2:** Persistence Layer (AsyncStorage adapter and store hydration)
 26: - **Phase 1.3:** Undo System (multi-step undo with history)
 27: 
 28: **Files:** `src/store/gameStore.ts`, `src/store/storage.ts`
@@ -179,7 +179,7 @@ All core engine logic is complete and tested:
   - [ ] Subtask: Add theme toggle (Dark/Light)
   - [ ] Subtask: Add haptic intensity selector
   - [ ] Subtask: Add audio controls (if implemented)
-  - [ ] Subtask: Persist settings to MMKV
+  - [ ] Subtask: Persist settings to AsyncStorage
 
 #### Phase 5.4: Performance Optimization
 - [ ] Task: Optimize Rendering Performance
