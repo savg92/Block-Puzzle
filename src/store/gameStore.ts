@@ -115,12 +115,12 @@ export const useGameStore = create<GameState>()(
       setHoverPosition: (pos) => set({ hoverPosition: pos }),
       setGridLayout: (layout) => set({ gridLayout: layout }),
       usePowerUp: (type, row, col) => {
-        const { grid, powerUps, history, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout } = get();
+        const { grid, powerUps, history, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, hoverPosition } = get();
         
         if (powerUps[type] <= 0) return;
 
         // Push current state to history
-        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps };
+        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition };
         const newHistory = [snapshot, ...history].slice(0, 20);
 
         if (type === 'deleteBlock' && row !== undefined && col !== undefined) {

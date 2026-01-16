@@ -1,8 +1,0 @@
-{
-  "track_id": "core_gameplay_ui_20260114",
-  "type": "feature",
-  "status": "new",
-  "created_at": "2026-01-14T08:45:00Z",
-  "updated_at": "2026-01-14T08:45:00Z",
-  "description": "Assemble the main game screen with full interactivity, ghost piece preview, and game-over flow."
-}

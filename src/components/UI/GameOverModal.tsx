@@ -6,7 +6,8 @@ import Animated, {
   withSpring, 
   withDelay,
   Easing,
-  withTiming
+  withTiming,
+  runOnJS
 } from 'react-native-reanimated';
 import { useGameStore } from '../../store/gameStore';
 import { theme } from '../../styles/theme';
@@ -16,6 +17,7 @@ const HIGH_SCORE_KEY = 'high_score';
 
 export const GameOverModal: React.FC = () => {
   const { isGameOver, score, highScore, powerUps, usePowerUp, newGame } = useGameStore();
+  const [shouldRender, setShouldRender] = useState(isGameOver);
 
   // Animation values
   const scale = useSharedValue(0);
@@ -23,11 +25,16 @@ export const GameOverModal: React.FC = () => {
 
   useEffect(() => {
     if (isGameOver) {
+      setShouldRender(true);
       scale.value = withSpring(1);
       opacity.value = withTiming(1, { duration: 300 });
     } else {
       scale.value = withTiming(0);
-      opacity.value = withTiming(0);
+      opacity.value = withTiming(0, { duration: 300 }, (finished) => {
+        if (finished) {
+          runOnJS(setShouldRender)(false);
+        }
+      });
     }
   }, [isGameOver]);
 
@@ -44,12 +51,12 @@ export const GameOverModal: React.FC = () => {
     usePowerUp('swapPiece');
   };
 
-  if (!isGameOver && opacity.value === 0) return null;
+  if (!shouldRender) return null;
 
   return (
     <Modal
       transparent
-      visible={isGameOver || opacity.value > 0}
+      visible={shouldRender}
       animationType="none"
     >
       <View style={styles.overlay}>
