@@ -1,0 +1,7 @@
+{
+  "track_id": "ghost_alignment_fix_20260116",
+  "type": "bugfix",
+  "status": "completed",
+  "completed_at": "2026-01-16T12:00:00Z",
+  "description": "Fixed misalignment between visual piece and ghost preview by accounting for cell margins and drag scale."
+}
