@@ -37,9 +37,12 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   const startX = useSharedValue(0);
   const startY = useSharedValue(0);
   
-  // Visual dimensions of the piece
-  const pieceWidth = piece[0].length * size;
-  const pieceHeight = piece.length * size;
+  // Visual dimensions of the piece, including Cell margin (1px on all sides = 2px total per cell)
+  const pieceWidth = piece[0].length * (size + 2);
+  const pieceHeight = piece.length * (size + 2);
+  
+  // Scale factor during drag
+  const DRAG_SCALE = 1.2;
   
   // Vertical offset to float the piece above the finger (so it's not hidden)
   const DRAG_VERTICAL_OFFSET = 60;
@@ -54,12 +57,8 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     })
     .onUpdate((event) => {
       // Centering logic:
-      // event.translationX is delta from start.
-      // startX is where we touched relative to piece top-left.
-      // To center piece on finger: pieceTopLeft = fingerPos - pieceDimensions/2
-      // fingerPos = initialPos + translation
-      // So visual offset should account for the difference between touch point and center.
-      
+      // We want the piece's center to align with the finger position (minus vertical offset).
+      // Visual offset should account for the difference between touch point and center.
       const centetingOffsetX = pieceWidth / 2 - startX.value;
       const centetingOffsetY = pieceHeight / 2 - startY.value;
 
@@ -68,8 +67,9 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
 
       if (gridLayout) {
         // Logical coordinates for grid mapping (center of piece on finger)
-        const adjustedX = event.absoluteX - pieceWidth / 2;
-        const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
+        // We use the scaled dimensions to ensure the ghost matches the scaled visual piece.
+        const adjustedX = event.absoluteX - (pieceWidth * DRAG_SCALE) / 2;
+        const adjustedY = event.absoluteY - (pieceHeight * DRAG_SCALE) / 2 - DRAG_VERTICAL_OFFSET;
         
         const hoverPos = mapScreenToGrid(
           adjustedX,
@@ -82,8 +82,8 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     .onEnd((event) => {
       isDragging.value = false;
       
-      const adjustedX = event.absoluteX - pieceWidth / 2;
-      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
+      const adjustedX = event.absoluteX - (pieceWidth * DRAG_SCALE) / 2;
+      const adjustedY = event.absoluteY - (pieceHeight * DRAG_SCALE) / 2 - DRAG_VERTICAL_OFFSET;
 
       onDragEnd(adjustedX, adjustedY);
       
@@ -98,7 +98,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       transform: [
         { translateX: translateX.value },
         { translateY: translateY.value },
-        { scale: withSpring(isDragging.value ? 1.2 : 1) },
+        { scale: withSpring(isDragging.value ? DRAG_SCALE : 1) },
       ],
       opacity: withSpring(isDragging.value ? 0.8 : 1),
       zIndex: isDragging.value ? 9999 : 1,
