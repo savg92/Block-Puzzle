@@ -5,6 +5,6 @@
   - [x] Subtask: Review `DraggablePiece.tsx` `onUpdate` math.
   - [x] Subtask: Compare `translateY` vs `adjustedY` logic.
   - [x] Subtask: Adjust offsets to ensure perfect overlap.
-- [ ] Task: Verification
-  - [ ] Subtask: Run automated tests.
-  - [ ] Subtask: Conductor - User Manual Verification 'Ghost Alignment'
+- [x] Task: Verification (9c664d5)
+  - [x] Subtask: Run automated tests.
+  - [x] Subtask: Conductor - User Manual Verification 'Ghost Alignment'
