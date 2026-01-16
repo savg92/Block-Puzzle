@@ -11,6 +11,7 @@ jest.mock('../../store/gameStore', () => ({
     grid: Array(10).fill(null).map(() => Array(10).fill(0)),
     score: 0,
     availablePieces: [],
+    newGame: jest.fn(),
   }),
 }));
 

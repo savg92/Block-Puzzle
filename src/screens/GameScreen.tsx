@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
 import { ScoreDisplay } from '../components/UI/ScoreDisplay';
 import { PieceTray } from '../components/PieceTray/PieceTray';
 import { StatusBar } from 'expo-status-bar';
+import { useGameStore } from '../store/gameStore';
 
 export const GameScreen: React.FC = () => {
+  const { newGame, availablePieces } = useGameStore();
+
+  useEffect(() => {
+    // Initialize game if no pieces are available (e.g. first launch)
+    if (availablePieces.length === 0) {
+      newGame();
+    }
+  }, [availablePieces.length, newGame]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
