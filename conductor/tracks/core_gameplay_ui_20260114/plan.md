@@ -31,11 +31,11 @@
   - [x] Subtask: Implement snap-to-grid visual feedback on drop
 - [x] Task: Conductor - User Manual Verification 'Drag & Drop Logic' (3e61308)
 
-## Phase 4: Game Flow & Game Over
-- [~] Task: Build Game Over Modal
-  - [ ] Subtask: Create `src/components/UI/GameOverModal.tsx` with arcade styling
-  - [ ] Subtask: Implement "Emergency Save" section for power-up usage
-- [ ] Task: Implement New Game Flow
-  - [ ] Subtask: Add reset logic and High Score comparison
-  - [ ] Subtask: Test end-to-end game cycle
-- [ ] Task: Conductor - User Manual Verification 'Game Flow & Game Over' (Protocol in workflow.md)
+## Phase 4: Game Flow & Game Over ✅ [checkpoint: 9c1193a]
+- [x] Task: Build Game Over Modal (9c1193a)
+  - [x] Subtask: Create `src/components/UI/GameOverModal.tsx` with arcade styling
+  - [x] Subtask: Implement "Emergency Save" section for power-up usage
+- [x] Task: Implement New Game Flow (9c1193a)
+  - [x] Subtask: Add reset logic and High Score comparison
+  - [x] Subtask: Test end-to-end game cycle
+- [x] Task: Conductor - User Manual Verification 'Game Flow & Game Over' (9c1193a)

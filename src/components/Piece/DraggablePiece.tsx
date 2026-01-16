@@ -29,11 +29,17 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
+  
+  // Track where the user grabbed the piece relative to its top-left
+  const touchOffsetX = useSharedValue(0);
+  const touchOffsetY = useSharedValue(0);
 
   const gesture = Gesture.Pan()
     .runOnJS(true)
-    .onStart(() => {
+    .onStart((event) => {
       isDragging.value = true;
+      touchOffsetX.value = event.x;
+      touchOffsetY.value = event.y;
       selectPiece(piece);
     })
     .onUpdate((event) => {
@@ -42,7 +48,21 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     })
     .onEnd((event) => {
       isDragging.value = false;
-      onDragEnd(event.absoluteX, event.absoluteY);
+      
+      // Calculate the top-left position of the piece based on where it was grabbed
+      // absoluteX is the finger position on screen
+      // touchOffsetX is the distance from piece-left to finger
+      // So: pieceLeft = finger - offset
+      
+      // We also need to account for the fact that during drag, the visual might be centered on finger
+      // but translation moves the original frame.
+      // Actually, absoluteX/Y tracks the finger.
+      // If we subtract touchOffset, we get the coordinate of the view's origin (top-left).
+      
+      const adjustedX = event.absoluteX - touchOffsetX.value;
+      const adjustedY = event.absoluteY - touchOffsetY.value;
+
+      onDragEnd(adjustedX, adjustedY);
       
       // Reset position
       translateX.value = withSpring(0);
