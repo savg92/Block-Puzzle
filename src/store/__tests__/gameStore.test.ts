@@ -67,14 +67,30 @@ describe('gameStore', () => {
   });
 
   it('should place a piece and update state', () => {
+    // Initial available pieces should be 3
+    const initialAvailable = useGameStore.getState().availablePieces;
+    const pieceToPlace = initialAvailable[0];
+
     // Place a single block at (0,0)
     useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
-    useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
+    useGameStore.getState().placePiece(pieceToPlace, 0, 0);
     
     const state = useGameStore.getState();
     expect(state.grid[0][0]).toBe(1);
-    expect(state.score).toBe(1);
+    expect(state.score).toBeGreaterThan(0);
+    expect(state.availablePieces).toHaveLength(2); // Decreased from 3
     expect(state.hoverPosition).toBeNull(); // Should be cleared
+  });
+
+  it('should refill available pieces when all are placed', () => {
+    const pieces = useGameStore.getState().availablePieces;
+    
+    // Place all three pieces (assume they fit for simplicity in test or mock engine)
+    useGameStore.getState().placePiece(pieces[0], 0, 0);
+    useGameStore.getState().placePiece(pieces[1], 5, 5);
+    useGameStore.getState().placePiece(pieces[2], 0, 5);
+
+    expect(useGameStore.getState().availablePieces).toHaveLength(3); // Refilled
   });
 
   it('should not update state on invalid move', () => {

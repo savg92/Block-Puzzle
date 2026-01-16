@@ -53,9 +53,19 @@ export const useGameStore = create<GameState>()(
           const snapshot = { grid, score, availablePieces, selectedPiece, isGameOver, hoverPosition, gridLayout };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
+          // Remove the piece from available pieces
+          let newAvailablePieces = availablePieces.filter((p) => p !== piece);
+          
+          // Refill if empty
+          if (newAvailablePieces.length === 0) {
+            newAvailablePieces = getRandomPieces(3);
+          }
+
           set({
             grid: engine.getGrid(),
             score: engine.getScore(),
+            availablePieces: newAvailablePieces,
+            selectedPiece: null,
             history: newHistory,
             hoverPosition: null,
           });

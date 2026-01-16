@@ -2,13 +2,19 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useGameStore } from '../../store/gameStore';
 import { DraggablePiece } from '../Piece/DraggablePiece';
+import { mapScreenToGrid } from '../../utils/gridUtils';
+import { Piece } from '../../engine/types';
 
 export const PieceTray: React.FC = () => {
-  const { availablePieces, selectPiece, selectedPiece } = useGameStore();
+  const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece } = useGameStore();
 
-  const handleDragEnd = (absoluteX: number, absoluteY: number) => {
-    // This will be connected to drop logic later
-    console.log('Piece dropped at:', absoluteX, absoluteY);
+  const handleDragEnd = (piece: Piece, absoluteX: number, absoluteY: number) => {
+    if (gridLayout) {
+      const dropPos = mapScreenToGrid(absoluteX, absoluteY, gridLayout);
+      if (dropPos) {
+        placePiece(piece, dropPos.row, dropPos.col);
+      }
+    }
     selectPiece(null);
   };
 
@@ -30,7 +36,7 @@ export const PieceTray: React.FC = () => {
             <DraggablePiece
               piece={piece}
               color={getPiceColor(index)}
-              onDragEnd={handleDragEnd}
+              onDragEnd={(x, y) => handleDragEnd(piece, x, y)}
               size={25}
             />
           </View>

@@ -23,10 +23,10 @@
 - [x] Task: Implement Grid Hit Detection (4a7ed27)
   - [x] Subtask: Create utility to map screen coordinates to 10x10 grid indices
   - [x] Subtask: Optimize hit detection for 60fps performance
-- [~] Task: Implement Ghost Piece Preview
-  - [ ] Subtask: Add `ghostPiece` state to UI layer
-  - [ ] Subtask: Update `Grid` to render semi-transparent cells for valid hover positions
-- [ ] Task: Finalize Piece Placement
+- [x] Task: Implement Ghost Piece Preview (424e446)
+  - [x] Subtask: Add `ghostPiece` state to UI layer
+  - [x] Subtask: Update `Grid` to render semi-transparent cells for valid hover positions
+- [~] Task: Finalize Piece Placement
   - [ ] Subtask: Connect `onDragEnd` to `store.placePiece`
   - [ ] Subtask: Implement snap-to-grid visual feedback on drop
 - [ ] Task: Conductor - User Manual Verification 'Drag & Drop Logic' (Protocol in workflow.md)
