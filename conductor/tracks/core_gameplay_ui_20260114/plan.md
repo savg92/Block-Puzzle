@@ -20,10 +20,10 @@
 - [x] Task: Conductor - User Manual Verification 'Piece Tray & Selection' (c196f0b)
 
 ## Phase 3: Drag & Drop Logic [~]
-- [~] Task: Implement Grid Hit Detection
-  - [ ] Subtask: Create utility to map screen coordinates to 10x10 grid indices
-  - [ ] Subtask: Optimize hit detection for 60fps performance
-- [ ] Task: Implement Ghost Piece Preview
+- [x] Task: Implement Grid Hit Detection (4a7ed27)
+  - [x] Subtask: Create utility to map screen coordinates to 10x10 grid indices
+  - [x] Subtask: Optimize hit detection for 60fps performance
+- [~] Task: Implement Ghost Piece Preview
   - [ ] Subtask: Add `ghostPiece` state to UI layer
   - [ ] Subtask: Update `Grid` to render semi-transparent cells for valid hover positions
 - [ ] Task: Finalize Piece Placement

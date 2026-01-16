@@ -25,6 +25,8 @@ describe('gameStore', () => {
     expect(state.score).toBe(0);
     expect(state.availablePieces).toHaveLength(3);
     expect(state.selectedPiece).toBeNull();
+    expect(state.hoverPosition).toBeNull();
+    expect(state.gridLayout).toBeNull();
     expect(state.isGameOver).toBe(false);
   });
 
@@ -33,6 +35,7 @@ describe('gameStore', () => {
     useGameStore.setState({
       score: 100,
       isGameOver: true,
+      hoverPosition: { row: 1, col: 1 },
     });
 
     useGameStore.getState().newGame();
@@ -40,6 +43,7 @@ describe('gameStore', () => {
     const state = useGameStore.getState();
     expect(state.score).toBe(0);
     expect(state.isGameOver).toBe(false);
+    expect(state.hoverPosition).toBeNull();
   });
 
   it('should select a piece', () => {
@@ -50,13 +54,27 @@ describe('gameStore', () => {
     expect(useGameStore.getState().selectedPiece).toBeNull();
   });
 
+  it('should set hover position', () => {
+    const pos = { row: 5, col: 5 };
+    useGameStore.getState().setHoverPosition(pos);
+    expect(useGameStore.getState().hoverPosition).toEqual(pos);
+  });
+
+  it('should set grid layout', () => {
+    const layout = { x: 10, y: 20, width: 300, height: 300 };
+    useGameStore.getState().setGridLayout(layout);
+    expect(useGameStore.getState().gridLayout).toEqual(layout);
+  });
+
   it('should place a piece and update state', () => {
     // Place a single block at (0,0)
+    useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
     useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
     
     const state = useGameStore.getState();
     expect(state.grid[0][0]).toBe(1);
     expect(state.score).toBe(1);
+    expect(state.hoverPosition).toBeNull(); // Should be cleared
   });
 
   it('should not update state on invalid move', () => {
