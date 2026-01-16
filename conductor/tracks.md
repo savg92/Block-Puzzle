@@ -6,3 +6,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## [x] Track: Core Gameplay UI
 *Link: [./conductor/archive/core_gameplay_ui_20260114/](./conductor/archive/core_gameplay_ui_20260114/)*
+
+## [~] Track: Drag UX Centering
+*Link: [./conductor/tracks/drag_ux_centering_20260116/](./conductor/tracks/drag_ux_centering_20260116/)*

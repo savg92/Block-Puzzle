@@ -33,6 +33,10 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
   
+  // Track the initial touch point within the piece to allow centering
+  const startX = useSharedValue(0);
+  const startY = useSharedValue(0);
+  
   // Visual dimensions of the piece
   const pieceWidth = piece[0].length * size;
   const pieceHeight = piece.length * size;
@@ -44,21 +48,26 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     .runOnJS(true)
     .onStart((event) => {
       isDragging.value = true;
+      startX.value = event.x;
+      startY.value = event.y;
       selectPiece(piece);
-      
-      // When we start, we want to animate the piece to be centered under the finger
-      // with the vertical offset. Translation is relative to the start position.
-      // But GestureHandler's translationX/Y handles the delta.
-      // To "jump" to center, we'd need to adjust the visual offset.
-      // However, usually we just want the LOGIC to be centered.
     })
     .onUpdate((event) => {
-      translateX.value = event.translationX;
-      translateY.value = event.translationY - DRAG_VERTICAL_OFFSET;
+      // Centering logic:
+      // event.translationX is delta from start.
+      // startX is where we touched relative to piece top-left.
+      // To center piece on finger: pieceTopLeft = fingerPos - pieceDimensions/2
+      // fingerPos = initialPos + translation
+      // So visual offset should account for the difference between touch point and center.
+      
+      const centetingOffsetX = pieceWidth / 2 - startX.value;
+      const centetingOffsetY = pieceHeight / 2 - startY.value;
+
+      translateX.value = event.translationX - centetingOffsetX;
+      translateY.value = event.translationY - centetingOffsetY - DRAG_VERTICAL_OFFSET;
 
       if (gridLayout) {
-        // Calculate the top-left of the piece if it were centered on the finger
-        // absoluteX/Y is the finger position
+        // Logical coordinates for grid mapping (center of piece on finger)
         const adjustedX = event.absoluteX - pieceWidth / 2;
         const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
         
