@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
 import { ScoreDisplay } from '../components/UI/ScoreDisplay';
+import { PieceTray } from '../components/PieceTray/PieceTray';
 import { StatusBar } from 'expo-status-bar';
 
 export const GameScreen: React.FC = () => {
@@ -25,10 +26,7 @@ export const GameScreen: React.FC = () => {
 
       {/* Bottom Section: Piece Tray */}
       <View style={styles.bottomSection}>
-        <View testID="piece-tray" style={styles.trayPlaceholder}>
-          {/* PieceTray will go here */}
-          <Text style={styles.placeholderText}>Piece Tray</Text>
-        </View>
+        <PieceTray />
       </View>
     </SafeAreaView>
   );
@@ -57,18 +55,6 @@ const styles = StyleSheet.create({
   bottomSection: {
     paddingBottom: 40,
     alignItems: 'center',
-  },
-  trayPlaceholder: {
-    height: 120,
     width: '100%',
-    backgroundColor: '#0f172a',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderTopColor: '#1e293b',
-  },
-  placeholderText: {
-    color: '#94a3b8',
-    fontSize: 16,
   },
 });

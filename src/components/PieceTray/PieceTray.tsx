@@ -13,7 +13,7 @@ export const PieceTray: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View testID="piece-tray" style={styles.container}>
       {availablePieces.map((piece, index) => {
         // Dim the piece if another piece is selected
         const isDimmed = selectedPiece !== null && selectedPiece !== piece;

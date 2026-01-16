@@ -10,14 +10,14 @@
   - [x] Subtask: Add High Score persistence logic with AsyncStorage
 - [x] Task: Conductor - User Manual Verification 'Main Layout & Score Display' (98c5c21)
 
-## Phase 2: Piece Tray & Selection [~]
+## Phase 2: Piece Tray & Selection ✅ [checkpoint: 34992e6]
 - [x] Task: Build Piece Tray Component (6a12c9f)
   - [x] Subtask: Create `src/components/PieceTray/PieceTray.tsx`
   - [x] Subtask: Fetch and display `availablePieces` from `gameStore`
 - [x] Task: Synchronize Selection State (d364dca)
   - [x] Subtask: Update `DraggablePiece` to trigger `selectPiece` on drag start
   - [x] Subtask: Add visual feedback for the selected piece in the tray (e.g., dimming)
-- [ ] Task: Conductor - User Manual Verification 'Piece Tray & Selection' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Piece Tray & Selection' (34992e6)
 
 ## Phase 3: Drag & Drop Logic
 - [ ] Task: Implement Grid Hit Detection
