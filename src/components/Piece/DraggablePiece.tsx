@@ -24,15 +24,16 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   onDragEnd,
   size = 29 
 }) => {
-  const { selectPiece } = useGameStore();
+  const selectPiece = useGameStore((state) => state.selectPiece);
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const isDragging = useSharedValue(false);
 
   const gesture = Gesture.Pan()
+    .runOnJS(true)
     .onStart(() => {
       isDragging.value = true;
-      runOnJS(selectPiece)(piece);
+      selectPiece(piece);
     })
     .onUpdate((event) => {
       translateX.value = event.translationX;
@@ -40,8 +41,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     })
     .onEnd((event) => {
       isDragging.value = false;
-      // Use runOnJS to communicate back to the main thread
-      runOnJS(onDragEnd)(event.absoluteX, event.absoluteY);
+      onDragEnd(event.absoluteX, event.absoluteY);
       
       // Reset position
       translateX.value = withSpring(0);
@@ -53,9 +53,10 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       transform: [
         { translateX: translateX.value },
         { translateY: translateY.value },
+        { scale: withSpring(isDragging.value ? 1.2 : 1) },
       ],
-      opacity: isDragging.value ? 0.9 : 1,
-      zIndex: isDragging.value ? 1000 : 1,
+      opacity: withSpring(isDragging.value ? 0.7 : 1),
+      zIndex: isDragging.value ? 9999 : 1,
     };
   });
 
@@ -64,6 +65,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       <Animated.View 
         testID="draggable-piece"
         style={animatedStyle}
+        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
       >
         <PiecePreview piece={piece} color={color} size={size} />
       </Animated.View>
