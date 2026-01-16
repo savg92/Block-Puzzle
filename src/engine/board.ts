@@ -60,7 +60,8 @@ export const placePiece = (
   grid: Grid,
   piece: Piece,
   row: number,
-  col: number
+  col: number,
+  color: string | number = 1
 ): Grid => {
   if (!canPlacePiece(grid, piece, row, col)) {
     throw new Error('Invalid piece placement');
@@ -75,7 +76,7 @@ export const placePiece = (
   for (let r = 0; r < pieceHeight; r++) {
     for (let c = 0; c < pieceWidth; c++) {
       if (piece[r][c] !== 0) {
-        newGrid[row + r][col + c] = 1; // Mark as filled
+        newGrid[row + r][col + c] = color; // Mark as filled
       }
     }
   }

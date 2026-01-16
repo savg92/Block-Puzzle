@@ -10,7 +10,6 @@ import Animated, {
 import { PiecePreview } from './PiecePreview';
 import { theme } from '../../styles/theme';
 import { useGameStore } from '../../store/gameStore';
-import { mapScreenToGrid } from '../../utils/gridUtils';
 
 interface DraggablePieceProps {
   piece: number[][];
@@ -26,8 +25,6 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   size = 29 
 }) => {
   const selectPiece = useGameStore((state) => state.selectPiece);
-  const setHoverPosition = useGameStore((state) => state.setHoverPosition);
-  const gridLayout = useGameStore((state) => state.gridLayout);
   
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -42,16 +39,6 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     .onUpdate((event) => {
       translateX.value = event.translationX;
       translateY.value = event.translationY;
-
-      // Calculate hover position
-      if (gridLayout) {
-        const hoverPos = mapScreenToGrid(
-          event.absoluteX,
-          event.absoluteY,
-          gridLayout
-        );
-        setHoverPosition(hoverPos);
-      }
     })
     .onEnd((event) => {
       isDragging.value = false;
@@ -60,7 +47,6 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       // Reset position
       translateX.value = withSpring(0);
       translateY.value = withSpring(0);
-      setHoverPosition(null);
     });
 
   const animatedStyle = useAnimatedStyle(() => {

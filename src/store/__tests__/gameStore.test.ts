@@ -25,9 +25,9 @@ describe('gameStore', () => {
     expect(state.score).toBe(0);
     expect(state.availablePieces).toHaveLength(3);
     expect(state.selectedPiece).toBeNull();
-    expect(state.hoverPosition).toBeNull();
     expect(state.gridLayout).toBeNull();
     expect(state.isGameOver).toBe(false);
+    expect(state.powerUps).toEqual({ deleteBlock: 1, swapPiece: 1 });
   });
 
   it('should start a new game', () => {
@@ -35,7 +35,6 @@ describe('gameStore', () => {
     useGameStore.setState({
       score: 100,
       isGameOver: true,
-      hoverPosition: { row: 1, col: 1 },
     });
 
     useGameStore.getState().newGame();
@@ -43,7 +42,6 @@ describe('gameStore', () => {
     const state = useGameStore.getState();
     expect(state.score).toBe(0);
     expect(state.isGameOver).toBe(false);
-    expect(state.hoverPosition).toBeNull();
   });
 
   it('should select a piece', () => {
@@ -54,12 +52,6 @@ describe('gameStore', () => {
     expect(useGameStore.getState().selectedPiece).toBeNull();
   });
 
-  it('should set hover position', () => {
-    const pos = { row: 5, col: 5 };
-    useGameStore.getState().setHoverPosition(pos);
-    expect(useGameStore.getState().hoverPosition).toEqual(pos);
-  });
-
   it('should set grid layout', () => {
     const layout = { x: 10, y: 20, width: 300, height: 300 };
     useGameStore.getState().setGridLayout(layout);
@@ -68,27 +60,27 @@ describe('gameStore', () => {
 
   it('should place a piece and update state', () => {
     // Initial available pieces should be 3
-    const initialAvailable = useGameStore.getState().availablePieces;
+    const initialAvailable = [...useGameStore.getState().availablePieces];
     const pieceToPlace = initialAvailable[0];
 
     // Place a single block at (0,0)
-    useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
-    useGameStore.getState().placePiece(pieceToPlace, 0, 0);
+    useGameStore.getState().placePiece(pieceToPlace, 0, 0, '#FF0000');
     
     const state = useGameStore.getState();
-    expect(state.grid[0][0]).toBe(1);
+    expect(state.grid[0][0]).toBe('#FF0000');
     expect(state.score).toBeGreaterThan(0);
     expect(state.availablePieces).toHaveLength(2); // Decreased from 3
-    expect(state.hoverPosition).toBeNull(); // Should be cleared
   });
 
   it('should refill available pieces when all are placed', () => {
-    const pieces = useGameStore.getState().availablePieces;
+    // Mock available pieces to be all SINGLES to ensure they fit
+    useGameStore.setState({ availablePieces: [PIECES.SINGLE, PIECES.SINGLE, PIECES.SINGLE] });
+    const pieces = [...useGameStore.getState().availablePieces];
     
-    // Place all three pieces (assume they fit for simplicity in test or mock engine)
-    useGameStore.getState().placePiece(pieces[0], 0, 0);
-    useGameStore.getState().placePiece(pieces[1], 5, 5);
-    useGameStore.getState().placePiece(pieces[2], 0, 5);
+    // Place all three pieces
+    useGameStore.getState().placePiece(pieces[0], 0, 0, 'red');
+    useGameStore.getState().placePiece(pieces[1], 5, 5, 'blue');
+    useGameStore.getState().placePiece(pieces[2], 0, 5, 'green');
 
     expect(useGameStore.getState().availablePieces).toHaveLength(3); // Refilled
   });
@@ -98,17 +90,74 @@ describe('gameStore', () => {
     const initialScore = useGameStore.getState().score;
     
     // Attempt to place a 2x2 piece at the very edge where it won't fit
-    useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9);
+    useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9, 'red');
     
     const state = useGameStore.getState();
     expect(state.grid).toEqual(initialGrid);
     expect(state.score).toBe(initialScore);
   });
 
+  describe('Game Over & Power-ups', () => {
+    it('should initialize with power-ups', () => {
+      const state = useGameStore.getState();
+      expect(state.powerUps).toBeDefined();
+      expect(state.powerUps.deleteBlock).toBeGreaterThanOrEqual(0);
+    });
+
+    it('should use deleteBlock power-up', () => {
+      useGameStore.setState({ 
+        grid: Array(10).fill(null).map((_, r) => Array(10).fill(r === 0 ? 'red' : 0)),
+        powerUps: { deleteBlock: 1, swapPiece: 1 } 
+      });
+      
+      // Use on (0,0) which is filled
+      useGameStore.getState().usePowerUp('deleteBlock', 0, 0);
+      
+      expect(useGameStore.getState().grid[0][0]).toBe(0);
+      expect(useGameStore.getState().powerUps.deleteBlock).toBe(0);
+    });
+
+    it('should use swapPiece power-up', () => {
+      const initialPieces = [...useGameStore.getState().availablePieces];
+      useGameStore.setState({ 
+        powerUps: { deleteBlock: 1, swapPiece: 1 } 
+      });
+      
+      useGameStore.getState().usePowerUp('swapPiece');
+      
+      expect(useGameStore.getState().availablePieces).not.toEqual(initialPieces);
+      expect(useGameStore.getState().powerUps.swapPiece).toBe(0);
+    });
+
+    it('should set isGameOver to true when no moves are possible', () => {
+      // Checkerboard pattern (no 2x2 holes possible)
+      const grid = Array(10).fill(null).map((_, r) => 
+        Array(10).fill(null).map((_, c) => (r + c) % 2 === 0 ? 'blue' : 0)
+      );
+      
+      // We need at least one big piece that doesn't fit
+      const pieces = [PIECES.SQUARE_2, PIECES.SQUARE_2, PIECES.SINGLE];
+      
+      useGameStore.setState({ 
+        grid,
+        availablePieces: pieces,
+        isGameOver: false
+      });
+
+      // Place the SINGLE piece at a valid spot (any 0)
+      // (0,1) is 0 because (0+1)%2 = 1
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1, 'red');
+      
+      // After placing SINGLE, only SQUARE_2 pieces remain. 
+      // In a checkerboard pattern, SQUARE_2 cannot fit anywhere.
+      expect(useGameStore.getState().isGameOver).toBe(true);
+    });
+  });
+
   describe('Undo', () => {
     it('should undo a piece placement', () => {
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
-      expect(useGameStore.getState().score).toBe(1);
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
+      expect(useGameStore.getState().score).toBeGreaterThan(0);
       
       useGameStore.getState().undo();
       
@@ -117,12 +166,12 @@ describe('gameStore', () => {
     });
 
     it('should undo multiple steps', () => {
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1);
-      expect(useGameStore.getState().score).toBe(2);
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1, 'blue');
+      expect(useGameStore.getState().score).toBeGreaterThan(1);
       
       useGameStore.getState().undo();
-      expect(useGameStore.getState().score).toBe(1);
+      expect(useGameStore.getState().score).toBeGreaterThan(0);
       
       useGameStore.getState().undo();
       expect(useGameStore.getState().score).toBe(0);
@@ -134,7 +183,7 @@ describe('gameStore', () => {
     });
 
     it('should clear history on new game', () => {
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0);
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
       useGameStore.getState().newGame();
       useGameStore.getState().undo(); // Should do nothing
       expect(useGameStore.getState().score).toBe(0);

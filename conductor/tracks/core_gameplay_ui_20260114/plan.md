@@ -19,20 +19,20 @@
   - [x] Subtask: Add visual feedback for the selected piece in the tray (e.g., dimming)
 - [x] Task: Conductor - User Manual Verification 'Piece Tray & Selection' (c196f0b)
 
-## Phase 3: Drag & Drop Logic [~]
+## Phase 3: Drag & Drop Logic ✅ [checkpoint: 3e61308]
 - [x] Task: Implement Grid Hit Detection (4a7ed27)
   - [x] Subtask: Create utility to map screen coordinates to 10x10 grid indices
   - [x] Subtask: Optimize hit detection for 60fps performance
 - [x] Task: Implement Ghost Piece Preview (424e446)
   - [x] Subtask: Add `ghostPiece` state to UI layer
   - [x] Subtask: Update `Grid` to render semi-transparent cells for valid hover positions
-- [~] Task: Finalize Piece Placement
-  - [ ] Subtask: Connect `onDragEnd` to `store.placePiece`
-  - [ ] Subtask: Implement snap-to-grid visual feedback on drop
-- [ ] Task: Conductor - User Manual Verification 'Drag & Drop Logic' (Protocol in workflow.md)
+- [x] Task: Finalize Piece Placement (3e61308)
+  - [x] Subtask: Connect `onDragEnd` to `store.placePiece`
+  - [x] Subtask: Implement snap-to-grid visual feedback on drop
+- [x] Task: Conductor - User Manual Verification 'Drag & Drop Logic' (3e61308)
 
 ## Phase 4: Game Flow & Game Over
-- [ ] Task: Build Game Over Modal
+- [~] Task: Build Game Over Modal
   - [ ] Subtask: Create `src/components/UI/GameOverModal.tsx` with arcade styling
   - [ ] Subtask: Implement "Emergency Save" section for power-up usage
 - [ ] Task: Implement New Game Flow

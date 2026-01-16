@@ -5,25 +5,14 @@ import Animated, {
   withTiming, 
   Easing,
 } from 'react-native-reanimated';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useGameStore } from '../../store/gameStore';
 
-const HIGH_SCORE_KEY = 'high_score';
-
 export const ScoreDisplay: React.FC = () => {
-  const { score } = useGameStore();
-  
-  const [highScore, setHighScore] = useState<number>(0);
+  const { score, highScore, initStore } = useGameStore();
   
   useEffect(() => {
-    const loadHighScore = async () => {
-      const saved = await AsyncStorage.getItem(HIGH_SCORE_KEY);
-      if (saved) {
-        setHighScore(parseInt(saved, 10));
-      }
-    };
-    loadHighScore();
-  }, []);
+    initStore();
+  }, [initStore]);
   
   // Animation for current score
   const animatedScore = useSharedValue(0);
@@ -34,13 +23,7 @@ export const ScoreDisplay: React.FC = () => {
       duration: 500,
       easing: Easing.out(Easing.quad),
     });
-
-    // Update high score if current score exceeds it
-    if (score > highScore) {
-      setHighScore(score);
-      AsyncStorage.setItem(HIGH_SCORE_KEY, score.toString());
-    }
-  }, [score, highScore]);
+  }, [score]);
 
   // Use state for simpler test compatibility while we refine reanimated tests
   const [displayScore, setDisplayScore] = useState(score);

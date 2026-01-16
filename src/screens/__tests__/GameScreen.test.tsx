@@ -12,6 +12,7 @@ jest.mock('../../store/gameStore', () => ({
     score: 0,
     availablePieces: [],
     newGame: jest.fn(),
+    initStore: jest.fn(),
   }),
 }));
 

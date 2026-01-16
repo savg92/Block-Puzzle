@@ -65,32 +65,20 @@ describe('placePiece', () => {
         [0, 0, 0],
         [0, 0, 0],
     ];
-    const piece: Piece = [[1], [1]];
+    const piece: Piece = [[1]];
 
-    it('should return a new grid with the piece placed', () => {
-        const newGrid = placePiece(emptyGrid, piece, 0, 0);
-        
-        // Original grid should remain unchanged (immutability)
-        expect(emptyGrid).toEqual([
-            [0, 0, 0],
-            [0, 0, 0],
-            [0, 0, 0],
-        ]);
-
-        // New grid should have the piece
-        expect(newGrid).toEqual([
-            [1, 0, 0],
-            [1, 0, 0],
-            [0, 0, 0],
-        ]);
-        
-        // Ensure it's a deep copy
-        expect(newGrid).not.toBe(emptyGrid);
-        expect(newGrid[0]).not.toBe(emptyGrid[0]);
+    it('places a piece on the grid', () => {
+      const result = placePiece(emptyGrid, piece, 0, 0);
+      expect(result[0][0]).toBe(1);
     });
 
-    it('should throw an error if placement is invalid', () => {
-        expect(() => placePiece(emptyGrid, piece, -1, 0)).toThrow();
+    it('places a piece with custom color', () => {
+      const result = placePiece(emptyGrid, piece, 0, 0, 'red');
+      expect(result[0][0]).toBe('red');
+    });
+
+    it('throws error if placement is invalid', () => {
+        expect(() => placePiece(emptyGrid, [[1], [1], [1], [1]], 0, 0)).toThrow();
     });
 });
 

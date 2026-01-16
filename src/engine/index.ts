@@ -25,13 +25,13 @@ export class GameEngine {
    * Attempts to make a move.
    * Updates the internal state if the move is valid.
    */
-  public makeMove(piece: Piece, row: number, col: number): MoveResult {
+  public makeMove(piece: Piece, row: number, col: number, color: string | number = 1): MoveResult {
     if (!canPlacePiece(this.grid, piece, row, col)) {
       return { success: false, clearedLines: 0, scoreGained: 0 };
     }
 
     // 1. Place the piece
-    const placedGrid = placePiece(this.grid, piece, row, col);
+    const placedGrid = placePiece(this.grid, piece, row, col, color);
 
     // 2. Clear lines
     const { grid: clearedGrid, clearedLines } = clearLines(placedGrid);

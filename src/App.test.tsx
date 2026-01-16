@@ -19,6 +19,7 @@ jest.mock('./store/gameStore', () => ({
     selectedPiece: null,
     isGameOver: false,
     newGame: jest.fn(),
+    initStore: jest.fn(),
   }),
 }));
 

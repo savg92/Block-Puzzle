@@ -8,6 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 jest.mock('../../../store/gameStore', () => ({
   useGameStore: () => ({
     score: 123,
+    highScore: 999,
+    initStore: jest.fn(),
   }),
 }));
 
@@ -20,10 +22,6 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 describe('ScoreDisplay', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('renders the labels', () => {
     const { getByText } = renderWithTheme(<ScoreDisplay />);
     expect(getByText('SCORE')).toBeTruthy();
@@ -35,13 +33,8 @@ describe('ScoreDisplay', () => {
     expect(getByTestId('current-score').props.children).toBe(123);
   });
 
-  it('renders the high score from storage', async () => {
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('999');
-    
+  it('renders the high score from store', () => {
     const { getByTestId } = renderWithTheme(<ScoreDisplay />);
-    
-    await waitFor(() => {
-      expect(getByTestId('high-score').props.children).toBe(999);
-    });
+    expect(getByTestId('high-score').props.children).toBe(999);
   });
 });

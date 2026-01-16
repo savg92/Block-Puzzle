@@ -4,15 +4,17 @@ import { useGameStore } from '../../store/gameStore';
 import { DraggablePiece } from '../Piece/DraggablePiece';
 import { mapScreenToGrid } from '../../utils/gridUtils';
 import { Piece } from '../../engine/types';
+import { theme } from '../../styles/theme';
 
 export const PieceTray: React.FC = () => {
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece } = useGameStore();
 
-  const handleDragEnd = (piece: Piece, absoluteX: number, absoluteY: number) => {
+  const handleDragEnd = (piece: Piece, colorKey: keyof typeof theme.colors.blocks, absoluteX: number, absoluteY: number) => {
     if (gridLayout) {
       const dropPos = mapScreenToGrid(absoluteX, absoluteY, gridLayout);
       if (dropPos) {
-        placePiece(piece, dropPos.row, dropPos.col);
+        const colorHex = theme.colors.blocks[colorKey];
+        placePiece(piece, dropPos.row, dropPos.col, colorHex);
       }
     }
     selectPiece(null);
@@ -23,6 +25,7 @@ export const PieceTray: React.FC = () => {
       {availablePieces.map((piece, index) => {
         // Dim the piece if another piece is selected
         const isDimmed = selectedPiece !== null && selectedPiece !== piece;
+        const colorKey = getPiceColor(index);
         
         return (
           <View 
@@ -35,8 +38,8 @@ export const PieceTray: React.FC = () => {
           >
             <DraggablePiece
               piece={piece}
-              color={getPiceColor(index)}
-              onDragEnd={(x, y) => handleDragEnd(piece, x, y)}
+              color={colorKey}
+              onDragEnd={(x, y) => handleDragEnd(piece, colorKey, x, y)}
               size={25}
             />
           </View>

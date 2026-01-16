@@ -15,6 +15,9 @@ jest.mock('react-native', () => {
     Text: mockText,
     SafeAreaView: mockView,
     ScrollView: mockView,
+    Modal: mockView,
+    TouchableOpacity: mockView,
+    Pressable: mockView,
     StyleSheet: {
       create: (styles) => styles,
       flatten: (styles) => {
