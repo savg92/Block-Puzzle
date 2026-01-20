@@ -15,7 +15,7 @@ import { mapScreenToGrid } from '../../utils/gridUtils';
 interface DraggablePieceProps {
   piece: number[][];
   color: keyof typeof theme.colors.blocks;
-  onDragEnd: (x: number, y: number) => void;
+  onDragEnd: (x: number, y: number, gridPos?: { row: number; col: number }) => void;
   size?: number;
 }
 
@@ -47,6 +47,34 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   // Vertical offset to float the piece above the finger (so it's not hidden)
   const DRAG_VERTICAL_OFFSET = 60;
 
+  const getHoverPos = (absoluteX: number, absoluteY: number) => {
+    if (!gridLayout) return null;
+
+    // Use the finger position directly (adjusted for vertical offset)
+    const fingerX = absoluteX;
+    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET;
+
+    const fingerGridPos = mapScreenToGrid(
+      fingerX,
+      fingerY,
+      gridLayout,
+      10,
+      8 // 4px padding + 4px border
+    );
+
+    if (!fingerGridPos) return null;
+
+    // Calculate centroid offsets
+    // This aligns the block under the finger with the target grid cell
+    const rowOffset = Math.floor(piece.length / 2);
+    const colOffset = Math.floor(piece[0].length / 2);
+
+    return {
+      row: fingerGridPos.row - rowOffset,
+      col: fingerGridPos.col - colOffset,
+    };
+  };
+
   const gesture = Gesture.Pan()
     .runOnJS(true)
     .onStart((event) => {
@@ -66,30 +94,21 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       translateY.value = event.translationY - centetingOffsetY - DRAG_VERTICAL_OFFSET;
 
       if (gridLayout) {
-        // Logical coordinates for grid mapping (center of piece on finger)
-        // We use unscaled dimensions for grid mapping to ensure the shadow matches the 
-        // logical grid cells, preventing the visual scale from shifting the target.
-        const adjustedX = event.absoluteX - pieceWidth / 2;
-        const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
-        
-        const hoverPos = mapScreenToGrid(
-          adjustedX,
-          adjustedY,
-          gridLayout,
-          10,
-          8 // 4px padding + 4px border
-        );
+        const hoverPos = getHoverPos(event.absoluteX, event.absoluteY);
         setHoverPosition(hoverPos);
       }
     })
     .onEnd((event) => {
       isDragging.value = false;
       
-      // Use unscaled dimensions for drop position as well
+      // Calculate final grid position
+      const gridPos = getHoverPos(event.absoluteX, event.absoluteY) || undefined;
+
+      // Legacy adjusted coordinates (Top Left)
       const adjustedX = event.absoluteX - pieceWidth / 2;
       const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
 
-      onDragEnd(adjustedX, adjustedY);
+      onDragEnd(adjustedX, adjustedY, gridPos);
       
       // Reset position
       translateX.value = withSpring(0);

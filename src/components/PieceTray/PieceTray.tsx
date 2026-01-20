@@ -10,9 +10,19 @@ import { getPieceColor } from '../../engine/pieces';
 export const PieceTray: React.FC = () => {
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece } = useGameStore();
 
-  const handleDragEnd = (piece: Piece, colorKey: keyof typeof theme.colors.blocks, absoluteX: number, absoluteY: number, index: number) => {
+  const handleDragEnd = (
+    piece: Piece, 
+    colorKey: keyof typeof theme.colors.blocks, 
+    absoluteX: number, 
+    absoluteY: number, 
+    index: number,
+    gridPos?: { row: number; col: number }
+  ) => {
     if (gridLayout) {
-      const dropPos = mapScreenToGrid(absoluteX, absoluteY, gridLayout, 10, 8);
+      // Use the pre-calculated grid position if available (from Centroid Logic)
+      // Otherwise fall back to mapping the top-left coordinate
+      const dropPos = gridPos || mapScreenToGrid(absoluteX, absoluteY, gridLayout, 10, 8);
+      
       if (dropPos) {
         const colorHex = theme.colors.blocks[colorKey];
         placePiece(piece, dropPos.row, dropPos.col, colorHex, index);
@@ -49,7 +59,7 @@ export const PieceTray: React.FC = () => {
             <DraggablePiece
               piece={piece}
               color={colorKey}
-              onDragEnd={(x, y) => handleDragEnd(piece, colorKey, x, y, index)}
+              onDragEnd={(x, y, gridPos) => handleDragEnd(piece, colorKey, x, y, index, gridPos)}
               size={25}
             />
           </View>
