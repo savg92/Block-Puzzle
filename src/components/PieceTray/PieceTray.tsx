@@ -5,16 +5,17 @@ import { DraggablePiece } from '../Piece/DraggablePiece';
 import { mapScreenToGrid } from '../../utils/gridUtils';
 import { Piece } from '../../engine/types';
 import { theme } from '../../styles/theme';
+import { getPieceColor } from '../../engine/pieces';
 
 export const PieceTray: React.FC = () => {
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece } = useGameStore();
 
-  const handleDragEnd = (piece: Piece, colorKey: keyof typeof theme.colors.blocks, absoluteX: number, absoluteY: number) => {
+  const handleDragEnd = (piece: Piece, colorKey: keyof typeof theme.colors.blocks, absoluteX: number, absoluteY: number, index: number) => {
     if (gridLayout) {
       const dropPos = mapScreenToGrid(absoluteX, absoluteY, gridLayout, 10, 8);
       if (dropPos) {
         const colorHex = theme.colors.blocks[colorKey];
-        placePiece(piece, dropPos.row, dropPos.col, colorHex);
+        placePiece(piece, dropPos.row, dropPos.col, colorHex, index);
       }
     }
     selectPiece(null);
@@ -23,9 +24,18 @@ export const PieceTray: React.FC = () => {
   return (
     <View testID="piece-tray" style={styles.container}>
       {availablePieces.map((piece, index) => {
+        if (!piece) {
+          return (
+            <View 
+              key={`piece-placeholder-${index}`} 
+              style={styles.pieceWrapper} 
+            />
+          );
+        }
+
         // Dim the piece if another piece is selected
         const isDimmed = selectedPiece !== null && selectedPiece !== piece;
-        const colorKey = getPiceColor(index);
+        const colorKey = getPieceColor(piece);
         
         return (
           <View 
@@ -39,7 +49,7 @@ export const PieceTray: React.FC = () => {
             <DraggablePiece
               piece={piece}
               color={colorKey}
-              onDragEnd={(x, y) => handleDragEnd(piece, colorKey, x, y)}
+              onDragEnd={(x, y) => handleDragEnd(piece, colorKey, x, y, index)}
               size={25}
             />
           </View>
@@ -47,11 +57,6 @@ export const PieceTray: React.FC = () => {
       })}
     </View>
   );
-};
-
-const getPiceColor = (index: number): any => {
-  const colors = ['orange', 'blue', 'green'] as const;
-  return colors[index % colors.length];
 };
 
 const styles = StyleSheet.create({

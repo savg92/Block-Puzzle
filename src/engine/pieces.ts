@@ -1,4 +1,5 @@
 import { Piece } from './types';
+import { theme } from '../styles/theme';
 
 export type PieceType =
   | 'SINGLE'
@@ -76,4 +77,37 @@ export const getRandomPieces = (count: number): Piece[] => {
     selected.push(allPieces[randomIndex]);
   }
   return selected;
+};
+
+/**
+ * Determines the color key for a given piece based on its shape.
+ */
+export const getPieceColor = (piece: Piece): keyof typeof theme.colors.blocks => {
+  const cellCount = piece.flat().reduce((sum, cell) => sum + cell, 0);
+  const rows = piece.length;
+  const cols = piece[0].length;
+  const maxDim = Math.max(rows, cols);
+
+  switch (cellCount) {
+    case 1: // SINGLE
+      return 'cyan';
+    case 2: // LINE_2
+      return 'purple';
+    case 3: // LINE_3 or SMALL_L
+      // LINE_3 is 1x3 or 3x1 (maxDim 3)
+      // SMALL_L is 2x2 (maxDim 2)
+      return maxDim === 3 ? 'blue' : 'orange';
+    case 4: // LINE_4 or SQUARE_2
+      // LINE_4 is 1x4 or 4x1 (maxDim 4)
+      // SQUARE_2 is 2x2 (maxDim 2)
+      return maxDim === 4 ? 'red' : 'green';
+    case 5: // LINE_5 or BIG_L
+      // LINE_5 is 1x5 or 5x1 (maxDim 5)
+      // BIG_L is 3x3 (maxDim 3)
+      return maxDim === 5 ? 'pink' : 'orange';
+    case 9: // SQUARE_3
+      return 'green';
+    default:
+      return 'blue'; // Fallback
+  }
 };

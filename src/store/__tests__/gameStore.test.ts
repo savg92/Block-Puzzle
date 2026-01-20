@@ -1,5 +1,6 @@
 import { useGameStore } from '../gameStore';
 import { PIECES } from '../../engine/pieces';
+import { Piece } from '../../engine/types';
 
 // Mock storage module
 jest.mock('../storage', () => {
@@ -70,16 +71,17 @@ describe('gameStore', () => {
   it('should place a piece and update state', () => {
     // Initial available pieces should be 3
     const initialAvailable = [...useGameStore.getState().availablePieces];
-    const pieceToPlace = initialAvailable[0];
+    const pieceToPlace = initialAvailable[0] as Piece;
 
     // Place a single block at (0,0)
     useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
-    useGameStore.getState().placePiece(pieceToPlace, 0, 0, '#FF0000');
+    useGameStore.getState().placePiece(pieceToPlace, 0, 0, '#FF0000', 0);
     
     const state = useGameStore.getState();
     expect(state.grid[0][0]).toBe('#FF0000');
     expect(state.score).toBeGreaterThan(0);
-    expect(state.availablePieces).toHaveLength(2); // Decreased from 3
+    expect(state.availablePieces[0]).toBeNull(); // Replaced with null
+    expect(state.availablePieces.filter(p => p !== null)).toHaveLength(2); // 2 remaining
     expect(state.hoverPosition).toBeNull(); // Should be cleared
   });
 
@@ -89,11 +91,12 @@ describe('gameStore', () => {
     const pieces = [...useGameStore.getState().availablePieces];
     
     // Place all three pieces
-    useGameStore.getState().placePiece(pieces[0], 0, 0, 'red');
-    useGameStore.getState().placePiece(pieces[1], 5, 5, 'blue');
-    useGameStore.getState().placePiece(pieces[2], 0, 5, 'green');
+    useGameStore.getState().placePiece(pieces[0] as Piece, 0, 0, 'red', 0);
+    useGameStore.getState().placePiece(pieces[1] as Piece, 5, 5, 'blue', 1);
+    useGameStore.getState().placePiece(pieces[2] as Piece, 0, 5, 'green', 2);
 
     expect(useGameStore.getState().availablePieces).toHaveLength(3); // Refilled
+    expect(useGameStore.getState().availablePieces.every(p => p !== null)).toBe(true);
   });
 
   it('should not update state on invalid move', () => {
@@ -101,7 +104,7 @@ describe('gameStore', () => {
     const initialScore = useGameStore.getState().score;
     
     // Attempt to place a 2x2 piece at the very edge where it won't fit
-    useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9, 'red');
+    useGameStore.getState().placePiece(PIECES.SQUARE_2, 9, 9, 'red', 0);
     
     const state = useGameStore.getState();
     expect(state.grid).toEqual(initialGrid);
@@ -157,7 +160,8 @@ describe('gameStore', () => {
 
       // Place the SINGLE piece at a valid spot (any 0)
       // (0,1) is 0 because (0+1)%2 = 1
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1, 'red');
+      // pieces[2] is the SINGLE.
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1, 'red', 2);
       
       // After placing SINGLE, only SQUARE_2 pieces remain. 
       // In a checkerboard pattern, SQUARE_2 cannot fit anywhere.
@@ -167,7 +171,7 @@ describe('gameStore', () => {
 
   describe('Undo', () => {
     it('should undo a piece placement', () => {
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
       expect(useGameStore.getState().score).toBeGreaterThan(0);
       
       useGameStore.getState().undo();
@@ -177,8 +181,8 @@ describe('gameStore', () => {
     });
 
     it('should undo multiple steps', () => {
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1, 'blue');
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 1, 'blue', 1);
       expect(useGameStore.getState().score).toBeGreaterThan(1);
       
       useGameStore.getState().undo();
@@ -194,7 +198,7 @@ describe('gameStore', () => {
     });
 
     it('should clear history on new game', () => {
-      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
       useGameStore.getState().newGame();
       useGameStore.getState().undo(); // Should do nothing
       expect(useGameStore.getState().score).toBe(0);

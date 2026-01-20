@@ -9,7 +9,7 @@ interface GameState {
   grid: Grid;
   score: number;
   highScore: number;
-  availablePieces: Piece[];
+  availablePieces: (Piece | null)[];
   selectedPiece: Piece | null;
   hoverPosition: { row: number; col: number } | null;
   gridLayout: { x: number; y: number; width: number; height: number } | null;
@@ -21,7 +21,7 @@ interface GameState {
   history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
   newGame: () => void;
   initStore: () => Promise<void>;
-  placePiece: (piece: Piece, row: number, col: number, color: string) => void;
+  placePiece: (piece: Piece, row: number, col: number, color: string, sourceIndex?: number) => void;
   selectPiece: (piece: Piece | null) => void;
   setHoverPosition: (pos: { row: number; col: number } | null) => void;
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
@@ -67,7 +67,7 @@ export const useGameStore = create<GameState>()(
           },
           history: [],
         }),
-      placePiece: (piece, row, col, color) => {
+      placePiece: (piece, row, col, color, sourceIndex) => {
         const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition } = get();
         const engine = new GameEngine(grid, score);
         const result = engine.makeMove(piece, row, col, color);
@@ -77,20 +77,26 @@ export const useGameStore = create<GameState>()(
           const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
-          // Remove the piece from available pieces
-          const pieceIndex = availablePieces.findIndex((p) => p === piece);
+          // Remove the piece from available pieces (mark as null)
           let newAvailablePieces = [...availablePieces];
-          if (pieceIndex !== -1) {
-            newAvailablePieces.splice(pieceIndex, 1);
+          if (sourceIndex !== undefined && sourceIndex >= 0 && sourceIndex < newAvailablePieces.length) {
+             newAvailablePieces[sourceIndex] = null;
+          } else {
+             // Fallback for compatibility or tests without index
+             const pieceIndex = availablePieces.findIndex((p) => p === piece);
+             if (pieceIndex !== -1) {
+               newAvailablePieces[pieceIndex] = null;
+             }
           }
           
-          // Refill if empty
-          if (newAvailablePieces.length === 0) {
+          // Refill if all are null
+          if (newAvailablePieces.every(p => p === null)) {
             newAvailablePieces = getRandomPieces(3);
           }
 
-          // Check if game is over with the remaining pieces
-          const gameOver = engine.checkGameOver(newAvailablePieces);
+          // Check if game is over with the remaining pieces (filter out nulls)
+          const remainingPieces = newAvailablePieces.filter((p): p is Piece => p !== null);
+          const gameOver = engine.checkGameOver(remainingPieces);
 
           const newScore = engine.getScore();
           const newHighScore = Math.max(highScore, newScore);
@@ -129,8 +135,9 @@ export const useGameStore = create<GameState>()(
             newGrid[row][col] = 0;
             
             // Check if deleting the block saved the game
+            const remainingPieces = availablePieces.filter((p): p is Piece => p !== null);
             const engine = new GameEngine(newGrid, score);
-            const stillGameOver = engine.checkGameOver(availablePieces);
+            const stillGameOver = engine.checkGameOver(remainingPieces);
 
             set({
               grid: newGrid,
