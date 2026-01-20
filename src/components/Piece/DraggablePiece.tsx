@@ -46,15 +46,18 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   
   // Vertical offset to float the piece above the finger (so it's not hidden)
   const DRAG_VERTICAL_OFFSET = 60;
+  
+  // Correction for vertical misalignment (Shadow appearing below piece)
+  // Shift shadow mapping UP by ~1 block (32px) to align with visual piece
+  const Y_FIX_OFFSET = 32;
 
   const getHoverPos = (absoluteX: number, absoluteY: number) => {
     if (!gridLayout) return null;
 
     // With the piece centered on the finger (see onUpdate), 
-    // we just need to map the finger position (adjusted for vertical offset)
-    // to the grid, and then find the corresponding top-left anchor for the piece.
+    // we map the finger position (adjusted for offsets) to the grid.
     const fingerX = absoluteX;
-    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET;
+    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET - Y_FIX_OFFSET;
 
     const centerGridPos = mapScreenToGrid(
       fingerX,
@@ -108,9 +111,9 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       // Calculate final grid position
       const gridPos = getHoverPos(event.absoluteX, event.absoluteY) || undefined;
 
-      // Fallback coordinates (Unscaled Top Left relative to finger)
+      // Fallback coordinates
       const adjustedX = event.absoluteX - pieceWidth / 2;
-      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
+      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET - Y_FIX_OFFSET;
 
       onDragEnd(adjustedX, adjustedY, gridPos);
       
