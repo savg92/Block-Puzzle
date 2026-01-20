@@ -46,6 +46,10 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   
   // Vertical offset to float the piece above the finger (so it's not hidden)
   const DRAG_VERTICAL_OFFSET = 60;
+  
+  // Correction for vertical misalignment (Shadow appearing below piece)
+  // This shifts the logical mapping "up" to align the shadow with the visual piece.
+  const Y_FIX_OFFSET = 16;
 
   const getHoverPos = (absoluteX: number, absoluteY: number) => {
     if (!gridLayout) return null;
@@ -56,7 +60,8 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     // Visual Center = Visual TopLeft + ScaledDimensions/2
     // We use Scaled Dimensions because the piece is visually scaled (1.2x) and startX/Y reflect that space.
     const visualLeft = absoluteX - startX.value;
-    const visualTop = absoluteY - startY.value - DRAG_VERTICAL_OFFSET;
+    // Apply Y_FIX_OFFSET to map the shadow higher (correcting "below" appearance)
+    const visualTop = absoluteY - startY.value - DRAG_VERTICAL_OFFSET - Y_FIX_OFFSET;
     
     const centerX = visualLeft + (pieceWidth * DRAG_SCALE) / 2;
     const centerY = visualTop + (pieceHeight * DRAG_SCALE) / 2;
