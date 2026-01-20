@@ -45,3 +45,8 @@ yarn-error.*
 # Conductor local state
 .conductor/
 *.local.md
+
+/ios
+/__mocks__/*
+
+
