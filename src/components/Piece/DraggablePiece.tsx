@@ -46,30 +46,19 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   
   // Vertical offset to float the piece above the finger (so it's not hidden)
   const DRAG_VERTICAL_OFFSET = 60;
-  
-  // Correction for vertical misalignment (Shadow appearing below piece)
-  // This shifts the logical mapping "up" to align the shadow with the visual piece.
-  // Increased to 32 based on user feedback "still half block below"
-  const Y_FIX_OFFSET = 32;
 
   const getHoverPos = (absoluteX: number, absoluteY: number) => {
     if (!gridLayout) return null;
 
-    // Calculate the visual center of the piece
-    // We must account for the initial grab offset (startX, startY)
-    // Visual TopLeft = Finger - startOffset
-    // Visual Center = Visual TopLeft + ScaledDimensions/2
-    // We use Scaled Dimensions because the piece is visually scaled (1.2x) and startX/Y reflect that space.
-    const visualLeft = absoluteX - startX.value;
-    // Apply Y_FIX_OFFSET to map the shadow higher (correcting "below" appearance)
-    const visualTop = absoluteY - startY.value - DRAG_VERTICAL_OFFSET - Y_FIX_OFFSET;
-    
-    const centerX = visualLeft + (pieceWidth * DRAG_SCALE) / 2;
-    const centerY = visualTop + (pieceHeight * DRAG_SCALE) / 2;
+    // With the piece centered on the finger (see onUpdate), 
+    // we just need to map the finger position (adjusted for vertical offset)
+    // to the grid, and then find the corresponding top-left anchor for the piece.
+    const fingerX = absoluteX;
+    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET;
 
     const centerGridPos = mapScreenToGrid(
-      centerX,
-      centerY,
+      fingerX,
+      fingerY,
       gridLayout,
       10,
       8 // 4px padding + 4px border
@@ -97,11 +86,16 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       selectPiece(piece);
     })
     .onUpdate((event) => {
-      // Move piece with finger (plus vertical offset)
-      // We do NOT force centering here; we let the piece hang from the grab point naturally.
-      // The shadow calculation accounts for this offset.
-      translateX.value = event.translationX;
-      translateY.value = event.translationY - DRAG_VERTICAL_OFFSET;
+      // Force Centering: Snap the piece's center to the finger.
+      // We must account for DRAG_SCALE because startX/Y are in the scaled visual coordinate space.
+      const scaledWidth = pieceWidth * DRAG_SCALE;
+      const scaledHeight = pieceHeight * DRAG_SCALE;
+
+      const centetingOffsetX = scaledWidth / 2 - startX.value;
+      const centetingOffsetY = scaledHeight / 2 - startY.value;
+
+      translateX.value = event.translationX - centetingOffsetX;
+      translateY.value = event.translationY - centetingOffsetY - DRAG_VERTICAL_OFFSET;
 
       if (gridLayout) {
         const hoverPos = getHoverPos(event.absoluteX, event.absoluteY);
@@ -114,9 +108,9 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       // Calculate final grid position
       const gridPos = getHoverPos(event.absoluteX, event.absoluteY) || undefined;
 
-      // Fallback coordinates (Top Left of the piece)
-      const adjustedX = event.absoluteX - startX.value;
-      const adjustedY = event.absoluteY - startY.value - DRAG_VERTICAL_OFFSET;
+      // Fallback coordinates (Unscaled Top Left relative to finger)
+      const adjustedX = event.absoluteX - pieceWidth / 2;
+      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
 
       onDragEnd(adjustedX, adjustedY, gridPos);
       
