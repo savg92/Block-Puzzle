@@ -53,12 +53,13 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     // Calculate the visual center of the piece
     // We must account for the initial grab offset (startX, startY)
     // Visual TopLeft = Finger - startOffset
-    // Visual Center = Visual TopLeft + Dimensions/2
+    // Visual Center = Visual TopLeft + ScaledDimensions/2
+    // We use Scaled Dimensions because the piece is visually scaled (1.2x) and startX/Y reflect that space.
     const visualLeft = absoluteX - startX.value;
     const visualTop = absoluteY - startY.value - DRAG_VERTICAL_OFFSET;
     
-    const centerX = visualLeft + pieceWidth / 2;
-    const centerY = visualTop + pieceHeight / 2;
+    const centerX = visualLeft + (pieceWidth * DRAG_SCALE) / 2;
+    const centerY = visualTop + (pieceHeight * DRAG_SCALE) / 2;
 
     const centerGridPos = mapScreenToGrid(
       centerX,
