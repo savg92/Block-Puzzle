@@ -67,14 +67,17 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
 
       if (gridLayout) {
         // Logical coordinates for grid mapping (center of piece on finger)
-        // We use the scaled dimensions to ensure the ghost matches the scaled visual piece.
-        const adjustedX = event.absoluteX - (pieceWidth * DRAG_SCALE) / 2;
-        const adjustedY = event.absoluteY - (pieceHeight * DRAG_SCALE) / 2 - DRAG_VERTICAL_OFFSET;
+        // We use unscaled dimensions for grid mapping to ensure the shadow matches the 
+        // logical grid cells, preventing the visual scale from shifting the target.
+        const adjustedX = event.absoluteX - pieceWidth / 2;
+        const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
         
         const hoverPos = mapScreenToGrid(
           adjustedX,
           adjustedY,
-          gridLayout
+          gridLayout,
+          10,
+          8 // 4px padding + 4px border
         );
         setHoverPosition(hoverPos);
       }
@@ -82,8 +85,9 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     .onEnd((event) => {
       isDragging.value = false;
       
-      const adjustedX = event.absoluteX - (pieceWidth * DRAG_SCALE) / 2;
-      const adjustedY = event.absoluteY - (pieceHeight * DRAG_SCALE) / 2 - DRAG_VERTICAL_OFFSET;
+      // Use unscaled dimensions for drop position as well
+      const adjustedX = event.absoluteX - pieceWidth / 2;
+      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
 
       onDragEnd(adjustedX, adjustedY);
       

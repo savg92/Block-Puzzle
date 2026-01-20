@@ -11,7 +11,7 @@ export const PieceTray: React.FC = () => {
 
   const handleDragEnd = (piece: Piece, colorKey: keyof typeof theme.colors.blocks, absoluteX: number, absoluteY: number) => {
     if (gridLayout) {
-      const dropPos = mapScreenToGrid(absoluteX, absoluteY, gridLayout);
+      const dropPos = mapScreenToGrid(absoluteX, absoluteY, gridLayout, 10, 8);
       if (dropPos) {
         const colorHex = theme.colors.blocks[colorKey];
         placePiece(piece, dropPos.row, dropPos.col, colorHex);
