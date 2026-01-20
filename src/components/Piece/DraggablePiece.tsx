@@ -49,7 +49,8 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   
   // Correction for vertical misalignment (Shadow appearing below piece)
   // This shifts the logical mapping "up" to align the shadow with the visual piece.
-  const Y_FIX_OFFSET = 16;
+  // Increased to 32 based on user feedback "still half block below"
+  const Y_FIX_OFFSET = 32;
 
   const getHoverPos = (absoluteX: number, absoluteY: number) => {
     if (!gridLayout) return null;
