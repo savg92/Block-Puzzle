@@ -46,10 +46,6 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   
   // Vertical offset to float the piece above the finger (so it's not hidden)
   const DRAG_VERTICAL_OFFSET = 60;
-  
-  // Correction for vertical misalignment (Shadow appearing below piece)
-  // Shift shadow mapping UP by ~1 block (32px) to align with visual piece
-  const Y_FIX_OFFSET = 32;
 
   const getHoverPos = (absoluteX: number, absoluteY: number) => {
     if (!gridLayout) return null;
@@ -57,7 +53,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     // With the piece centered on the finger (see onUpdate), 
     // we map the finger position (adjusted for offsets) to the grid.
     const fingerX = absoluteX;
-    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET - Y_FIX_OFFSET;
+    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET;
 
     const centerGridPos = mapScreenToGrid(
       fingerX,
@@ -90,12 +86,10 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     })
     .onUpdate((event) => {
       // Force Centering: Snap the piece's center to the finger.
-      // We must account for DRAG_SCALE because startX/Y are in the scaled visual coordinate space.
-      const scaledWidth = pieceWidth * DRAG_SCALE;
-      const scaledHeight = pieceHeight * DRAG_SCALE;
-
-      const centetingOffsetX = scaledWidth / 2 - startX.value;
-      const centetingOffsetY = scaledHeight / 2 - startY.value;
+      // We use UNSCALED dimensions because startX/Y are in the unscaled coordinate space.
+      // Mixing scaled dimensions here caused alignment drifts depending on grab point.
+      const centetingOffsetX = pieceWidth / 2 - startX.value;
+      const centetingOffsetY = pieceHeight / 2 - startY.value;
 
       translateX.value = event.translationX - centetingOffsetX;
       translateY.value = event.translationY - centetingOffsetY - DRAG_VERTICAL_OFFSET;
@@ -111,9 +105,9 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       // Calculate final grid position
       const gridPos = getHoverPos(event.absoluteX, event.absoluteY) || undefined;
 
-      // Fallback coordinates (Unscaled Top Left relative to finger)
+      // Fallback coordinates
       const adjustedX = event.absoluteX - pieceWidth / 2;
-      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET - Y_FIX_OFFSET;
+      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
 
       onDragEnd(adjustedX, adjustedY, gridPos);
       
