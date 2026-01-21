@@ -12,11 +12,6 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [x] **Track: Power-Ups System**
-*Link: [./tracks/powerups_20260120/](./tracks/powerups_20260120/)*
-
----
-
 - [ ] **Track: Polish & UX**
 *Link: [./tracks/polish_ux_20260120/](./tracks/polish_ux_20260120/)*
 
