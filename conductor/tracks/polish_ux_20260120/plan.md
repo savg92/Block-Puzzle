@@ -1,0 +1,51 @@
+# Implementation Plan: Polish & UX
+
+## Phase 1: Sensory Infrastructure (Haptics & SFX)
+Establish the underlying managers for haptic feedback and sound effects.
+
+- [ ] Task: Implement Haptic Utility
+    - [ ] Subtask: Create `src/utils/haptics.ts` using `expo-haptics`.
+    - [ ] Subtask: Define patterns for Pickup, Drop, Clear, and Game Over.
+    - [ ] Subtask: Write unit tests to verify haptic trigger logic.
+- [ ] Task: Implement Audio Manager
+    - [ ] Subtask: Create `src/utils/audio.ts` using `expo-av`.
+    - [ ] Subtask: Implement asset pre-loading and playback with volume control.
+    - [ ] Subtask: Write tests for audio playback state management.
+- [ ] Task: Conductor - User Manual Verification 'Sensory Infrastructure' (Protocol in workflow.md)
+
+## Phase 2: Settings System
+Create the interface for user preferences and ensure they persist.
+
+- [ ] Task: Extend State for User Preferences
+    - [ ] Subtask: Add `preferences` object to `src/store/gameStore.ts` (sound volume, haptic intensity, etc.).
+    - [ ] Subtask: Ensure preference state is persisted via `AsyncStorage`.
+    - [ ] Subtask: Write tests for preference updates and persistence.
+- [ ] Task: Build Settings Screen UI
+    - [ ] Subtask: Create `src/screens/SettingsScreen.tsx` with sliders and toggles.
+    - [ ] Subtask: Implement "Gear" icon in `GameScreen` header to access settings.
+    - [ ] Subtask: Connect UI controls to the store preferences.
+- [ ] Task: Conductor - User Manual Verification 'Settings System' (Protocol in workflow.md)
+
+## Phase 3: Integration & Optimization
+Hook sensory feedback into gameplay and optimize rendering.
+
+- [ ] Task: Integrate Haptics & SFX into Gameplay
+    - [ ] Subtask: Trigger haptics/SFX on piece pickup and placement.
+    - [ ] Subtask: Trigger line-clear feedback with pitch-shift for multiple lines.
+    - [ ] Subtask: Add game-over feedback.
+- [ ] Task: Performance Profiling & Optimization
+    - [ ] Subtask: Memoize `Cell`, `Grid`, and `DraggablePiece` components.
+    - [ ] Subtask: Use React DevTools to identify and fix unnecessary re-renders.
+    - [ ] Subtask: Optimize line-clear animation loop for 60fps.
+- [ ] Task: Conductor - User Manual Verification 'Integration & Optimization' (Protocol in workflow.md)
+
+## Phase 4: Final Polish
+Finalize assets and perform cleanup.
+
+- [ ] Task: Bundle Size & Resource Cleanup
+    - [ ] Subtask: Optimize audio assets (compression/format).
+    - [ ] Subtask: Verify total bundle size is within targets.
+- [ ] Task: Final System Test
+    - [ ] Subtask: Ensure >80% coverage for new modules.
+    - [ ] Subtask: Perform manual playthrough with all sensory feedback active.
+- [ ] Task: Conductor - User Manual Verification 'Final Polish' (Protocol in workflow.md)
