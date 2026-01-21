@@ -10,7 +10,7 @@ Implement the foundational logic for power-up consumption and state modification
 - [x] Task: Implement Rotation Logic b7ee28c
     - [ ] Subtask: Add `rotateAllPieces` action to `gameStore.ts`.
     - [ ] Subtask: Write tests in `src/store/__tests__/gameStore.test.ts` for tray rotation.
-- [ ] Task: Implement Discard Logic
+- [x] Task: Implement Discard Logic 4bb2ab3
     - [ ] Subtask: Add `discardPiece(index)` action to `gameStore.ts`.
     - [ ] Subtask: Write tests for piece removal and refill prevention.
 - [ ] Task: Implement Force Place & Add Single Logic
