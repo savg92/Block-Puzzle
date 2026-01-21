@@ -7,10 +7,7 @@ Establish the underlying managers for haptic feedback and sound effects.
     - [ ] Subtask: Create `src/utils/haptics.ts` using `expo-haptics`.
     - [ ] Subtask: Define patterns for Pickup, Drop, Clear, and Game Over.
     - [ ] Subtask: Write unit tests to verify haptic trigger logic.
-- [ ] Task: Implement Audio Manager
-    - [ ] Subtask: Create `src/utils/audio.ts` using `expo-av`.
-    - [ ] Subtask: Implement asset pre-loading and playback with volume control.
-    - [ ] Subtask: Write tests for audio playback state management.
+- [x] Task: Implement Audio Manager 8d01696
 - [ ] Task: Conductor - User Manual Verification 'Sensory Infrastructure' (Protocol in workflow.md)
 
 ## Phase 2: Settings System
