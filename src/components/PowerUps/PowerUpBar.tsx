@@ -45,48 +45,70 @@ export const PowerUpBar: React.FC = () => {
     }
   };
 
+  const handleCancel = () => {
+    // Calling usePowerUp with the current type will toggle it off in our store logic
+    if (activePowerUpMode) {
+      usePowerUp(activePowerUpMode);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <PowerUpButton 
-        type="undo"
-        icon="↩️"
-        label="Undo"
-        count={powerUps.undo}
-        isActive={false}
-        onPress={() => handlePress('undo')}
-      />
-      <PowerUpButton 
-        type="rotate"
-        icon="🔄"
-        label="Rotate"
-        count={powerUps.rotate}
-        isActive={false}
-        onPress={() => handlePress('rotate')}
-      />
-      <PowerUpButton 
-        type="discard"
-        icon="🗑️"
-        label="Discard"
-        count={powerUps.discard}
-        isActive={activePowerUpMode === 'discard'}
-        onPress={() => handlePress('discard')}
-      />
-      <PowerUpButton 
-        type="forcePlace"
-        icon="⚡"
-        label="Force"
-        count={powerUps.forcePlace}
-        isActive={activePowerUpMode === 'forcePlace'}
-        onPress={() => handlePress('forcePlace')}
-      />
-      <PowerUpButton 
-        type="addSingle"
-        icon="➕"
-        label="Single"
-        count={powerUps.addSingle}
-        isActive={activePowerUpMode === 'addSingle'}
-        onPress={() => handlePress('addSingle')}
-      />
+      {activePowerUpMode ? (
+        <View style={styles.activeModeContainer}>
+          <Text style={styles.activeModeText}>
+            {activePowerUpMode === 'discard' && 'TAP A PIECE TO DISCARD'}
+            {activePowerUpMode === 'forcePlace' && 'PLACE PIECE ANYWHERE'}
+            {activePowerUpMode === 'addSingle' && 'TAP GRID TO PLACE BLOCK'}
+          </Text>
+          <TouchableOpacity onPress={handleCancel} style={styles.cancelButton}>
+            <Text style={styles.cancelButtonText}>CANCEL</Text>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <>
+          <PowerUpButton 
+            type="undo"
+            icon="↩️"
+            label="Undo"
+            count={powerUps.undo}
+            isActive={false}
+            onPress={() => handlePress('undo')}
+          />
+          <PowerUpButton 
+            type="rotate"
+            icon="🔄"
+            label="Rotate"
+            count={powerUps.rotate}
+            isActive={false}
+            onPress={() => handlePress('rotate')}
+          />
+          <PowerUpButton 
+            type="discard"
+            icon="🗑️"
+            label="Discard"
+            count={powerUps.discard}
+            isActive={activePowerUpMode === 'discard'}
+            onPress={() => handlePress('discard')}
+          />
+          <PowerUpButton 
+            type="forcePlace"
+            icon="⚡"
+            label="Force"
+            count={powerUps.forcePlace}
+            isActive={activePowerUpMode === 'forcePlace'}
+            onPress={() => handlePress('forcePlace')}
+          />
+          <PowerUpButton 
+            type="addSingle"
+            icon="➕"
+            label="Single"
+            count={powerUps.addSingle}
+            isActive={activePowerUpMode === 'addSingle'}
+            onPress={() => handlePress('addSingle')}
+          />
+        </>
+      )}
     </View>
   );
 };
@@ -103,6 +125,31 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: '#1e293b',
+    minHeight: 80,
+  },
+  activeModeContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+  },
+  activeModeText: {
+    color: theme.colors.primary,
+    fontWeight: '900',
+    fontSize: 14,
+    letterSpacing: 1,
+  },
+  cancelButton: {
+    backgroundColor: theme.colors.error,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  cancelButtonText: {
+    color: 'white',
+    fontWeight: '900',
+    fontSize: 12,
   },
   button: {
     alignItems: 'center',

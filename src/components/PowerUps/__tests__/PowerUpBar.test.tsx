@@ -79,4 +79,34 @@ describe('PowerUpBar', () => {
     fireEvent.press(getByText('Discard'));
     expect(mockUsePowerUp).toHaveBeenCalledWith('discard');
   });
+
+  it('renders instructions and Cancel button in active mode', () => {
+    mockUseGameStore.mockReturnValue({
+      powerUps: {
+        undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1
+      },
+      usePowerUp: mockUsePowerUp,
+      undo: mockUndo,
+      activePowerUpMode: 'discard',
+    });
+
+    const { getByText } = renderWithTheme(<PowerUpBar />);
+    expect(getByText('TAP A PIECE TO DISCARD')).toBeTruthy();
+    expect(getByText('CANCEL')).toBeTruthy();
+  });
+
+  it('calls usePowerUp to toggle off when CANCEL is pressed', () => {
+    mockUseGameStore.mockReturnValue({
+      powerUps: {
+        undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1
+      },
+      usePowerUp: mockUsePowerUp,
+      undo: mockUndo,
+      activePowerUpMode: 'discard',
+    });
+
+    const { getByText } = renderWithTheme(<PowerUpBar />);
+    fireEvent.press(getByText('CANCEL'));
+    expect(mockUsePowerUp).toHaveBeenCalledWith('discard');
+  });
 });

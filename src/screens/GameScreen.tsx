@@ -10,7 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useGameStore } from '../store/gameStore';
 
 export const GameScreen: React.FC = () => {
-  const { newGame, availablePieces } = useGameStore();
+  const { newGame, availablePieces, activePowerUpMode } = useGameStore();
 
   useEffect(() => {
     // Initialize game if no pieces are available (e.g. first launch)
@@ -31,7 +31,10 @@ export const GameScreen: React.FC = () => {
       </View>
 
       {/* Center Section: Grid */}
-      <View style={styles.gridSection}>
+      <View style={[
+        styles.gridSection,
+        (activePowerUpMode === 'addSingle' || activePowerUpMode === 'forcePlace') && styles.activeGridSection
+      ]}>
         <View testID="game-grid">
           <Grid />
         </View>
@@ -41,7 +44,10 @@ export const GameScreen: React.FC = () => {
       <PowerUpBar />
 
       {/* Bottom Section: Piece Tray */}
-      <View style={styles.bottomSection}>
+      <View style={[
+        styles.bottomSection,
+        activePowerUpMode === 'discard' && styles.activeTraySection
+      ]}>
         <PieceTray />
       </View>
     </SafeAreaView>
@@ -67,11 +73,23 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  activeGridSection: {
+    borderColor: '#3b82f6', // blue-500 highlight
+    backgroundColor: 'rgba(59, 130, 246, 0.05)',
   },
   bottomSection: {
     paddingBottom: 40,
     alignItems: 'center',
     width: '100%',
     zIndex: 100,
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
+  activeTraySection: {
+    borderColor: '#ef4444', // red-500 for discard
+    backgroundColor: 'rgba(239, 68, 68, 0.05)',
   },
 });
