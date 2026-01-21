@@ -104,4 +104,65 @@ describe('Power-Ups State', () => {
     expect(state.availablePieces[0]).toEqual(line2); // Unchanged
     expect(state.powerUps.rotate).toBe(0);
   });
+
+  describe('Discard Power-Up', () => {
+    it('should toggle discard mode', () => {
+      useGameStore.getState().usePowerUp('discard');
+      expect(useGameStore.getState().activePowerUpMode).toBe('discard');
+      
+      useGameStore.getState().usePowerUp('discard');
+      expect(useGameStore.getState().activePowerUpMode).toBeNull();
+    });
+
+    it('should discard a piece, consume inventory, and reset mode', () => {
+      const line2 = [[1, 1]];
+      useGameStore.setState({
+        availablePieces: [line2, null, line2],
+        powerUps: { ...useGameStore.getState().powerUps, discard: 1 },
+        activePowerUpMode: 'discard'
+      });
+
+      // @ts-ignore - discardPiece not yet defined
+      useGameStore.getState().discardPiece(0);
+
+      const state = useGameStore.getState();
+      expect(state.availablePieces[0]).toBeNull();
+      expect(state.powerUps.discard).toBe(0);
+      expect(state.activePowerUpMode).toBeNull();
+    });
+
+    it('should NOT discard if not in discard mode', () => {
+      const line2 = [[1, 1]];
+      useGameStore.setState({
+        availablePieces: [line2, null, line2],
+        powerUps: { ...useGameStore.getState().powerUps, discard: 1 },
+        activePowerUpMode: null
+      });
+
+      // @ts-ignore
+      useGameStore.getState().discardPiece(0);
+
+      const state = useGameStore.getState();
+      expect(state.availablePieces[0]).toEqual(line2);
+      expect(state.powerUps.discard).toBe(1);
+    });
+    
+    it('should refill tray if last piece is discarded', () => {
+        // Setup: Only 1 piece left
+        const line2 = [[1, 1]];
+        useGameStore.setState({
+          availablePieces: [null, null, line2],
+          powerUps: { ...useGameStore.getState().powerUps, discard: 1 },
+          activePowerUpMode: 'discard'
+        });
+  
+        // @ts-ignore
+        useGameStore.getState().discardPiece(2);
+  
+        const state = useGameStore.getState();
+        // Should be refilled (3 pieces, none null)
+        expect(state.availablePieces.every(p => p !== null)).toBe(true);
+        expect(state.availablePieces.length).toBe(3);
+    });
+  });
 });

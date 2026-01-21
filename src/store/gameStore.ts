@@ -17,10 +17,10 @@ interface GameState {
   gridLayout: { x: number; y: number; width: number; height: number } | null;
   isGameOver: boolean;
   
-  activePowerUpMode: null | 'discard' | 'force' | 'single';
+  activePowerUpMode: null | 'discard' | 'forcePlace' | 'addSingle';
   powerUps: Record<PowerUpType, number>;
 
-  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
+  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
   
   newGame: () => void;
   initStore: () => Promise<void>;
@@ -29,6 +29,7 @@ interface GameState {
   setHoverPosition: (pos: { row: number; col: number } | null) => void;
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
   usePowerUp: (type: PowerUpType, row?: number, col?: number) => void;
+  discardPiece: (index: number) => void;
   undo: () => void;
 }
 
@@ -138,7 +139,7 @@ export const useGameStore = create<GameState>()(
       setGridLayout: (layout) => set({ gridLayout: layout }),
       
       usePowerUp: (type, row, col) => {
-        const { grid, powerUps, availablePieces } = get();
+        const { grid, powerUps, availablePieces, activePowerUpMode } = get();
         
         if (powerUps[type] <= 0) return;
 
@@ -148,10 +149,50 @@ export const useGameStore = create<GameState>()(
             availablePieces: newPieces,
             powerUps: { ...powerUps, rotate: powerUps.rotate - 1 }
           });
+        } else if (type === 'discard' || type === 'forcePlace' || type === 'addSingle') {
+          // Toggle mode
+          const newMode = activePowerUpMode === type ? null : type;
+          set({ activePowerUpMode: newMode });
         } else {
-          // Implementation for other power-ups will be added in subsequent tasks
           console.log('usePowerUp', type);
         }
+      },
+
+      discardPiece: (index) => {
+        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition } = get();
+        
+        if (activePowerUpMode !== 'discard') return;
+        if (powerUps.discard <= 0) return;
+        if (index < 0 || index >= availablePieces.length) return;
+        if (availablePieces[index] === null) return; // Already empty
+
+        // Push state to history? 
+        // Spec says: "Only the single most recent move is undoable". 
+        // Usually power-ups that alter the board/tray significantly should be undoable?
+        // But previously we decided `rotate` is NOT undoable (because we didn't push history).
+        // Discard removes a piece. It's a significant action.
+        // But if Undo only tracks PLACEMENT...
+        // If I discard, and then place. Undo reverts placement.
+        // Does it revert the discard?
+        // If discard happens BEFORE placement, it's part of the 'before' state.
+        // So yes, undoing placement restores the state where the piece was discarded.
+        // So discard is permanent (unless we implement separate undo for it).
+        // Spec: "Undo: Reverts ... to the state immediately before the last placement."
+        // So power-ups are permanent actions leading up to a placement.
+        
+        let newAvailablePieces = [...availablePieces];
+        newAvailablePieces[index] = null;
+
+        // Refill check
+        if (newAvailablePieces.every(p => p === null)) {
+            newAvailablePieces = getRandomPieces(3);
+        }
+
+        set({
+            availablePieces: newAvailablePieces,
+            powerUps: { ...powerUps, discard: powerUps.discard - 1 },
+            activePowerUpMode: null, // Exit mode
+        });
       },
 
       undo: () => {
