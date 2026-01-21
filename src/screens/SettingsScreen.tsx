@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Modal, TouchableOpacity, Switch, ScrollView } from 'react-native';
 import { useGameStore, UserPreferences } from '../store/gameStore';
 import { theme } from '../styles/theme';
+import { useSensoryFeedback } from '../hooks/useSensoryFeedback';
 
 interface SettingsScreenProps {
   visible: boolean;
@@ -10,12 +11,15 @@ interface SettingsScreenProps {
 
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({ visible, onClose }) => {
   const { preferences, updatePreferences } = useGameStore();
+  const { playTap } = useSensoryFeedback();
 
   const handleIntensityChange = (intensity: UserPreferences['hapticIntensity']) => {
+    playTap();
     updatePreferences({ hapticIntensity: intensity });
   };
 
   const handleThemeChange = (newTheme: UserPreferences['theme']) => {
+    playTap();
     updatePreferences({ theme: newTheme });
   };
 
@@ -30,7 +34,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ visible, onClose
         <View style={styles.content}>
           <View style={styles.header}>
             <Text style={styles.title}>SETTINGS</Text>
-            <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+            <TouchableOpacity onPress={() => { playTap(); onClose(); }} style={styles.closeButton}>
               <Text style={styles.closeButtonText}>✕</Text>
             </TouchableOpacity>
           </View>
@@ -44,7 +48,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ visible, onClose
                 <Switch
                   testID="mute-toggle"
                   value={preferences.isMuted}
-                  onValueChange={(value) => updatePreferences({ isMuted: value })}
+                  onValueChange={(value) => {
+                    playTap();
+                    updatePreferences({ isMuted: value });
+                  }}
                   trackColor={{ false: '#334155', true: theme.colors.primary }}
                   thumbColor={preferences.isMuted ? '#fff' : '#94a3b8'}
                 />

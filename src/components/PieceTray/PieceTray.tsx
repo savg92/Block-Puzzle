@@ -6,9 +6,11 @@ import { mapScreenToGrid } from '../../utils/gridUtils';
 import { Piece } from '../../engine/types';
 import { theme } from '../../styles/theme';
 import { getPieceColor } from '../../engine/pieces';
+import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const PieceTray: React.FC = () => {
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece } = useGameStore();
+  const { playPlace, playClear, playGameOver, playTap } = useSensoryFeedback();
 
   const handleDragEnd = (
     piece: Piece, 
@@ -25,7 +27,17 @@ export const PieceTray: React.FC = () => {
       
       if (dropPos) {
         const colorHex = theme.colors.blocks[colorKey];
-        placePiece(piece, dropPos.row, dropPos.col, colorHex, index);
+        const result = placePiece(piece, dropPos.row, dropPos.col, colorHex, index);
+        
+        if (result?.success) {
+          if (result.isGameOver) {
+            playGameOver();
+          } else if (result.clearedLines > 0) {
+            playClear();
+          } else {
+            playPlace();
+          }
+        }
       }
     }
     selectPiece(null);
@@ -33,7 +45,10 @@ export const PieceTray: React.FC = () => {
 
   const handlePress = (index: number) => {
     if (activePowerUpMode === 'discard') {
-      discardPiece(index);
+      const success = discardPiece(index);
+      if (success) {
+        playTap();
+      }
     }
   };
 

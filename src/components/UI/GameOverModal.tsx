@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useGameStore } from '../../store/gameStore';
 import { theme } from '../../styles/theme';
+import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HIGH_SCORE_KEY = 'high_score';
@@ -18,6 +19,7 @@ const HIGH_SCORE_KEY = 'high_score';
 export const GameOverModal: React.FC = () => {
   const { isGameOver, score, highScore, powerUps, usePowerUp, newGame } = useGameStore();
   const [shouldRender, setShouldRender] = useState(isGameOver);
+  const { playTap } = useSensoryFeedback();
 
   // Animation values
   const scale = useSharedValue(0);
@@ -44,6 +46,7 @@ export const GameOverModal: React.FC = () => {
   }));
 
   const handleNewGame = () => {
+    playTap();
     newGame();
   };
 

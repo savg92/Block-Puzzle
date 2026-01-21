@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useGameStore, PowerUpType } from '../../store/gameStore';
 import { theme } from '../../styles/theme';
+import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, withSequence } from 'react-native-reanimated';
 
@@ -61,16 +62,20 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
 
 export const PowerUpBar: React.FC = () => {
   const { powerUps, usePowerUp, undo, activePowerUpMode } = useGameStore();
+  const { playTap } = useSensoryFeedback();
 
   const handlePress = (type: PowerUpType) => {
+    playTap();
     if (type === 'undo') {
       undo();
-    } else {
+    }
+    else {
       usePowerUp(type);
     }
   };
 
   const handleCancel = () => {
+    playTap();
     // Calling usePowerUp with the current type will toggle it off in our store logic
     if (activePowerUpMode) {
       usePowerUp(activePowerUpMode);

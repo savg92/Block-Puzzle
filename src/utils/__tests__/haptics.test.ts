@@ -26,8 +26,8 @@ describe('haptics', () => {
     expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
   });
 
-  it('triggers medium impact for drop', async () => {
-    await triggerHaptic('drop');
+  it('triggers medium impact for place', async () => {
+    await triggerHaptic('place');
     expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Medium);
   });
 

@@ -21,6 +21,12 @@ describe('GameOverModal', () => {
       powerUps: { deleteBlock: 1, swapPiece: 1 },
       usePowerUp: mockUsePowerUp,
       newGame: mockNewGame,
+      preferences: {
+        soundVolume: 1.0,
+        isMuted: false,
+        hapticIntensity: 'medium',
+        theme: 'system',
+      },
     });
   });
 
@@ -38,14 +44,6 @@ describe('GameOverModal', () => {
     expect(mockNewGame).toHaveBeenCalled();
   });
 
-  /*
-  it('calls usePowerUp when Swap Pieces button is pressed', () => {
-    const { getByText } = render(<GameOverModal />);
-    fireEvent.press(getByText('Swap Pieces'));
-    expect(mockUsePowerUp).toHaveBeenCalledWith('swapPiece');
-  });
-  */
-
   it('does not render when game is not over', () => {
     (useGameStore as any).mockReturnValue({
       isGameOver: false,
@@ -53,6 +51,12 @@ describe('GameOverModal', () => {
       powerUps: { deleteBlock: 1, swapPiece: 1 },
       usePowerUp: mockUsePowerUp,
       newGame: mockNewGame,
+      preferences: {
+        soundVolume: 1.0,
+        isMuted: false,
+        hapticIntensity: 'medium',
+        theme: 'system',
+      },
     });
 
     const { queryByText } = render(<GameOverModal />);

@@ -20,7 +20,8 @@ module.exports = {
       testMatch: [
         '**/src/engine/__tests__/**/*.test.ts', 
         '**/src/store/__tests__/**/*.test.ts',
-        '**/src/utils/__tests__/**/*.test.ts'
+        '**/src/utils/__tests__/**/*.test.ts',
+        '**/src/hooks/__tests__/**/*.test.ts'
       ],
       moduleDirectories: ['node_modules', '<rootDir>'],
       moduleNameMapper: {

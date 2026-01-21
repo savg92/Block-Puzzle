@@ -3,10 +3,12 @@ import { View } from 'react-native';
 import { Cell } from './Cell';
 import { useGameStore } from '../../store/gameStore';
 import { canPlacePiece } from '../../engine/board';
+import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const Grid: React.FC = () => {
   const { grid, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock } = useGameStore();
   const gridRef = useRef<View>(null);
+  const { playPlace, playClear, playGameOver } = useSensoryFeedback();
 
   const handleLayout = () => {
     if (gridRef.current) {
@@ -18,7 +20,16 @@ export const Grid: React.FC = () => {
 
   const handleCellPress = (row: number, col: number) => {
     if (activePowerUpMode === 'addSingle') {
-      addSingleBlock(row, col);
+      const result = addSingleBlock(row, col);
+      if (result?.success) {
+        if (result.isGameOver) {
+          playGameOver();
+        } else if (result.clearedLines > 0) {
+          playClear();
+        } else {
+          playPlace();
+        }
+      }
     }
   };
 

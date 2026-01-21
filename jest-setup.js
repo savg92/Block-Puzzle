@@ -110,6 +110,40 @@ jest.mock('expo-status-bar', () => {
   };
 });
 
+// Mock expo-haptics
+jest.mock('expo-haptics', () => ({
+  impactAsync: jest.fn(),
+  notificationAsync: jest.fn(),
+  ImpactFeedbackStyle: {
+    Light: 'light',
+    Medium: 'medium',
+    Heavy: 'heavy',
+  },
+  NotificationFeedbackType: {
+    Success: 'success',
+    Error: 'error',
+    Warning: 'warning',
+  },
+}));
+
+// Mock expo-av
+jest.mock('expo-av', () => ({
+  Audio: {
+    Sound: {
+      createAsync: jest.fn().mockResolvedValue({
+        sound: {
+          playAsync: jest.fn(),
+          unloadAsync: jest.fn(),
+          setVolumeAsync: jest.fn(),
+          setStatusAsync: jest.fn(),
+          setOnPlaybackStatusUpdate: jest.fn(),
+        },
+        status: { isLoaded: true },
+      }),
+    },
+  },
+}));
+
 // Mock gesture handler
 jest.mock('react-native-gesture-handler', () => {
   const React = require('react');

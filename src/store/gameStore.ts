@@ -32,13 +32,13 @@ interface GameState {
   
   newGame: () => void;
   initStore: () => Promise<void>;
-  placePiece: (piece: Piece, row: number, col: number, color: string, sourceIndex?: number) => void;
+  placePiece: (piece: Piece, row: number, col: number, color: string, sourceIndex?: number) => { success: boolean; clearedLines: number; isGameOver: boolean } | undefined;
   selectPiece: (piece: Piece | null) => void;
   setHoverPosition: (pos: { row: number; col: number } | null) => void;
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
   usePowerUp: (type: PowerUpType, row?: number, col?: number) => void;
-  discardPiece: (index: number) => void;
-  addSingleBlock: (row: number, col: number) => void;
+  discardPiece: (index: number) => boolean;
+  addSingleBlock: (row: number, col: number) => { success: boolean; clearedLines: number; isGameOver: boolean } | undefined;
   undo: () => void;
   updatePreferences: (prefs: Partial<UserPreferences>) => void;
 }
@@ -160,7 +160,10 @@ export const useGameStore = create<GameState>()(
             powerUps: newPowerUps,
             activePowerUpMode: isForcePlace ? null : activePowerUpMode, // Reset mode if used
           });
+
+          return { success: true, clearedLines: result.clearedLines, isGameOver: gameOver };
         }
+        return { success: false, clearedLines: 0, isGameOver };
       },
       selectPiece: (piece) => set({ selectedPiece: piece }),
       setHoverPosition: (pos) => set({ hoverPosition: pos }),
@@ -189,10 +192,10 @@ export const useGameStore = create<GameState>()(
       discardPiece: (index) => {
         const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences } = get();
         
-        if (activePowerUpMode !== 'discard') return;
-        if (powerUps.discard <= 0) return;
-        if (index < 0 || index >= availablePieces.length) return;
-        if (availablePieces[index] === null) return; 
+        if (activePowerUpMode !== 'discard') return false;
+        if (powerUps.discard <= 0) return false;
+        if (index < 0 || index >= availablePieces.length) return false;
+        if (availablePieces[index] === null) return false; 
 
         // Push state to history? (Assuming Discard is permanent step)
         const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences };
@@ -209,10 +212,9 @@ export const useGameStore = create<GameState>()(
             availablePieces: newAvailablePieces,
             powerUps: { ...powerUps, discard: powerUps.discard - 1 },
             activePowerUpMode: null, 
-            history: newHistory, // Save history for discard so we can undo it? No, undo logic only restores board. 
-            // If we restore board state, we restore 'availablePieces' too. 
-            // So YES, we should push history.
+            history: newHistory,
         });
+        return true;
       },
 
       addSingleBlock: (row, col) => {
@@ -236,15 +238,22 @@ export const useGameStore = create<GameState>()(
             const newHighScore = Math.max(highScore, newScore);
             if (newHighScore > highScore) appStorage.setItem(HIGH_SCORE_KEY, newHighScore.toString());
 
+            const remainingPieces = availablePieces.filter((p): p is Piece => p !== null);
+            const gameOver = engine.checkGameOver(remainingPieces);
+
             set({
                 grid: engine.getGrid(),
                 score: newScore,
                 highScore: newHighScore,
                 powerUps: { ...powerUps, addSingle: powerUps.addSingle - 1 },
                 activePowerUpMode: null,
+                isGameOver: gameOver,
                 history: newHistory,
             });
+
+            return { success: true, clearedLines: result.clearedLines, isGameOver: gameOver };
         }
+        return { success: false, clearedLines: 0, isGameOver };
       },
 
       undo: () => {

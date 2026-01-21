@@ -11,6 +11,7 @@ import { PiecePreview } from './PiecePreview';
 import { theme } from '../../styles/theme';
 import { useGameStore } from '../../store/gameStore';
 import { mapScreenToGrid } from '../../utils/gridUtils';
+import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 interface DraggablePieceProps {
   piece: number[][];
@@ -30,6 +31,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   const selectPiece = useGameStore((state) => state.selectPiece);
   const setHoverPosition = useGameStore((state) => state.setHoverPosition);
   const gridLayout = useGameStore((state) => state.gridLayout);
+  const { playPickup } = useSensoryFeedback();
   
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
@@ -91,6 +93,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       startX.value = event.x;
       startY.value = event.y;
       selectPiece(piece);
+      playPickup();
     })
     .onUpdate((event) => {
       // Force Centering: Snap the piece's center to the finger.

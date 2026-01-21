@@ -41,6 +41,12 @@ describe('PowerUpBar', () => {
       usePowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: null,
+      preferences: {
+        soundVolume: 1.0,
+        isMuted: false,
+        hapticIntensity: 'medium',
+        theme: 'system',
+      },
     });
   });
 
@@ -88,6 +94,12 @@ describe('PowerUpBar', () => {
       usePowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: 'discard',
+      preferences: {
+        soundVolume: 1.0,
+        isMuted: false,
+        hapticIntensity: 'medium',
+        theme: 'system',
+      },
     });
 
     const { getByText } = renderWithTheme(<PowerUpBar />);
@@ -103,6 +115,12 @@ describe('PowerUpBar', () => {
       usePowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: 'discard',
+      preferences: {
+        soundVolume: 1.0,
+        isMuted: false,
+        hapticIntensity: 'medium',
+        theme: 'system',
+      },
     });
 
     const { getByText } = renderWithTheme(<PowerUpBar />);
