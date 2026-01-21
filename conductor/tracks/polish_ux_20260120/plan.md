@@ -13,7 +13,7 @@ Establish the underlying managers for haptic feedback and sound effects.
 ## Phase 2: Settings System
 Create the interface for user preferences and ensure they persist.
 
-- [ ] Task: Extend State for User Preferences
+- [x] Task: Extend State for User Preferences c071d00
     - [ ] Subtask: Add `preferences` object to `src/store/gameStore.ts` (sound volume, haptic intensity, etc.).
     - [ ] Subtask: Ensure preference state is persisted via `AsyncStorage`.
     - [ ] Subtask: Write tests for preference updates and persistence.
