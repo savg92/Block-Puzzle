@@ -47,9 +47,12 @@ export const GameOverModal: React.FC = () => {
     newGame();
   };
 
+  // Emergency Save functionality temporarily disabled as power-up mechanics have changed
+  /*
   const handleUseSwap = () => {
     usePowerUp('swapPiece');
   };
+  */
 
   if (!shouldRender) return null;
 
@@ -74,7 +77,7 @@ export const GameOverModal: React.FC = () => {
             </View>
           </View>
 
-          {/* Emergency Save Section */}
+          {/* Emergency Save Section - Disabled for Power-Up Refactor
           {(powerUps.deleteBlock > 0 || powerUps.swapPiece > 0) && (
             <View style={styles.saveSection}>
               <Text style={styles.saveTitle}>EMERGENCY SAVE</Text>
@@ -91,11 +94,10 @@ export const GameOverModal: React.FC = () => {
                     </View>
                   </TouchableOpacity>
                 )}
-                {/* Note: Delete Block needs grid interaction, which might be tricky from modal. 
-                    For now we just show Swap Piece as it's an immediate save. */}
               </View>
             </View>
           )}
+          */}
 
           <TouchableOpacity style={styles.mainButton} onPress={handleNewGame}>
             <Text style={styles.mainButtonText}>NEW GAME</Text>

@@ -5,6 +5,8 @@ import { GameEngine } from '../engine';
 import { getRandomPieces } from '../engine/pieces';
 import { appStorage } from './storage';
 
+export type PowerUpType = 'undo' | 'rotate' | 'discard' | 'forcePlace' | 'addSingle';
+
 interface GameState {
   grid: Grid;
   score: number;
@@ -14,18 +16,19 @@ interface GameState {
   hoverPosition: { row: number; col: number } | null;
   gridLayout: { x: number; y: number; width: number; height: number } | null;
   isGameOver: boolean;
-  powerUps: {
-    deleteBlock: number;
-    swapPiece: number;
-  };
+  
+  activePowerUpMode: null | 'discard' | 'force' | 'single';
+  powerUps: Record<PowerUpType, number>;
+
   history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
+  
   newGame: () => void;
   initStore: () => Promise<void>;
   placePiece: (piece: Piece, row: number, col: number, color: string, sourceIndex?: number) => void;
   selectPiece: (piece: Piece | null) => void;
   setHoverPosition: (pos: { row: number; col: number } | null) => void;
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
-  usePowerUp: (type: 'deleteBlock' | 'swapPiece', row?: number, col?: number) => void;
+  usePowerUp: (type: PowerUpType, row?: number, col?: number) => void;
   undo: () => void;
 }
 
@@ -42,10 +45,16 @@ export const useGameStore = create<GameState>()(
       hoverPosition: null,
       gridLayout: null,
       isGameOver: false,
+      
+      activePowerUpMode: null,
       powerUps: {
-        deleteBlock: 1,
-        swapPiece: 1,
+        undo: 1,
+        rotate: 1,
+        discard: 1,
+        forcePlace: 1,
+        addSingle: 1,
       },
+
       history: [],
       initStore: async () => {
         const saved = await appStorage.getItem(HIGH_SCORE_KEY);
@@ -61,20 +70,27 @@ export const useGameStore = create<GameState>()(
           selectedPiece: null,
           hoverPosition: null,
           isGameOver: false,
+          
+          activePowerUpMode: null,
           powerUps: {
-            deleteBlock: 1,
-            swapPiece: 1,
+            undo: 1,
+            rotate: 1,
+            discard: 1,
+            forcePlace: 1,
+            addSingle: 1,
           },
+          
           history: [],
         }),
       placePiece: (piece, row, col, color, sourceIndex) => {
-        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition } = get();
+        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode } = get();
         const engine = new GameEngine(grid, score);
         const result = engine.makeMove(piece, row, col, color);
 
         if (result.success) {
           // Push current state to history before updating
-          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition };
+          // Note: We snapshot 'activePowerUpMode' too
+          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
           // Remove the piece from available pieces (mark as null)
@@ -120,62 +136,38 @@ export const useGameStore = create<GameState>()(
       selectPiece: (piece) => set({ selectedPiece: piece }),
       setHoverPosition: (pos) => set({ hoverPosition: pos }),
       setGridLayout: (layout) => set({ gridLayout: layout }),
+      
       usePowerUp: (type, row, col) => {
-        const { grid, powerUps, history, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, hoverPosition } = get();
-        
-        if (powerUps[type] <= 0) return;
-
-        // Push current state to history
-        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition };
-        const newHistory = [snapshot, ...history].slice(0, 20);
-
-        if (type === 'deleteBlock' && row !== undefined && col !== undefined) {
-          const newGrid = grid.map((r) => [...r]);
-          if (newGrid[row][col] !== 0) {
-            newGrid[row][col] = 0;
-            
-            // Check if deleting the block saved the game
-            const remainingPieces = availablePieces.filter((p): p is Piece => p !== null);
-            const engine = new GameEngine(newGrid, score);
-            const stillGameOver = engine.checkGameOver(remainingPieces);
-
-            set({
-              grid: newGrid,
-              powerUps: { ...powerUps, deleteBlock: powerUps.deleteBlock - 1 },
-              isGameOver: stillGameOver,
-              history: newHistory,
-            });
-          }
-        } else if (type === 'swapPiece') {
-          const newPieces = getRandomPieces(3);
-          
-          // Check if new pieces saved the game
-          const engine = new GameEngine(grid, score);
-          const stillGameOver = engine.checkGameOver(newPieces);
-
-          set({
-            availablePieces: newPieces,
-            powerUps: { ...powerUps, swapPiece: powerUps.swapPiece - 1 },
-            isGameOver: stillGameOver,
-            history: newHistory,
-          });
-        }
+        // Implementation for other power-ups will be added in subsequent tasks
+        console.log('usePowerUp', type);
       },
+
       undo: () => {
-        const { history } = get();
+        const { history, powerUps } = get();
         if (history.length === 0) return;
+        
+        // Check inventory
+        if (powerUps.undo <= 0) return;
 
         const [previousState, ...remainingHistory] = history;
+        
         set({
           ...previousState,
           history: remainingHistory,
         });
+        
+        // Decrement the inventory from the restored state (paying the cost)
+        set((state) => ({
+            powerUps: {
+                ...state.powerUps,
+                undo: Math.max(0, state.powerUps.undo - 1)
+            }
+        }));
       },
     }),
     {
       name: 'game-storage',
       storage: createJSONStorage(() => appStorage),
-      // Only persist the core game state, not the history
       partialize: (state) => {
         const { history, ...rest } = state;
         return rest;
