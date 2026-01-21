@@ -61,9 +61,10 @@ export const placePiece = (
   piece: Piece,
   row: number,
   col: number,
-  color: string | number = 1
+  color: string | number = 1,
+  ignoreCollision: boolean = false
 ): Grid => {
-  if (!canPlacePiece(grid, piece, row, col)) {
+  if (!ignoreCollision && !canPlacePiece(grid, piece, row, col)) {
     throw new Error('Invalid piece placement');
   }
 

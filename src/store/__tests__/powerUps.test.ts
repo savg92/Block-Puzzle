@@ -165,4 +165,62 @@ describe('Power-Ups State', () => {
         expect(state.availablePieces.length).toBe(3);
     });
   });
+
+  describe('Force Place Power-Up', () => {
+    it('should bypass collision and consume inventory', () => {
+        // Setup: Place a block at 0,0
+        const filledGrid = Array(10).fill(null).map(() => Array(10).fill(0));
+        filledGrid[0][0] = 'blue';
+        
+        useGameStore.setState({
+            grid: filledGrid,
+            activePowerUpMode: 'forcePlace',
+            powerUps: { ...useGameStore.getState().powerUps, forcePlace: 1 }
+        });
+
+        // Try to place a piece at 0,0 (normally would fail)
+        const piece = [[1]];
+        useGameStore.getState().placePiece(piece, 0, 0, 'red', 0);
+
+        const state = useGameStore.getState();
+        expect(state.grid[0][0]).toBe('red'); // Overwritten
+        expect(state.powerUps.forcePlace).toBe(0);
+        expect(state.activePowerUpMode).toBeNull();
+    });
+  });
+
+  describe('Add Single Power-Up', () => {
+    it('should place a single block in empty cell', () => {
+        useGameStore.setState({
+            activePowerUpMode: 'addSingle',
+            powerUps: { ...useGameStore.getState().powerUps, addSingle: 1 }
+        });
+
+        // @ts-ignore
+        useGameStore.getState().addSingleBlock(5, 5);
+
+        const state = useGameStore.getState();
+        expect(state.grid[5][5]).not.toBe(0);
+        expect(state.powerUps.addSingle).toBe(0);
+        expect(state.activePowerUpMode).toBeNull();
+    });
+
+    it('should NOT place block in occupied cell', () => {
+        const filledGrid = Array(10).fill(null).map(() => Array(10).fill(0));
+        filledGrid[5][5] = 'blue';
+
+        useGameStore.setState({
+            grid: filledGrid,
+            activePowerUpMode: 'addSingle',
+            powerUps: { ...useGameStore.getState().powerUps, addSingle: 1 }
+        });
+
+        // @ts-ignore
+        useGameStore.getState().addSingleBlock(5, 5);
+
+        const state = useGameStore.getState();
+        expect(state.grid[5][5]).toBe('blue'); // Unchanged
+        expect(state.powerUps.addSingle).toBe(1);
+    });
+  });
 });

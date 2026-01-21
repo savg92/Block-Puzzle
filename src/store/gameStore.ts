@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Grid, Piece } from '../engine/types';
 import { GameEngine } from '../engine';
-import { getRandomPieces, rotatePiece } from '../engine/pieces';
+import { getRandomPieces, rotatePiece, PIECES, getPieceColor } from '../engine/pieces';
 import { appStorage } from './storage';
 
 export type PowerUpType = 'undo' | 'rotate' | 'discard' | 'forcePlace' | 'addSingle';
@@ -20,7 +20,7 @@ interface GameState {
   activePowerUpMode: null | 'discard' | 'forcePlace' | 'addSingle';
   powerUps: Record<PowerUpType, number>;
 
-  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
+  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
   
   newGame: () => void;
   initStore: () => Promise<void>;
@@ -30,6 +30,7 @@ interface GameState {
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
   usePowerUp: (type: PowerUpType, row?: number, col?: number) => void;
   discardPiece: (index: number) => void;
+  addSingleBlock: (row: number, col: number) => void;
   undo: () => void;
 }
 
@@ -38,6 +39,7 @@ const HIGH_SCORE_KEY = 'high_score';
 export const useGameStore = create<GameState>()(
   persist(
     (set, get) => ({
+      // ... (rest of initial state)
       grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
       score: 0,
       highScore: 0,
@@ -85,21 +87,29 @@ export const useGameStore = create<GameState>()(
         }),
       placePiece: (piece, row, col, color, sourceIndex) => {
         const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode } = get();
+        
+        const isForcePlace = activePowerUpMode === 'forcePlace';
+        if (isForcePlace && powerUps.forcePlace <= 0) return; // Should not happen via UI logic but safe check
+
         const engine = new GameEngine(grid, score);
-        const result = engine.makeMove(piece, row, col, color);
+        const result = engine.makeMove(piece, row, col, color, { ignoreCollision: isForcePlace });
 
         if (result.success) {
           // Push current state to history before updating
-          // Note: We snapshot 'activePowerUpMode' too
           const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
+
+          // Consume PowerUp if used
+          const newPowerUps = { ...powerUps };
+          if (isForcePlace) {
+            newPowerUps.forcePlace = Math.max(0, newPowerUps.forcePlace - 1);
+          }
 
           // Remove the piece from available pieces (mark as null)
           let newAvailablePieces = [...availablePieces];
           if (sourceIndex !== undefined && sourceIndex >= 0 && sourceIndex < newAvailablePieces.length) {
              newAvailablePieces[sourceIndex] = null;
           } else {
-             // Fallback for compatibility or tests without index
              const pieceIndex = availablePieces.findIndex((p) => p === piece);
              if (pieceIndex !== -1) {
                newAvailablePieces[pieceIndex] = null;
@@ -131,6 +141,8 @@ export const useGameStore = create<GameState>()(
             isGameOver: gameOver,
             history: newHistory,
             hoverPosition: null, // Clear hover
+            powerUps: newPowerUps,
+            activePowerUpMode: isForcePlace ? null : activePowerUpMode, // Reset mode if used
           });
         }
       },
@@ -164,26 +176,15 @@ export const useGameStore = create<GameState>()(
         if (activePowerUpMode !== 'discard') return;
         if (powerUps.discard <= 0) return;
         if (index < 0 || index >= availablePieces.length) return;
-        if (availablePieces[index] === null) return; // Already empty
+        if (availablePieces[index] === null) return; 
 
-        // Push state to history? 
-        // Spec says: "Only the single most recent move is undoable". 
-        // Usually power-ups that alter the board/tray significantly should be undoable?
-        // But previously we decided `rotate` is NOT undoable (because we didn't push history).
-        // Discard removes a piece. It's a significant action.
-        // But if Undo only tracks PLACEMENT...
-        // If I discard, and then place. Undo reverts placement.
-        // Does it revert the discard?
-        // If discard happens BEFORE placement, it's part of the 'before' state.
-        // So yes, undoing placement restores the state where the piece was discarded.
-        // So discard is permanent (unless we implement separate undo for it).
-        // Spec: "Undo: Reverts ... to the state immediately before the last placement."
-        // So power-ups are permanent actions leading up to a placement.
+        // Push state to history? (Assuming Discard is permanent step)
+        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
+        const newHistory = [snapshot, ...history].slice(0, 20);
         
         let newAvailablePieces = [...availablePieces];
         newAvailablePieces[index] = null;
 
-        // Refill check
         if (newAvailablePieces.every(p => p === null)) {
             newAvailablePieces = getRandomPieces(3);
         }
@@ -191,8 +192,43 @@ export const useGameStore = create<GameState>()(
         set({
             availablePieces: newAvailablePieces,
             powerUps: { ...powerUps, discard: powerUps.discard - 1 },
-            activePowerUpMode: null, // Exit mode
+            activePowerUpMode: null, 
+            history: newHistory, // Save history for discard so we can undo it? No, undo logic only restores board. 
+            // If we restore board state, we restore 'availablePieces' too. 
+            // So YES, we should push history.
         });
+      },
+
+      addSingleBlock: (row, col) => {
+        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition } = get();
+
+        if (activePowerUpMode !== 'addSingle') return;
+        if (powerUps.addSingle <= 0) return;
+        
+        // Validate target cell is empty
+        if (grid[row][col] !== 0) return;
+
+        const engine = new GameEngine(grid, score);
+        // Place SINGLE piece
+        const result = engine.makeMove(PIECES.SINGLE, row, col, getPieceColor(PIECES.SINGLE));
+
+        if (result.success) {
+            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
+            const newHistory = [snapshot, ...history].slice(0, 20);
+
+            const newScore = engine.getScore();
+            const newHighScore = Math.max(highScore, newScore);
+            if (newHighScore > highScore) appStorage.setItem(HIGH_SCORE_KEY, newHighScore.toString());
+
+            set({
+                grid: engine.getGrid(),
+                score: newScore,
+                highScore: newHighScore,
+                powerUps: { ...powerUps, addSingle: powerUps.addSingle - 1 },
+                activePowerUpMode: null,
+                history: newHistory,
+            });
+        }
       },
 
       undo: () => {
