@@ -28,7 +28,13 @@
 - **Interactions:** React Native Gesture Handler
   - Native-driven gesture handling for piece dragging and dropping.
 
-## 4. Persistence & Storage
+## 4. Sensory Feedback
+- **Haptics:** `expo-haptics`
+  - Integrated into piece pickup, drop, line clears, and game over.
+- **Audio:** `expo-av`
+  - Handles pre-loading and playback of sound effects.
+
+## 5. Persistence & Storage
 - **Local Storage:** AsyncStorage (Required for Expo Go)
   - Provides reliable persistence compatible with the standard Expo Go environment.
   - Used for persisting high scores, game state, and theme settings.
