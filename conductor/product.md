@@ -29,9 +29,9 @@
 
 **Power-Ups:**
 - **Undo:** Revert the last move (full state restoration).
-- **Rotate:** Rotate an available piece 90°.
-- **Delete Block:** Remove a specific block from the grid.
-- **Swap Piece:** Refresh available pieces.
+- **Rotate:** Rotate all available pieces 90° clockwise.
+- **Discard Piece:** Remove a single piece from the tray to free up space.
+- **Force Place:** Place the next piece anywhere, overwriting existing blocks.
 - **Add Single:** Spawn a 1x1 piece for tight spots.
 
 ## 3. Technical Constraints & Requirements
