@@ -19,29 +19,29 @@ Implement the foundational logic for power-up consumption and state modification
     - [ ] Subtask: Write tests for collision bypass and single placement.
 - [ ] Task: Conductor - User Manual Verification 'Engine & State Logic' (Protocol in workflow.md)
 
-## Phase 2: UI Components
+## Phase 2: UI Components [checkpoint: b3e9c11]
 Build the visual interface for accessing and tracking power-ups.
 
-- [ ] Task: Create Power-Up Bar
+- [x] Task: Create Power-Up Bar 49f6db5
     - [ ] Subtask: Build `src/components/PowerUps/PowerUpBar.tsx` using NativeWind.
     - [ ] Subtask: Implement `PowerUpButton` with icon, label, and inventory badge.
     - [ ] Subtask: Position the bar between the Grid and Piece Tray in `GameScreen.tsx`.
-- [ ] Task: Visual Feedback for Active Modes
+- [x] Task: Visual Feedback for Active Modes b3e9c11
     - [ ] Subtask: Add visual highlight/indicator to the UI when a mode (Force, Single, Discard) is active.
     - [ ] Subtask: Add "Cancel" button to exit active modes without consuming.
-- [ ] Task: Conductor - User Manual Verification 'UI Components' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'UI Components' (Protocol in workflow.md)
 
-## Phase 3: Interaction & Animation
+## Phase 3: Interaction & Animation [checkpoint: 8726584]
 Connect the UI to the state and add polished transitions.
 
-- [ ] Task: Connect UI Actions to Store
+- [x] Task: Connect UI Actions to Store a89f49d
     - [ ] Subtask: Link button taps to power-up activation and mode toggling.
     - [ ] Subtask: Update `PieceTray` to handle "Discard Mode" (tap to discard).
     - [ ] Subtask: Update `Grid` to handle "Single Mode" (tap to place block).
-- [ ] Task: Add Power-Up Animations
+- [x] Task: Add Power-Up Animations 8726584
     - [ ] Subtask: Implement rotation animation for tray pieces using Reanimated.
     - [ ] Subtask: Add activation feedback (e.g., screen flash or button pulse).
-- [ ] Task: Conductor - User Manual Verification 'Interaction & Animation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Interaction & Animation' (Protocol in workflow.md)
 
 ## Phase 4: Integration & Persistence
 Finalize the system and ensure state reliability.
