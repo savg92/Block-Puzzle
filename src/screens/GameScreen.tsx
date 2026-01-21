@@ -50,6 +50,9 @@ export const GameScreen: React.FC = () => {
       ]}>
         <PieceTray />
       </View>
+
+      {/* Power-Ups Bar */}
+      <PowerUpBar />
     </SafeAreaView>
   );
 };
@@ -81,7 +84,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(59, 130, 246, 0.05)',
   },
   bottomSection: {
-    paddingBottom: 40,
+    paddingTop: 20,
     alignItems: 'center',
     width: '100%',
     zIndex: 100,
