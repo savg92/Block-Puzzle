@@ -17,7 +17,7 @@ Create the interface for user preferences and ensure they persist.
     - [ ] Subtask: Add `preferences` object to `src/store/gameStore.ts` (sound volume, haptic intensity, etc.).
     - [ ] Subtask: Ensure preference state is persisted via `AsyncStorage`.
     - [ ] Subtask: Write tests for preference updates and persistence.
-- [ ] Task: Build Settings Screen UI
+- [x] Task: Build Settings Screen UI e5593ad
     - [ ] Subtask: Create `src/screens/SettingsScreen.tsx` with sliders and toggles.
     - [ ] Subtask: Implement "Gear" icon in `GameScreen` header to access settings.
     - [ ] Subtask: Connect UI controls to the store preferences.
