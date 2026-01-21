@@ -33,15 +33,21 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
+  const rotation = useSharedValue(0);
   const isDragging = useSharedValue(false);
+  
+  // Visual Dimensions (Unscaled)
+  const pieceWidth = piece[0].length * (size + 2);
+  const pieceHeight = piece.length * (size + 2);
+
+  // Trigger rotation animation when piece shape changes
+  React.useEffect(() => {
+    rotation.value = withSpring(rotation.value + 90);
+  }, [piece]);
   
   // Track the initial touch point within the piece to allow centering
   const startX = useSharedValue(0);
   const startY = useSharedValue(0);
-  
-  // Visual dimensions of the piece, including Cell margin (1px on all sides = 2px total per cell)
-  const pieceWidth = piece[0].length * (size + 2);
-  const pieceHeight = piece.length * (size + 2);
   
   // Scale factor during drag
   const DRAG_SCALE = 1.2;
@@ -132,6 +138,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       transform: [
         { translateX: translateX.value },
         { translateY: translateY.value },
+        { rotate: `${rotation.value}deg` },
         { scale: withSpring(isDragging.value ? DRAG_SCALE : 1) },
       ],
       opacity: withSpring(isDragging.value ? 0.8 : 1),

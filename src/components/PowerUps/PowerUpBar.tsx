@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useGameStore, PowerUpType } from '../../store/gameStore';
 import { theme } from '../../styles/theme';
 
+import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, withSequence } from 'react-native-reanimated';
+
 interface PowerUpButtonProps {
   type: PowerUpType;
   icon: string;
@@ -13,23 +15,46 @@ interface PowerUpButtonProps {
 }
 
 const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count, isActive, onPress }) => {
-  const isDisabled = count <= 0 && type !== 'undo'; // undo is special as it's an immediate action check
+  const scale = useSharedValue(1);
+
+  React.useEffect(() => {
+    if (isActive) {
+      scale.value = withRepeat(
+        withSequence(
+          withTiming(1.1, { duration: 500 }),
+          withTiming(1, { duration: 500 })
+        ),
+        -1, // infinite
+        true
+      );
+    } else {
+      scale.value = withTiming(1);
+    }
+  }, [isActive]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+    borderColor: isActive ? theme.colors.primary : 'transparent',
+    borderWidth: 1,
+  }));
   
   return (
     <TouchableOpacity 
       onPress={onPress}
       disabled={count <= 0}
-      style={[
+    >
+      <Animated.View style={[
         styles.button,
         isActive && styles.activeButton,
-        count <= 0 && styles.disabledButton
-      ]}
-    >
-      <Text style={styles.icon}>{icon}</Text>
-      <Text style={styles.label}>{label}</Text>
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>{count}</Text>
-      </View>
+        count <= 0 && styles.disabledButton,
+        animatedStyle
+      ]}>
+        <Text style={styles.icon}>{icon}</Text>
+        <Text style={styles.label}>{label}</Text>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{count}</Text>
+        </View>
+      </Animated.View>
     </TouchableOpacity>
   );
 };

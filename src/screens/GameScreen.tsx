@@ -40,9 +40,6 @@ export const GameScreen: React.FC = () => {
         </View>
       </View>
 
-      {/* Power-Ups Bar */}
-      <PowerUpBar />
-
       {/* Bottom Section: Piece Tray */}
       <View style={[
         styles.bottomSection,
