@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
 import { ScoreDisplay } from '../components/UI/ScoreDisplay';
 import { PieceTray } from '../components/PieceTray/PieceTray';
+import { PowerUpBar } from '../components/PowerUps/PowerUpBar';
 import { GameOverModal } from '../components/UI/GameOverModal';
 import { StatusBar } from 'expo-status-bar';
 import { useGameStore } from '../store/gameStore';
@@ -35,6 +36,9 @@ export const GameScreen: React.FC = () => {
           <Grid />
         </View>
       </View>
+
+      {/* Power-Ups Bar */}
+      <PowerUpBar />
 
       {/* Bottom Section: Piece Tray */}
       <View style={styles.bottomSection}>
