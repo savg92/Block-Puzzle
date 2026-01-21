@@ -62,4 +62,46 @@ describe('Power-Ups State', () => {
     // Verify inventory consumption
     expect(state.powerUps.undo).toBe(4);
   });
+
+  it('should rotate all available pieces and consume inventory', () => {
+    // Setup specific pieces we know (e.g. Line-2 horizontal)
+    // LINE_2 is [[1, 1]]
+    const line2 = [[1, 1]];
+    useGameStore.setState({
+      availablePieces: [line2, null, line2],
+      powerUps: { ...useGameStore.getState().powerUps, rotate: 1 }
+    });
+
+    // Verify initial state
+    let state = useGameStore.getState();
+    expect(state.availablePieces[0]).toEqual(line2);
+    
+    // Perform Rotate
+    useGameStore.getState().usePowerUp('rotate');
+    
+    // Verify Rotation
+    state = useGameStore.getState();
+    // Rotated Line-2 should be [[1], [1]] (Vertical)
+    const expectedRotated = [[1], [1]];
+    expect(state.availablePieces[0]).toEqual(expectedRotated);
+    expect(state.availablePieces[1]).toBeNull(); // Should stay null
+    expect(state.availablePieces[2]).toEqual(expectedRotated);
+    
+    // Verify Inventory
+    expect(state.powerUps.rotate).toBe(0);
+  });
+
+  it('should not rotate if inventory is 0', () => {
+    const line2 = [[1, 1]];
+    useGameStore.setState({
+      availablePieces: [line2, null, line2],
+      powerUps: { ...useGameStore.getState().powerUps, rotate: 0 }
+    });
+
+    useGameStore.getState().usePowerUp('rotate');
+    
+    const state = useGameStore.getState();
+    expect(state.availablePieces[0]).toEqual(line2); // Unchanged
+    expect(state.powerUps.rotate).toBe(0);
+  });
 });

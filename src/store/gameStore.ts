@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { Grid, Piece } from '../engine/types';
 import { GameEngine } from '../engine';
-import { getRandomPieces } from '../engine/pieces';
+import { getRandomPieces, rotatePiece } from '../engine/pieces';
 import { appStorage } from './storage';
 
 export type PowerUpType = 'undo' | 'rotate' | 'discard' | 'forcePlace' | 'addSingle';
@@ -138,8 +138,20 @@ export const useGameStore = create<GameState>()(
       setGridLayout: (layout) => set({ gridLayout: layout }),
       
       usePowerUp: (type, row, col) => {
-        // Implementation for other power-ups will be added in subsequent tasks
-        console.log('usePowerUp', type);
+        const { grid, powerUps, availablePieces } = get();
+        
+        if (powerUps[type] <= 0) return;
+
+        if (type === 'rotate') {
+          const newPieces = availablePieces.map(p => p ? rotatePiece(p) : null);
+          set({
+            availablePieces: newPieces,
+            powerUps: { ...powerUps, rotate: powerUps.rotate - 1 }
+          });
+        } else {
+          // Implementation for other power-ups will be added in subsequent tasks
+          console.log('usePowerUp', type);
+        }
       },
 
       undo: () => {
