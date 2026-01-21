@@ -10,7 +10,7 @@ Establish the underlying managers for haptic feedback and sound effects.
 - [x] Task: Implement Audio Manager 8d01696
 - [x] Task: Conductor - User Manual Verification 'Sensory Infrastructure' (Protocol in workflow.md) 8d3a774
 
-## Phase 2: Settings System
+## Phase 2: Settings System [checkpoint: e3f0f3f]
 Create the interface for user preferences and ensure they persist.
 
 - [x] Task: Extend State for User Preferences c071d00
@@ -21,7 +21,7 @@ Create the interface for user preferences and ensure they persist.
     - [ ] Subtask: Create `src/screens/SettingsScreen.tsx` with sliders and toggles.
     - [ ] Subtask: Implement "Gear" icon in `GameScreen` header to access settings.
     - [ ] Subtask: Connect UI controls to the store preferences.
-- [ ] Task: Conductor - User Manual Verification 'Settings System' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Settings System' (Protocol in workflow.md) e3f0f3f
 
 ## Phase 3: Integration & Optimization
 Hook sensory feedback into gameplay and optimize rendering.
