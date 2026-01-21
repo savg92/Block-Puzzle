@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View, Pressable } from 'react-native';
 
 interface CellProps {
@@ -8,7 +8,7 @@ interface CellProps {
   onPress?: () => void;
 }
 
-export const Cell: React.FC<CellProps> = ({ color, size = 30, testID, onPress }) => {
+export const Cell: React.FC<CellProps> = memo(({ color, size = 30, testID, onPress }) => {
   const isFilled = typeof color === 'string';
   const isEmpty = !color || color === 0;
   
@@ -28,4 +28,4 @@ export const Cell: React.FC<CellProps> = ({ color, size = 30, testID, onPress })
       />
     </Pressable>
   );
-};
+});

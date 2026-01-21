@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { View } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, { 
@@ -21,7 +21,7 @@ interface DraggablePieceProps {
   size?: number;
 }
 
-export const DraggablePiece: React.FC<DraggablePieceProps> = ({ 
+export const DraggablePiece: React.FC<DraggablePieceProps> = memo(({ 
   piece, 
   color, 
   onDragEnd,
@@ -160,4 +160,4 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       </Animated.View>
     </GestureDetector>
   );
-};
+});

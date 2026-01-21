@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useRef, memo, useCallback } from 'react';
 import { View } from 'react-native';
 import { Cell } from './Cell';
 import { useGameStore } from '../../store/gameStore';
 import { canPlacePiece } from '../../engine/board';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
-export const Grid: React.FC = () => {
+export const Grid: React.FC = memo(() => {
   const { grid, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock } = useGameStore();
   const gridRef = useRef<View>(null);
   const { playPlace, playClear, playGameOver } = useSensoryFeedback();
@@ -18,7 +18,7 @@ export const Grid: React.FC = () => {
     }
   };
 
-  const handleCellPress = (row: number, col: number) => {
+  const handleCellPress = useCallback((row: number, col: number) => {
     if (activePowerUpMode === 'addSingle') {
       const result = addSingleBlock(row, col);
       if (result?.success) {
@@ -31,9 +31,9 @@ export const Grid: React.FC = () => {
         }
       }
     }
-  };
+  }, [activePowerUpMode, addSingleBlock, playGameOver, playClear, playPlace]);
 
-  const isGhostCell = (row: number, col: number) => {
+  const isGhostCell = useCallback((row: number, col: number) => {
     if (!selectedPiece || !hoverPosition) return false;
     
     // Check if the piece fits at this position
@@ -48,7 +48,7 @@ export const Grid: React.FC = () => {
     const c = col - hoverPosition.col;
 
     return r >= 0 && r < pieceRows && c >= 0 && c < pieceCols && selectedPiece[r][c] === 1;
-  };
+  }, [selectedPiece, hoverPosition, grid]);
 
   return (
     <View 
@@ -83,4 +83,4 @@ export const Grid: React.FC = () => {
       ))}
     </View>
   );
-};
+});

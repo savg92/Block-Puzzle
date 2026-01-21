@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useGameStore } from '../../store/gameStore';
 import { DraggablePiece } from '../Piece/DraggablePiece';
@@ -12,7 +12,7 @@ export const PieceTray: React.FC = () => {
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece } = useGameStore();
   const { playPlace, playClear, playGameOver, playTap } = useSensoryFeedback();
 
-  const handleDragEnd = (
+  const handleDragEnd = useCallback((
     piece: Piece, 
     colorKey: keyof typeof theme.colors.blocks, 
     absoluteX: number, 
@@ -41,16 +41,16 @@ export const PieceTray: React.FC = () => {
       }
     }
     selectPiece(null);
-  };
+  }, [gridLayout, placePiece, playGameOver, playClear, playPlace, selectPiece]);
 
-  const handlePress = (index: number) => {
+  const handlePress = useCallback((index: number) => {
     if (activePowerUpMode === 'discard') {
       const success = discardPiece(index);
       if (success) {
         playTap();
       }
     }
-  };
+  }, [activePowerUpMode, discardPiece, playTap]);
 
   return (
     <View testID="piece-tray" style={styles.container}>
