@@ -3,7 +3,7 @@
 ## Phase 1: Sensory Infrastructure (Haptics & SFX)
 Establish the underlying managers for haptic feedback and sound effects.
 
-- [ ] Task: Implement Haptic Utility
+- [x] Task: Implement Haptic Utility 2653259
     - [ ] Subtask: Create `src/utils/haptics.ts` using `expo-haptics`.
     - [ ] Subtask: Define patterns for Pickup, Drop, Clear, and Game Over.
     - [ ] Subtask: Write unit tests to verify haptic trigger logic.
