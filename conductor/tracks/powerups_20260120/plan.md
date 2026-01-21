@@ -43,13 +43,13 @@ Connect the UI to the state and add polished transitions.
     - [ ] Subtask: Add activation feedback (e.g., screen flash or button pulse).
 - [x] Task: Conductor - User Manual Verification 'Interaction & Animation' (Protocol in workflow.md)
 
-## Phase 4: Integration & Persistence
+## Phase 4: Integration & Persistence [checkpoint: 3af6a28]
 Finalize the system and ensure state reliability.
 
-- [ ] Task: Verify Persistence
+- [x] Task: Verify Persistence 0909f2a
     - [ ] Subtask: Ensure power-up inventory is correctly saved/restored via `AsyncStorage`.
     - [ ] Subtask: Test state recovery after app reload during an active mode.
-- [ ] Task: Final System Test
+- [x] Task: Final System Test 3af6a28
     - [ ] Subtask: Run all engine and component tests.
     - [ ] Subtask: Perform manual playthrough using all power-ups.
-- [ ] Task: Conductor - User Manual Verification 'Integration & Persistence' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Integration & Persistence' (Protocol in workflow.md)
