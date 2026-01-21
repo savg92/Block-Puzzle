@@ -1,6 +1,6 @@
 # Implementation Plan: Polish & UX
 
-## Phase 1: Sensory Infrastructure (Haptics & SFX)
+## Phase 1: Sensory Infrastructure (Haptics & SFX) [checkpoint: 8d3a774]
 Establish the underlying managers for haptic feedback and sound effects.
 
 - [x] Task: Implement Haptic Utility 2653259
@@ -8,7 +8,7 @@ Establish the underlying managers for haptic feedback and sound effects.
     - [ ] Subtask: Define patterns for Pickup, Drop, Clear, and Game Over.
     - [ ] Subtask: Write unit tests to verify haptic trigger logic.
 - [x] Task: Implement Audio Manager 8d01696
-- [ ] Task: Conductor - User Manual Verification 'Sensory Infrastructure' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Sensory Infrastructure' (Protocol in workflow.md) 8d3a774
 
 ## Phase 2: Settings System
 Create the interface for user preferences and ensure they persist.
