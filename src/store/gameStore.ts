@@ -7,6 +7,13 @@ import { appStorage } from './storage';
 
 export type PowerUpType = 'undo' | 'rotate' | 'discard' | 'forcePlace' | 'addSingle';
 
+export interface UserPreferences {
+  soundVolume: number;
+  isMuted: boolean;
+  hapticIntensity: 'off' | 'low' | 'medium' | 'high';
+  theme: 'light' | 'dark' | 'system';
+}
+
 interface GameState {
   grid: Grid;
   score: number;
@@ -19,8 +26,9 @@ interface GameState {
   
   activePowerUpMode: null | 'discard' | 'forcePlace' | 'addSingle';
   powerUps: Record<PowerUpType, number>;
+  preferences: UserPreferences;
 
-  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition'>[];
+  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition' | 'updatePreferences'>[];
   
   newGame: () => void;
   initStore: () => Promise<void>;
@@ -32,6 +40,7 @@ interface GameState {
   discardPiece: (index: number) => void;
   addSingleBlock: (row: number, col: number) => void;
   undo: () => void;
+  updatePreferences: (prefs: Partial<UserPreferences>) => void;
 }
 
 const HIGH_SCORE_KEY = 'high_score';
@@ -57,6 +66,12 @@ export const useGameStore = create<GameState>()(
         forcePlace: 1,
         addSingle: 1,
       },
+      preferences: {
+        soundVolume: 1.0,
+        isMuted: false,
+        hapticIntensity: 'medium',
+        theme: 'system',
+      },
 
       history: [],
       initStore: async () => {
@@ -66,7 +81,7 @@ export const useGameStore = create<GameState>()(
         }
       },
       newGame: () =>
-        set({
+        set((state) => ({
           grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
           score: 0,
           availablePieces: getRandomPieces(3),
@@ -84,9 +99,10 @@ export const useGameStore = create<GameState>()(
           },
           
           history: [],
-        }),
+          // preferences are NOT reset on new game
+        })),
       placePiece: (piece, row, col, color, sourceIndex) => {
-        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode } = get();
+        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences } = get();
         
         const isForcePlace = activePowerUpMode === 'forcePlace';
         if (isForcePlace && powerUps.forcePlace <= 0) return; // Should not happen via UI logic but safe check
@@ -96,7 +112,7 @@ export const useGameStore = create<GameState>()(
 
         if (result.success) {
           // Push current state to history before updating
-          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
+          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
           // Consume PowerUp if used
@@ -171,7 +187,7 @@ export const useGameStore = create<GameState>()(
       },
 
       discardPiece: (index) => {
-        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition } = get();
+        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences } = get();
         
         if (activePowerUpMode !== 'discard') return;
         if (powerUps.discard <= 0) return;
@@ -179,7 +195,7 @@ export const useGameStore = create<GameState>()(
         if (availablePieces[index] === null) return; 
 
         // Push state to history? (Assuming Discard is permanent step)
-        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
+        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences };
         const newHistory = [snapshot, ...history].slice(0, 20);
         
         let newAvailablePieces = [...availablePieces];
@@ -200,7 +216,7 @@ export const useGameStore = create<GameState>()(
       },
 
       addSingleBlock: (row, col) => {
-        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition } = get();
+        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences } = get();
 
         if (activePowerUpMode !== 'addSingle') return;
         if (powerUps.addSingle <= 0) return;
@@ -213,7 +229,7 @@ export const useGameStore = create<GameState>()(
         const result = engine.makeMove(PIECES.SINGLE, row, col, getPieceColor(PIECES.SINGLE));
 
         if (result.success) {
-            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode };
+            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences };
             const newHistory = [snapshot, ...history].slice(0, 20);
 
             const newScore = engine.getScore();
@@ -251,6 +267,12 @@ export const useGameStore = create<GameState>()(
                 ...state.powerUps,
                 undo: Math.max(0, state.powerUps.undo - 1)
             }
+        }));
+      },
+
+      updatePreferences: (prefs) => {
+        set((state) => ({
+          preferences: { ...state.preferences, ...prefs }
         }));
       },
     }),
