@@ -1,6 +1,6 @@
 # Implementation Plan: Power-Ups System
 
-## Phase 1: Engine & State Logic
+## Phase 1: Engine & State Logic [checkpoint: a1368aa]
 Implement the foundational logic for power-up consumption and state modification.
 
 - [x] Task: Extend Game State for Power-Ups 5930949
