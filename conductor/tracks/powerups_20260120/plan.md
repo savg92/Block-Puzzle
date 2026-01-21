@@ -7,7 +7,7 @@ Implement the foundational logic for power-up consumption and state modification
     - [ ] Subtask: Update `GameState` in `src/store/gameStore.ts` to include inventory for all 5 power-ups.
     - [ ] Subtask: Add `activePowerUpMode` state (`null | 'discard' | 'force' | 'single'`) to track active modes.
     - [ ] Subtask: Update `undo` logic to consume a charge if it becomes a power-up.
-- [ ] Task: Implement Rotation Logic
+- [x] Task: Implement Rotation Logic b7ee28c
     - [ ] Subtask: Add `rotateAllPieces` action to `gameStore.ts`.
     - [ ] Subtask: Write tests in `src/store/__tests__/gameStore.test.ts` for tray rotation.
 - [ ] Task: Implement Discard Logic
