@@ -26,6 +26,12 @@ jest.mock('./store/gameStore', () => ({
       addSingle: 1,
     },
     activePowerUpMode: null,
+    preferences: {
+      soundVolume: 1.0,
+      isMuted: false,
+      hapticIntensity: 'medium',
+      theme: 'system',
+    },
   }),
 }));
 

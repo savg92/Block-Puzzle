@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
 import { ScoreDisplay } from '../components/UI/ScoreDisplay';
 import { PieceTray } from '../components/PieceTray/PieceTray';
 import { PowerUpBar } from '../components/PowerUps/PowerUpBar';
 import { GameOverModal } from '../components/UI/GameOverModal';
+import { SettingsScreen } from './SettingsScreen';
 import { StatusBar } from 'expo-status-bar';
 import { useGameStore } from '../store/gameStore';
 
 export const GameScreen: React.FC = () => {
   const { newGame, availablePieces, activePowerUpMode } = useGameStore();
+  const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
   useEffect(() => {
     // Initialize game if no pieces are available (e.g. first launch)
@@ -23,11 +25,20 @@ export const GameScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
       <GameOverModal />
+      <SettingsScreen visible={isSettingsVisible} onClose={() => setIsSettingsVisible(false)} />
       
       {/* Top Section: Score & Title */}
       <View style={styles.topSection}>
         <Text style={styles.title}>Block Puzzle</Text>
         <ScoreDisplay />
+        
+        <TouchableOpacity 
+          onPress={() => setIsSettingsVisible(true)} 
+          style={styles.settingsButton}
+          testID="settings-button"
+        >
+          <Text style={styles.settingsIcon}>⚙️</Text>
+        </TouchableOpacity>
       </View>
 
       {/* Center Section: Grid */}
@@ -62,6 +73,16 @@ const styles = StyleSheet.create({
   topSection: {
     padding: 20,
     alignItems: 'center',
+    position: 'relative',
+  },
+  settingsButton: {
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    padding: 10,
+  },
+  settingsIcon: {
+    fontSize: 24,
   },
   title: {
     fontSize: 28,

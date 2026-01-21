@@ -18,6 +18,7 @@ jest.mock('react-native', () => {
     Modal: mockView,
     TouchableOpacity: mockView,
     Pressable: mockView,
+    Switch: mockView,
     StyleSheet: {
       create: (styles) => styles,
       flatten: (styles) => {
