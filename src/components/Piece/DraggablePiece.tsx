@@ -16,6 +16,7 @@ interface DraggablePieceProps {
   piece: number[][];
   color: keyof typeof theme.colors.blocks;
   onDragEnd: (x: number, y: number, gridPos?: { row: number; col: number }) => void;
+  onPress?: () => void;
   size?: number;
 }
 
@@ -23,6 +24,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
   piece, 
   color, 
   onDragEnd,
+  onPress,
   size = 29 
 }) => {
   const selectPiece = useGameStore((state) => state.selectPiece);
@@ -76,7 +78,7 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
     };
   };
 
-  const gesture = Gesture.Pan()
+  const panGesture = Gesture.Pan()
     .runOnJS(true)
     .onStart((event) => {
       isDragging.value = true;
@@ -116,6 +118,14 @@ export const DraggablePiece: React.FC<DraggablePieceProps> = ({
       translateY.value = withSpring(0);
       setHoverPosition(null);
     });
+
+  const tapGesture = Gesture.Tap()
+    .runOnJS(true)
+    .onEnd(() => {
+      if (onPress) onPress();
+    });
+
+  const gesture = Gesture.Exclusive(panGesture, tapGesture);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {

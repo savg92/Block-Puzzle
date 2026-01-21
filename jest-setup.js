@@ -124,6 +124,11 @@ jest.mock('react-native-gesture-handler', () => {
         onEnd: function() { return this; },
         runOnJS: function() { return this; },
       }),
+      Tap: () => ({
+        onEnd: function() { return this; },
+        runOnJS: function() { return this; },
+      }),
+      Exclusive: (...gestures) => ({}),
     },
     runOnJS: (fn) => fn,
     State: {},

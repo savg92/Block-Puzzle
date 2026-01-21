@@ -5,7 +5,7 @@ import { useGameStore } from '../../store/gameStore';
 import { canPlacePiece } from '../../engine/board';
 
 export const Grid: React.FC = () => {
-  const { grid, setGridLayout, selectedPiece, hoverPosition } = useGameStore();
+  const { grid, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock } = useGameStore();
   const gridRef = useRef<View>(null);
 
   const handleLayout = () => {
@@ -13,6 +13,12 @@ export const Grid: React.FC = () => {
       gridRef.current.measureInWindow((x, y, width, height) => {
         setGridLayout({ x, y, width, height });
       });
+    }
+  };
+
+  const handleCellPress = (row: number, col: number) => {
+    if (activePowerUpMode === 'addSingle') {
+      addSingleBlock(row, col);
     }
   };
 
@@ -58,6 +64,7 @@ export const Grid: React.FC = () => {
                 key={`cell-${rowIndex}-${colIndex}`}
                 color={cell || (isGhost ? 'rgba(255, 255, 255, 0.3)' : null)}
                 testID={`cell-${rowIndex}-${colIndex}`}
+                onPress={() => handleCellPress(rowIndex, colIndex)}
               />
             );
           })}

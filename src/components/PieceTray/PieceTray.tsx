@@ -8,7 +8,7 @@ import { theme } from '../../styles/theme';
 import { getPieceColor } from '../../engine/pieces';
 
 export const PieceTray: React.FC = () => {
-  const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece } = useGameStore();
+  const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece } = useGameStore();
 
   const handleDragEnd = (
     piece: Piece, 
@@ -29,6 +29,12 @@ export const PieceTray: React.FC = () => {
       }
     }
     selectPiece(null);
+  };
+
+  const handlePress = (index: number) => {
+    if (activePowerUpMode === 'discard') {
+      discardPiece(index);
+    }
   };
 
   return (
@@ -60,6 +66,7 @@ export const PieceTray: React.FC = () => {
               piece={piece}
               color={colorKey}
               onDragEnd={(x, y, gridPos) => handleDragEnd(piece, colorKey, x, y, index, gridPos)}
+              onPress={() => handlePress(index)}
               size={25}
             />
           </View>

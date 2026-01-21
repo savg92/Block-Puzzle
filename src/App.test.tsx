@@ -13,13 +13,19 @@ jest.mock('./store/storage', () => ({
 // Mock game store
 jest.mock('./store/gameStore', () => ({
   useGameStore: () => ({
-    grid: Array.from({ length: 10 }, () => Array(10).fill(0)),
+    grid: Array(10).fill(null).map(() => Array(10).fill(0)),
     score: 0,
     availablePieces: [],
-    selectedPiece: null,
-    isGameOver: false,
     newGame: jest.fn(),
     initStore: jest.fn(),
+    powerUps: {
+      undo: 1,
+      rotate: 1,
+      discard: 1,
+      forcePlace: 1,
+      addSingle: 1,
+    },
+    activePowerUpMode: null,
   }),
 }));
 

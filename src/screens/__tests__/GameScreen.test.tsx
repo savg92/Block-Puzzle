@@ -13,6 +13,14 @@ jest.mock('../../store/gameStore', () => ({
     availablePieces: [],
     newGame: jest.fn(),
     initStore: jest.fn(),
+    powerUps: {
+      undo: 1,
+      rotate: 1,
+      discard: 1,
+      forcePlace: 1,
+      addSingle: 1,
+    },
+    activePowerUpMode: null,
   }),
 }));
 
