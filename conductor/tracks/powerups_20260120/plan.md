@@ -13,7 +13,7 @@ Implement the foundational logic for power-up consumption and state modification
 - [x] Task: Implement Discard Logic 4bb2ab3
     - [ ] Subtask: Add `discardPiece(index)` action to `gameStore.ts`.
     - [ ] Subtask: Write tests for piece removal and refill prevention.
-- [ ] Task: Implement Force Place & Add Single Logic
+- [x] Task: Implement Force Place & Add Single Logic e5090e6
     - [ ] Subtask: Update `placePiece` in `gameStore.ts` to bypass collision if `activePowerUpMode === 'force'`.
     - [ ] Subtask: Add `addSingleBlock(row, col)` action to `gameStore.ts` with line-clear checks.
     - [ ] Subtask: Write tests for collision bypass and single placement.
