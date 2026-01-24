@@ -20,6 +20,7 @@ import { theme } from '../../styles/theme';
 import { useGameStore } from '../../store/gameStore';
 import { mapScreenToGrid } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
+import { canPlacePiece } from '../../engine/board';
 
 interface Props {
   piece: number[][];
@@ -33,7 +34,7 @@ interface Props {
 const DRAG_LIFT = 110;
 // Correction to move shadow UP (user reported shadow was below piece)
 // Increasing this value makes the system think the piece is higher up
-const CALC_LIFT = 40;
+const CALC_LIFT = DRAG_LIFT + 20;
 
 // Helper to calculate positions (exported for testing)
 export const calculatePiecePosition = (
@@ -66,6 +67,8 @@ export const DraggablePiece: React.FC<Props> = memo(({
   const selectPiece = useGameStore(s => s.selectPiece);
   const setHoverPosition = useGameStore(s => s.setHoverPosition);
   const gridLayout = useGameStore(s => s.gridLayout);
+  const grid = useGameStore(s => s.grid);
+  const activePowerUpMode = useGameStore(s => s.activePowerUpMode);
   const { playPickup } = useSensoryFeedback();
   
   // Shared values for animation (UI thread)
@@ -91,7 +94,7 @@ export const DraggablePiece: React.FC<Props> = memo(({
   const toGridPos = useCallback((screenX: number, screenY: number) => {
     if (!gridLayout) return null;
     
-    // Map screen point to grid cell
+    // Map screen point to grid cell using the generic helper
     const cell = mapScreenToGrid(screenX, screenY, gridLayout, 10, 8);
     if (!cell) return null;
     
@@ -102,6 +105,77 @@ export const DraggablePiece: React.FC<Props> = memo(({
     return { row: cell.row - rowOff, col: cell.col - colOff };
   }, [gridLayout, piece]);
 
+  // Helper to check if a specific placement is valid (Logic mirrored from Grid/Engine)
+  const isValidPlacement = useCallback((r: number, c: number) => {
+      const isForcePlace = activePowerUpMode === 'forcePlace';
+      
+      // Basic bounds check (forcePlace still needs to be on grid)
+      const pieceRows = piece.length;
+      const pieceCols = piece[0].length;
+      if (r < 0 || c < 0 || r + pieceRows > 10 || c + pieceCols > 10) return false;
+
+      // Logic check
+      if (isForcePlace) return true;
+      return canPlacePiece(grid, piece, r, c);
+  }, [grid, piece, activePowerUpMode]);
+
+  // Helper to find the best placement cell using distance-based snapping
+  const getSmartSnapPos = useCallback((centerX: number, centerY: number) => {
+      if (!gridLayout) return null;
+
+      // 1. Map absolute finger position to a "float" grid position
+      const padding = 8;
+      const innerX = gridLayout.x + padding;
+      const innerY = gridLayout.y + padding;
+      const innerWidth = gridLayout.width - padding * 2;
+      const innerHeight = gridLayout.height - padding * 2;
+      
+      const cellWidth = innerWidth / 10;
+      const cellHeight = innerHeight / 10;
+
+      // Where the finger is in grid row/col units
+      const fingerRowFloat = (centerY - innerY) / cellHeight;
+      const fingerColFloat = (centerX - innerX) / cellWidth;
+
+      // Where the top-left of the piece should be in grid units (if snapped exactly to finger)
+      const pieceCenterRowOff = piece.length / 2;
+      const pieceCenterColOff = piece[0].length / 2;
+      
+      const targetRow = fingerRowFloat - pieceCenterRowOff;
+      const targetCol = fingerColFloat - pieceCenterColOff;
+
+      // Central candidate (rounded to nearest cell)
+      const baseRow = Math.round(targetRow);
+      const baseCol = Math.round(targetCol);
+
+      let bestPos = null;
+      let minDistanceSq = Infinity;
+
+      // Search a 3x3 area around the base candidate
+      // This ensures we find the best valid spot within reasonable reach
+      for (let r = baseRow - 1; r <= baseRow + 1; r++) {
+          for (let c = baseCol - 1; c <= baseCol + 1; c++) {
+              if (isValidPlacement(r, c)) {
+                  // Distance from candidate top-left (r,c) to the ideal top-left (targetRow, targetCol)
+                  const dr = r - targetRow;
+                  const dc = c - targetCol;
+                  const distSq = dr * dr + dc * dc;
+
+                  if (distSq < minDistanceSq) {
+                      minDistanceSq = distSq;
+                      bestPos = { row: r, col: c };
+                  }
+              }
+          }
+      }
+
+      // Max snap distance: 1.5 grid units. 
+      // Prevents snapping to a far-away spot if nothing nearby is valid.
+      if (minDistanceSq > 1.5 * 1.5) return null;
+
+      return bestPos;
+  }, [gridLayout, piece, isValidPlacement]);
+
   // Called when drag starts
   const onStart = useCallback(() => {
     selectPiece(piece);
@@ -109,25 +183,25 @@ export const DraggablePiece: React.FC<Props> = memo(({
     lastHover.current = null;
   }, [selectPiece, piece, playPickup]);
 
-  // Called during drag - update shadow position
+  // Called during drag - update shadow position with Smart Snap
   const onMove = useCallback((centerX: number, centerY: number) => {
-    const pos = toGridPos(centerX, centerY);
-    const key = pos ? `${pos.row},${pos.col}` : null;
+    const finalPos = getSmartSnapPos(centerX, centerY);
+    const key = finalPos ? `${finalPos.row},${finalPos.col}` : null;
     
     // Only update if changed
     if (key !== lastHover.current) {
       lastHover.current = key;
-      setHoverPosition(pos);
+      setHoverPosition(finalPos); // Pass the best found position or null
     }
-  }, [toGridPos, setHoverPosition]);
+  }, [getSmartSnapPos, setHoverPosition]);
 
   // Called when drag ends
   const onEnd = useCallback((centerX: number, centerY: number, topLeftX: number, topLeftY: number) => {
-    const gridPos = toGridPos(centerX, centerY) || undefined;
-    onDragEnd(topLeftX, topLeftY, gridPos);
+    const finalPos = getSmartSnapPos(centerX, centerY) || undefined;
+    onDragEnd(topLeftX, topLeftY, finalPos);
     setHoverPosition(null);
     lastHover.current = null;
-  }, [toGridPos, onDragEnd, setHoverPosition]);
+  }, [getSmartSnapPos, onDragEnd, setHoverPosition]);
 
   // Gesture handler
   const pan = Gesture.Pan()

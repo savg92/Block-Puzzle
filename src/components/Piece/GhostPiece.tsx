@@ -30,9 +30,9 @@ export const GhostPiece: React.FC<GhostPieceProps> = memo(({
   const opacity = useSharedValue(0);
 
   useEffect(() => {
-    // Snap to new position immediately or with very fast spring
-    translateX.value = withSpring(x, { damping: 20, stiffness: 200 });
-    translateY.value = withSpring(y, { damping: 20, stiffness: 200 });
+    // Snap to new position with a short, non-bouncy timing for stability
+    translateX.value = withTiming(x, { duration: 80 });
+    translateY.value = withTiming(y, { duration: 80 });
   }, [x, y]);
 
   useEffect(() => {
