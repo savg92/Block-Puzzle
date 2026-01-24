@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
 import { ScoreDisplay } from '../components/UI/ScoreDisplay';
@@ -32,13 +32,32 @@ export const GameScreen: React.FC = () => {
         <Text style={styles.title}>Block Puzzle</Text>
         <ScoreDisplay />
         
-        <TouchableOpacity 
-          onPress={() => setIsSettingsVisible(true)} 
-          style={styles.settingsButton}
-          testID="settings-button"
-        >
-          <Text style={styles.settingsIcon}>⚙️</Text>
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+            <TouchableOpacity 
+              onPress={() => {
+                  Alert.alert(
+                      "Restart Game",
+                      "Are you sure you want to restart? Current progress will be lost.",
+                      [
+                          { text: "Cancel", style: "cancel" },
+                          { text: "Restart", style: "destructive", onPress: () => newGame() }
+                      ]
+                  );
+              }}
+              style={styles.iconButton}
+              testID="restart-button"
+            >
+              <Text style={styles.iconText}>🔄</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              onPress={() => setIsSettingsVisible(true)} 
+              style={styles.iconButton}
+              testID="settings-button"
+            >
+              <Text style={styles.iconText}>⚙️</Text>
+            </TouchableOpacity>
+        </View>
       </View>
 
       {/* Center Section: Grid */}
@@ -74,21 +93,31 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'center',
     position: 'relative',
+    width: '100%',
   },
-  settingsButton: {
+  headerButtons: {
     position: 'absolute',
     right: 20,
     top: 20,
-    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
-  settingsIcon: {
-    fontSize: 24,
+  // Removed old settingsButton style in favor of iconButton
+  iconButton: {
+    padding: 8,
+    borderRadius: 8,
+    backgroundColor: 'rgba(30, 41, 59, 0.5)', // slate-800
+  },
+  iconText: {
+    fontSize: 22,
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#3b82f6', // blue-500
     marginBottom: 10,
+    marginTop: 10, // Add space for buttons
   },
   gridSection: {
     flex: 1,

@@ -45,6 +45,30 @@ describe('ThemeContext', () => {
     expect(AsyncStorage.setItem).toHaveBeenCalledWith('app_theme_mode', 'dark');
   });
 
+  it('respects system color scheme when mode is system', async () => {
+    const { useColorScheme } = require('react-native');
+    (useColorScheme as jest.Mock).mockReturnValue('dark');
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('system');
+
+    const wrapper = ({ children }: { children: React.ReactNode }) => (
+      <ThemeProvider>{children}</ThemeProvider>
+    );
+
+    const { result } = renderHook(() => useTheme(), { wrapper });
+
+    await waitFor(() => {
+      expect(result.current.isDark).toBe(true);
+    });
+
+    (useColorScheme as jest.Mock).mockReturnValue('light');
+    
+    // Rerender to pick up new system color scheme
+    const { result: result2 } = renderHook(() => useTheme(), { wrapper });
+    await waitFor(() => {
+      expect(result2.current.isDark).toBe(false);
+    });
+  });
+
   it('throws error if used outside ThemeProvider', () => {
     const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
     

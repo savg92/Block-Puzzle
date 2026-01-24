@@ -66,6 +66,51 @@ describe('rotatePiece', () => {
           [0, 1]
       ]);
   });
+
+  it('should return the original piece after 4 rotations (360 degrees)', () => {
+    const original = PIECES.SMALL_L;
+    let piece = original;
+    for (let i = 0; i < 4; i++) {
+      piece = rotatePiece(piece);
+    }
+    expect(piece).toEqual(original);
+  });
+
+  it('should handle single cell pieces correctly', () => {
+    const single = PIECES.SINGLE;
+    const rotated = rotatePiece(single);
+    expect(rotated).toEqual(single);
+  });
+
+  it('should rotate a non-square asymmetric piece correctly at each step', () => {
+    const piece: Piece = [
+      [1, 1, 0],
+      [0, 1, 0]
+    ];
+    // Original (2x3):
+    // 1 1 0
+    // 0 1 0
+
+    // 90 deg (3x2):
+    // 0 1
+    // 1 1
+    // 0 0
+    const rot90 = rotatePiece(piece);
+    expect(rot90).toEqual([
+      [0, 1],
+      [1, 1],
+      [0, 0]
+    ]);
+
+    // 180 deg (2x3):
+    // 0 1 0
+    // 0 1 1
+    const rot180 = rotatePiece(rot90);
+    expect(rot180).toEqual([
+      [0, 1, 0],
+      [0, 1, 1]
+    ]);
+  });
 });
 
 describe('getRandomPieces', () => {

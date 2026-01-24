@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { render } from '@testing-library/react-native';
 import { Grid } from '../Grid';
 import { ThemeProvider } from '../../../styles/ThemeContext';
@@ -35,26 +36,21 @@ describe('Grid', () => {
     expect(cells).toHaveLength(100);
   });
 
-  it('renders ghost cells when a piece is hovered', () => {
-    // Mock a piece and a hover position
+  it('renders ghost piece when a piece is hovered', () => {
+    // Mock a piece, hover position and grid layout (needed for ghost calc)
     (useGameStore as any).mockReturnValue({
       grid: mockGrid,
+      gridLayout: { width: 300, height: 300, x: 0, y: 0 },
       setGridLayout: jest.fn(),
       selectedPiece: [[1, 1]], // 1x2 piece
       hoverPosition: { row: 0, col: 0 },
+      clearingCells: null,
     });
 
     const { getByTestId } = renderWithTheme(<Grid />);
     
-    // Cell (0,0) and (0,1) should have ghost color
-    // In Grid.tsx: color={cell || (isGhost ? 'rgba(255, 255, 255, 0.3)' : null)}
-    const cell00 = getByTestId('cell-0-0');
-    const cell01 = getByTestId('cell-0-1');
-    const cell02 = getByTestId('cell-0-2');
-
-    expect(cell00.props.style.backgroundColor).toBe('rgba(255, 255, 255, 0.3)');
-    expect(cell01.props.style.backgroundColor).toBe('rgba(255, 255, 255, 0.3)');
-    // Cell (0,2) is not part of the 1x2 piece
-    expect(cell02.props.style.backgroundColor).not.toBe('rgba(255, 255, 255, 0.3)');
+    // Check if GhostPiece is rendered via its testID
+    const ghostPiece = getByTestId('ghost-piece');
+    expect(ghostPiece).toBeTruthy();
   });
 });

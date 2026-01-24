@@ -88,19 +88,24 @@ export const placePiece = (
 /**
  * Checks for full rows and columns, clears them, and returns a new grid.
  * @param grid The current game board
- * @returns An object containing the new grid and the number of lines cleared
+ * @returns An object containing the new grid, the number of lines cleared, and the indices of full rows/cols
  */
-export const clearLines = (grid: Grid): { grid: Grid; clearedLines: number } => {
+export const clearLines = (grid: Grid): { 
+  grid: Grid; 
+  clearedLines: number;
+  fullRows: number[];
+  fullCols: number[];
+} => {
   const rows = grid.length;
   const cols = grid[0].length;
   
-  const fullRows = new Set<number>();
-  const fullCols = new Set<number>();
+  const fullRowsSet = new Set<number>();
+  const fullColsSet = new Set<number>();
 
   // Identify full rows
   for (let r = 0; r < rows; r++) {
     if (grid[r].every((cell) => cell !== 0)) {
-      fullRows.add(r);
+      fullRowsSet.add(r);
     }
   }
 
@@ -114,28 +119,33 @@ export const clearLines = (grid: Grid): { grid: Grid; clearedLines: number } => 
       }
     }
     if (isFull) {
-      fullCols.add(c);
+      fullColsSet.add(c);
     }
   }
 
-  const clearedLines = fullRows.size + fullCols.size;
+  const clearedLines = fullRowsSet.size + fullColsSet.size;
 
   if (clearedLines === 0) {
-    return { grid, clearedLines: 0 };
+    return { grid, clearedLines: 0, fullRows: [], fullCols: [] };
   }
 
   // Create new grid with cleared lines
   const newGrid = grid.map((row, r) => {
     return row.map((cell, c) => {
       // If this cell belongs to a full row or full column, clear it
-      if (fullRows.has(r) || fullCols.has(c)) {
+      if (fullRowsSet.has(r) || fullColsSet.has(c)) {
         return 0;
       }
       return cell;
     });
   });
 
-  return { grid: newGrid, clearedLines };
+  return { 
+    grid: newGrid, 
+    clearedLines,
+    fullRows: Array.from(fullRowsSet),
+    fullCols: Array.from(fullColsSet)
+  };
 };
 
 /**

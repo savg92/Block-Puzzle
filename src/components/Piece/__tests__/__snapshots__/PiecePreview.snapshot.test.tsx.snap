@@ -1,0 +1,335 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PiecePreview Snapshots renders BIG_L piece correctly 1`] = `
+<View
+  style={
+    {
+      "padding": 0,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#F59E0B",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-0-0"
+      />
+    </View>
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#F59E0B",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-0-1"
+      />
+    </View>
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#F59E0B",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-0-2"
+      />
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#F59E0B",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-1-0"
+      />
+    </View>
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "transparent",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-1-1"
+      />
+    </View>
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "transparent",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-1-2"
+      />
+    </View>
+  </View>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#F59E0B",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-2-0"
+      />
+    </View>
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "transparent",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-2-1"
+      />
+    </View>
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "transparent",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-2-2"
+      />
+    </View>
+  </View>
+</View>
+`;
+
+exports[`PiecePreview Snapshots renders SINGLE piece correctly 1`] = `
+<View
+  style={
+    {
+      "padding": 0,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      disabled={true}
+    >
+      <View
+        style={
+          [
+            {
+              "backgroundColor": "#06B6D4",
+              "borderColor": "rgba(255,255,255,0.3)",
+              "borderRadius": 4,
+              "borderWidth": 0,
+              "height": 29,
+              "margin": 1,
+              "width": 29,
+            },
+            {
+              "opacity": 1,
+              "transform": [
+                {
+                  "scale": 1,
+                },
+              ],
+            },
+          ]
+        }
+        testID="piece-cell-0-0"
+      />
+    </View>
+  </View>
+</View>
+`;

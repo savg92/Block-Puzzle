@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cell Snapshots renders clearing cell correctly 1`] = `
+<View
+  disabled={true}
+>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "blue",
+          "borderColor": "rgba(255,255,255,0.3)",
+          "borderRadius": 4,
+          "borderWidth": 0,
+          "height": 30,
+          "margin": 1,
+          "width": 30,
+        },
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Cell Snapshots renders empty cell correctly 1`] = `
+<View
+  disabled={true}
+>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "#1e293b",
+          "borderColor": "#334155",
+          "borderRadius": 4,
+          "borderWidth": 1,
+          "height": 30,
+          "margin": 1,
+          "width": 30,
+        },
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Cell Snapshots renders filled cell correctly 1`] = `
+<View
+  disabled={true}
+>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "red",
+          "borderColor": "rgba(255,255,255,0.3)",
+          "borderRadius": 4,
+          "borderWidth": 0,
+          "height": 30,
+          "margin": 1,
+          "width": 30,
+        },
+        {
+          "opacity": 1,
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+        },
+      ]
+    }
+  />
+</View>
+`;

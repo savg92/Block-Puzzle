@@ -1,11 +1,19 @@
-import React, { memo } from 'react';
-import { View } from 'react-native';
+/**
+
+* DraggablePiece - Fixed implementation
+ * 
+ * Fixes:
+ * 1. Shadow alignment - tracks grab offset within piece
+ * 2. Smooth return - no bounce animation
+ */
+import React, { memo, useCallback, useRef } from 'react';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, { 
   useAnimatedStyle, 
   useSharedValue, 
-  withSpring,
-  runOnJS 
+  withTiming,
+  Easing,
+  runOnJS,
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
 import { theme } from '../../styles/theme';
@@ -13,7 +21,7 @@ import { useGameStore } from '../../store/gameStore';
 import { mapScreenToGrid } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
-interface DraggablePieceProps {
+interface Props {
   piece: number[][];
   color: keyof typeof theme.colors.blocks;
   onDragEnd: (x: number, y: number, gridPos?: { row: number; col: number }) => void;
@@ -21,139 +29,205 @@ interface DraggablePieceProps {
   size?: number;
 }
 
-export const DraggablePiece: React.FC<DraggablePieceProps> = memo(({ 
+// How much to lift the piece above the touch point
+const DRAG_LIFT = 110;
+// Correction to move shadow UP (user reported shadow was below piece)
+// Increasing this value makes the system think the piece is higher up
+const CALC_LIFT = 40;
+
+// Helper to calculate positions (exported for testing)
+export const calculatePiecePosition = (
+  fingerX: number, 
+  fingerY: number, 
+  grabX: number, 
+  grabY: number,
+  pieceWidth: number, 
+  pieceHeight: number, 
+  lift: number
+) => {
+  'worklet';
+  const pieceTopLeftX = fingerX - grabX;
+  const pieceTopLeftY = fingerY - grabY - lift;
+  
+  const centerX = pieceTopLeftX + pieceWidth / 2;
+  const centerY = pieceTopLeftY + pieceHeight / 2;
+  
+  return { centerX, centerY, pieceTopLeftX, pieceTopLeftY };
+};
+
+export const DraggablePiece: React.FC<Props> = memo(({ 
   piece, 
   color, 
   onDragEnd,
   onPress,
   size = 29 
 }) => {
-  const selectPiece = useGameStore((state) => state.selectPiece);
-  const setHoverPosition = useGameStore((state) => state.setHoverPosition);
-  const gridLayout = useGameStore((state) => state.gridLayout);
+  // Store access
+  const selectPiece = useGameStore(s => s.selectPiece);
+  const setHoverPosition = useGameStore(s => s.setHoverPosition);
+  const gridLayout = useGameStore(s => s.gridLayout);
   const { playPickup } = useSensoryFeedback();
   
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-  const rotation = useSharedValue(0);
-  const isDragging = useSharedValue(false);
+  // Shared values for animation (UI thread)
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+  const scale = useSharedValue(1);
   
-  // Visual Dimensions (Unscaled)
-  const pieceWidth = piece[0].length * (size + 2);
-  const pieceHeight = piece.length * (size + 2);
+  // Track where user grabbed within the piece (relative to piece top-left)
+  const initialGrabX = useSharedValue(0);
+  const initialGrabY = useSharedValue(0);
+  const effectiveGrabX = useSharedValue(0);
+  const effectiveGrabY = useSharedValue(0);
+  
+  // Piece measurements
+  const gap = 2;
+  const width = piece[0].length * (size + gap);
+  const height = piece.length * (size + gap);
+  
+  // Track last hover position to avoid redundant updates
+  const lastHover = useRef<string | null>(null);
 
-  // Trigger rotation animation when piece shape changes
-  React.useEffect(() => {
-    rotation.value = withSpring(rotation.value + 90);
-  }, [piece]);
-  
-  // Track the initial touch point within the piece to allow centering
-  const startX = useSharedValue(0);
-  const startY = useSharedValue(0);
-  
-  // Scale factor during drag
-  const DRAG_SCALE = 1.2;
-  
-  // Vertical offset to float the piece above the finger (so it's not hidden)
-  const DRAG_VERTICAL_OFFSET = 60;
-
-  const getHoverPos = (absoluteX: number, absoluteY: number) => {
+  // Convert screen coords to grid position
+  const toGridPos = useCallback((screenX: number, screenY: number) => {
     if (!gridLayout) return null;
+    
+    // Map screen point to grid cell
+    const cell = mapScreenToGrid(screenX, screenY, gridLayout, 10, 8);
+    if (!cell) return null;
+    
+    // Offset to align piece top-left with grid
+    const rowOff = Math.floor(piece.length / 2);
+    const colOff = Math.floor(piece[0].length / 2);
+    
+    return { row: cell.row - rowOff, col: cell.col - colOff };
+  }, [gridLayout, piece]);
 
-    // With the piece centered on the finger (see onUpdate), 
-    // we map the finger position (adjusted for offsets) to the grid.
-    const fingerX = absoluteX;
-    const fingerY = absoluteY - DRAG_VERTICAL_OFFSET;
+  // Called when drag starts
+  const onStart = useCallback(() => {
+    selectPiece(piece);
+    playPickup();
+    lastHover.current = null;
+  }, [selectPiece, piece, playPickup]);
 
-    const centerGridPos = mapScreenToGrid(
-      fingerX,
-      fingerY,
-      gridLayout,
-      10,
-      8 // 4px padding + 4px border
-    );
+  // Called during drag - update shadow position
+  const onMove = useCallback((centerX: number, centerY: number) => {
+    const pos = toGridPos(centerX, centerY);
+    const key = pos ? `${pos.row},${pos.col}` : null;
+    
+    // Only update if changed
+    if (key !== lastHover.current) {
+      lastHover.current = key;
+      setHoverPosition(pos);
+    }
+  }, [toGridPos, setHoverPosition]);
 
-    if (!centerGridPos) return null;
+  // Called when drag ends
+  const onEnd = useCallback((centerX: number, centerY: number, topLeftX: number, topLeftY: number) => {
+    const gridPos = toGridPos(centerX, centerY) || undefined;
+    onDragEnd(topLeftX, topLeftY, gridPos);
+    setHoverPosition(null);
+    lastHover.current = null;
+  }, [toGridPos, onDragEnd, setHoverPosition]);
 
-    // Calculate centroid offsets
-    // This aligns the block structure with the target grid cell
-    const rowOffset = Math.floor(piece.length / 2);
-    const colOffset = Math.floor(piece[0].length / 2);
-
-    return {
-      row: centerGridPos.row - rowOffset,
-      col: centerGridPos.col - colOffset,
-    };
-  };
-
-  const panGesture = Gesture.Pan()
-    .runOnJS(true)
-    .onStart((event) => {
-      isDragging.value = true;
-      startX.value = event.x;
-      startY.value = event.y;
-      selectPiece(piece);
-      playPickup();
-    })
-    .onUpdate((event) => {
-      // Force Centering: Snap the piece's center to the finger.
-      // We use UNSCALED dimensions because startX/Y are in the unscaled coordinate space.
-      // Mixing scaled dimensions here caused alignment drifts depending on grab point.
-      const centetingOffsetX = pieceWidth / 2 - startX.value;
-      const centetingOffsetY = pieceHeight / 2 - startY.value;
-
-      translateX.value = event.translationX - centetingOffsetX;
-      translateY.value = event.translationY - centetingOffsetY - DRAG_VERTICAL_OFFSET;
-
-      if (gridLayout) {
-        const hoverPos = getHoverPos(event.absoluteX, event.absoluteY);
-        setHoverPosition(hoverPos);
-      }
-    })
-    .onEnd((event) => {
-      isDragging.value = false;
+  // Gesture handler
+  const pan = Gesture.Pan()
+    .onStart((e) => {
+      'worklet';
+      initialGrabX.value = e.x;
+      initialGrabY.value = e.y;
       
-      // Calculate final grid position
-      const gridPos = getHoverPos(event.absoluteX, event.absoluteY) || undefined;
-
-      // Fallback coordinates
-      const adjustedX = event.absoluteX - pieceWidth / 2;
-      const adjustedY = event.absoluteY - pieceHeight / 2 - DRAG_VERTICAL_OFFSET;
-
-      onDragEnd(adjustedX, adjustedY, gridPos);
+      // Initialize effective grab to current finger position
+      effectiveGrabX.value = e.x;
+      effectiveGrabY.value = e.y;
       
-      // Reset position
-      translateX.value = withSpring(0);
-      translateY.value = withSpring(0);
-      setHoverPosition(null);
+      // Animate effective grab to center of piece
+      effectiveGrabX.value = withTiming(width / 2, { duration: 200 });
+      effectiveGrabY.value = withTiming(height / 2, { duration: 200 });
+      
+      offsetY.value = -DRAG_LIFT;
+      scale.value = 1.1;
+      
+      runOnJS(onStart)();
+    })
+    .onUpdate((e) => {
+      'worklet';
+      const { translationX, translationY, absoluteX, absoluteY } = e;
+      
+      // Move piece with finger
+      // Apply translation PLUS the shift from centering (initial - effective)
+      offsetX.value = translationX + (initialGrabX.value - effectiveGrabX.value);
+      offsetY.value = translationY - DRAG_LIFT + (initialGrabY.value - effectiveGrabY.value);
+      
+      // Calculate positions with correction
+      const { centerX, centerY } = calculatePiecePosition(
+        absoluteX, 
+        absoluteY, 
+        effectiveGrabX.value,
+        effectiveGrabY.value,
+        width, 
+        height, 
+        CALC_LIFT
+      );
+      
+      runOnJS(onMove)(centerX, centerY);
+    })
+    .onEnd((e) => {
+      'worklet';
+      const { absoluteX, absoluteY } = e;
+      const { centerX, centerY, pieceTopLeftX, pieceTopLeftY } = calculatePiecePosition(
+        absoluteX, 
+        absoluteY, 
+        effectiveGrabX.value,
+        effectiveGrabY.value,
+        width, 
+        height, 
+        CALC_LIFT
+      );
+      
+      runOnJS(onEnd)(centerX, centerY, pieceTopLeftX, pieceTopLeftY);
+      
+      // Smooth return
+      const returnConfig = { duration: 200, easing: Easing.out(Easing.quad) };
+      
+      // Reset centering offsets so piece returns to original visual box
+      // (This might need tweaking depending on how onDragEnd handles placement, 
+      // but for returning to tray, we just want to zero everything out)
+      effectiveGrabX.value = withTiming(initialGrabX.value, returnConfig);
+      effectiveGrabY.value = withTiming(initialGrabY.value, returnConfig);
+      
+      offsetX.value = withTiming(0, returnConfig);
+      offsetY.value = withTiming(0, returnConfig);
+      scale.value = withTiming(1, returnConfig);
     });
 
-  const tapGesture = Gesture.Tap()
-    .runOnJS(true)
-    .onEnd(() => {
-      if (onPress) onPress();
-    });
-
-  const gesture = Gesture.Exclusive(panGesture, tapGesture);
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: translateX.value },
-        { translateY: translateY.value },
-        { rotate: `${rotation.value}deg` },
-        { scale: withSpring(isDragging.value ? DRAG_SCALE : 1) },
-      ],
-      opacity: withSpring(isDragging.value ? 0.8 : 1),
-      zIndex: isDragging.value ? 9999 : 1,
-    };
+  const tap = Gesture.Tap().onEnd(() => {
+    'worklet';
+    if (onPress) runOnJS(onPress)();
   });
+
+  const gesture = Gesture.Exclusive(pan, tap);
+
+  // Animated styles
+  const style = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: offsetX.value },
+      { translateY: offsetY.value },
+      { scale: scale.value },
+    ],
+    zIndex: scale.value > 1 ? 1000 : 1,
+  }));
 
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View 
         testID="draggable-piece"
-        style={animatedStyle}
+        // @ts-ignore - Exposing for testing simulation
+        onDragStart={onStart}
+        // @ts-ignore - Exposing for testing simulation
+        onDragEnd={onEnd}
+        // @ts-ignore - Exposing for testing simulation
+        onPiecePress={onPress}
+        style={style}
         hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
       >
         <PiecePreview piece={piece} color={color} size={size} />

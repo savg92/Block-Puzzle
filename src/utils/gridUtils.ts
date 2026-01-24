@@ -31,3 +31,31 @@ export const mapScreenToGrid = (
 
   return { row, col };
 };
+
+export const calculateGridDimensions = (
+  width: number,
+  height: number,
+  gridSize: number = 10,
+  padding: number = 4
+) => {
+  const innerWidth = width - padding * 2;
+  const innerHeight = height - padding * 2;
+  
+  const cellWidth = innerWidth / gridSize;
+  const cellHeight = innerHeight / gridSize;
+  
+  return { cellWidth, cellHeight, innerWidth, innerHeight };
+};
+
+export const mapGridToLocal = (
+  row: number,
+  col: number,
+  cellWidth: number,
+  cellHeight: number,
+  padding: number = 4
+) => {
+  const x = padding + col * cellWidth;
+  const y = padding + row * cellHeight;
+  
+  return { x, y };
+};

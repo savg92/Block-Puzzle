@@ -1,12 +1,15 @@
-import React, { useRef, memo, useCallback } from 'react';
+import React, { useRef, memo, useCallback, useMemo } from 'react';
 import { View } from 'react-native';
 import { Cell } from './Cell';
+import { GhostPiece } from '../Piece/GhostPiece';
 import { useGameStore } from '../../store/gameStore';
 import { canPlacePiece } from '../../engine/board';
+import { getPieceColor } from '../../engine/pieces';
+import { calculateGridDimensions, mapGridToLocal } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const Grid: React.FC = memo(() => {
-  const { grid, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock } = useGameStore();
+  const { grid, gridLayout, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock, clearingCells, setClearingCells } = useGameStore();
   const gridRef = useRef<View>(null);
   const { playPlace, playClear, playGameOver } = useSensoryFeedback();
 
@@ -26,29 +29,65 @@ export const Grid: React.FC = memo(() => {
           playGameOver();
         } else if (result.clearedLines > 0) {
           playClear();
+          // Trigger animation
+          setClearingCells({ rows: result.fullRows, cols: result.fullCols });
+          setTimeout(() => {
+            setClearingCells(null);
+          }, 150);
         } else {
           playPlace();
         }
       }
     }
-  }, [activePowerUpMode, addSingleBlock, playGameOver, playClear, playPlace]);
+  }, [activePowerUpMode, addSingleBlock, playGameOver, playClear, playPlace, setClearingCells]);
 
-  const isGhostCell = useCallback((row: number, col: number) => {
-    if (!selectedPiece || !hoverPosition) return false;
+  // Calculate ghost parameter
+  const ghost = useMemo(() => {
+    if (!selectedPiece || !hoverPosition || !gridLayout) return null;
     
     // Check if the piece fits at this position
-    if (!canPlacePiece(grid, selectedPiece, hoverPosition.row, hoverPosition.col)) {
-      return false;
+    const isForcePlace = activePowerUpMode === 'forcePlace';
+    const canPlace = canPlacePiece(grid, selectedPiece, hoverPosition.row, hoverPosition.col);
+    
+    // If we are forcing, we only check bounds (which canPlacePiece does internally, but returns false if occupied).
+    // We need to verify bounds specifically if we want to show ghost for forcePlace.
+    // However, canPlacePiece returns false for collision OR bounds.
+    // Let's rely on a helper or check bounds manually if forcePlace is true.
+    
+    // Actually, we can check basic bounds here:
+    const rows = selectedPiece.length;
+    const cols = selectedPiece[0].length;
+    if (hoverPosition.row + rows > 10 || hoverPosition.col + cols > 10) return null;
+
+    // If not force place, strict check
+    if (!isForcePlace && !canPlace) {
+      return null;
     }
 
-    const pieceRows = selectedPiece.length;
-    const pieceCols = selectedPiece[0].length;
+    const { cellWidth, cellHeight } = calculateGridDimensions(
+       gridLayout.width, 
+       gridLayout.height, 
+       10, 
+       8 // padding (4 border + 4 padding)
+    );
+    
+    // Calculate local position for the ghost
+    const { x, y } = mapGridToLocal(
+       hoverPosition.row, 
+       hoverPosition.col, 
+       cellWidth, 
+       cellHeight,
+       8 // padding (4 border + 4 padding)
+    );
 
-    const r = row - hoverPosition.row;
-    const c = col - hoverPosition.col;
-
-    return r >= 0 && r < pieceRows && c >= 0 && c < pieceCols && selectedPiece[r][c] === 1;
-  }, [selectedPiece, hoverPosition, grid]);
+    return {
+      x,
+      y,
+      piece: selectedPiece,
+      color: getPieceColor(selectedPiece),
+      size: cellWidth - 2 // Account for margin
+    };
+  }, [selectedPiece, hoverPosition, grid, gridLayout]);
 
   return (
     <View 
@@ -69,18 +108,34 @@ export const Grid: React.FC = memo(() => {
           style={{ flexDirection: 'row' }}
         >
           {row.map((cell, colIndex) => {
-            const isGhost = isGhostCell(rowIndex, colIndex);
+            const isClearing = !!clearingCells && (
+              clearingCells.rows.includes(rowIndex) || 
+              clearingCells.cols.includes(colIndex)
+            );
+
             return (
               <Cell
                 key={`cell-${rowIndex}-${colIndex}`}
-                color={cell || (isGhost ? 'rgba(255, 255, 255, 0.3)' : null)}
+                color={cell || null}
                 testID={`cell-${rowIndex}-${colIndex}`}
                 onPress={() => handleCellPress(rowIndex, colIndex)}
+                isClearing={isClearing}
               />
             );
           })}
         </View>
       ))}
+      
+      {ghost && (
+        <GhostPiece 
+          piece={ghost.piece}
+          color={ghost.color}
+          x={ghost.x}
+          y={ghost.y}
+          visible={true}
+          size={ghost.size}
+        />
+      )}
     </View>
   );
 });

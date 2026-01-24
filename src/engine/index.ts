@@ -6,6 +6,8 @@ export interface MoveResult {
   success: boolean;
   clearedLines: number;
   scoreGained: number;
+  fullRows: number[];
+  fullCols: number[];
 }
 
 /**
@@ -27,14 +29,14 @@ export class GameEngine {
    */
   public makeMove(piece: Piece, row: number, col: number, color: string | number = 1, options?: { ignoreCollision?: boolean }): MoveResult {
     if (!options?.ignoreCollision && !canPlacePiece(this.grid, piece, row, col)) {
-      return { success: false, clearedLines: 0, scoreGained: 0 };
+      return { success: false, clearedLines: 0, scoreGained: 0, fullRows: [], fullCols: [] };
     }
 
     // 1. Place the piece
     const placedGrid = placePiece(this.grid, piece, row, col, color, options?.ignoreCollision);
 
     // 2. Clear lines
-    const { grid: clearedGrid, clearedLines } = clearLines(placedGrid);
+    const { grid: clearedGrid, clearedLines, fullRows, fullCols } = clearLines(placedGrid);
 
     // 3. Calculate score
     const scoreGained = calculateScore(piece, clearedLines);
@@ -47,6 +49,8 @@ export class GameEngine {
       success: true,
       clearedLines,
       scoreGained,
+      fullRows,
+      fullCols,
     };
   }
 

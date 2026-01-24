@@ -12,9 +12,6 @@ import Animated, {
 import { useGameStore } from '../../store/gameStore';
 import { theme } from '../../styles/theme';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const HIGH_SCORE_KEY = 'high_score';
 
 export const GameOverModal: React.FC = () => {
   const { isGameOver, score, highScore, powerUps, usePowerUp, newGame } = useGameStore();
@@ -50,13 +47,6 @@ export const GameOverModal: React.FC = () => {
     newGame();
   };
 
-  // Emergency Save functionality temporarily disabled as power-up mechanics have changed
-  /*
-  const handleUseSwap = () => {
-    usePowerUp('swapPiece');
-  };
-  */
-
   if (!shouldRender) return null;
 
   return (
@@ -79,28 +69,6 @@ export const GameOverModal: React.FC = () => {
               <Text style={styles.scoreValue}>{highScore}</Text>
             </View>
           </View>
-
-          {/* Emergency Save Section - Disabled for Power-Up Refactor
-          {(powerUps.deleteBlock > 0 || powerUps.swapPiece > 0) && (
-            <View style={styles.saveSection}>
-              <Text style={styles.saveTitle}>EMERGENCY SAVE</Text>
-              <View style={styles.powerUpButtons}>
-                {powerUps.swapPiece > 0 && (
-                  <TouchableOpacity 
-                    style={styles.powerUpButton} 
-                    onPress={handleUseSwap}
-                  >
-                    <Text style={styles.powerUpIcon}>🔄</Text>
-                    <Text style={styles.powerUpText}>Swap Pieces</Text>
-                    <View style={styles.badge}>
-                      <Text style={styles.badgeText}>{powerUps.swapPiece}</Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </View>
-            </View>
-          )}
-          */}
 
           <TouchableOpacity style={styles.mainButton} onPress={handleNewGame}>
             <Text style={styles.mainButtonText}>NEW GAME</Text>
@@ -165,62 +133,6 @@ const styles = StyleSheet.create({
   scoreValue: {
     color: theme.colors.text.primary,
     fontSize: 28,
-    fontWeight: 'bold',
-  },
-  saveSection: {
-    width: '100%',
-    alignItems: 'center',
-    marginBottom: 24,
-    padding: 16,
-    borderWidth: 2,
-    borderColor: 'rgba(16, 185, 129, 0.3)',
-    borderRadius: 16,
-    borderStyle: 'dashed',
-  },
-  saveTitle: {
-    color: theme.colors.secondary,
-    fontSize: 14,
-    fontWeight: '900',
-    marginBottom: 16,
-  },
-  powerUpButtons: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  powerUpButton: {
-    backgroundColor: 'rgba(16, 185, 129, 0.1)',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: theme.colors.secondary,
-    alignItems: 'center',
-    position: 'relative',
-  },
-  powerUpIcon: {
-    fontSize: 24,
-    marginBottom: 4,
-  },
-  powerUpText: {
-    color: theme.colors.text.primary,
-    fontSize: 12,
-    fontWeight: 'bold',
-  },
-  badge: {
-    position: 'absolute',
-    top: -8,
-    right: -8,
-    backgroundColor: theme.colors.accent,
-    borderRadius: 10,
-    width: 20,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  badgeText: {
-    color: theme.colors.text.inverse,
-    fontSize: 10,
     fontWeight: 'bold',
   },
   mainButton: {

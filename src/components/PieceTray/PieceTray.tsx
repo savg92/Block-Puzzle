@@ -9,7 +9,7 @@ import { getPieceColor } from '../../engine/pieces';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const PieceTray: React.FC = () => {
-  const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece } = useGameStore();
+  const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece, setClearingCells } = useGameStore();
   const { playPlace, playClear, playGameOver, playTap } = useSensoryFeedback();
 
   const handleDragEnd = useCallback((
@@ -34,6 +34,11 @@ export const PieceTray: React.FC = () => {
             playGameOver();
           } else if (result.clearedLines > 0) {
             playClear();
+            // Trigger animation
+            setClearingCells({ rows: result.fullRows, cols: result.fullCols });
+            setTimeout(() => {
+              setClearingCells(null);
+            }, 150);
           } else {
             playPlace();
           }
@@ -41,7 +46,7 @@ export const PieceTray: React.FC = () => {
       }
     }
     selectPiece(null);
-  }, [gridLayout, placePiece, playGameOver, playClear, playPlace, selectPiece]);
+  }, [gridLayout, placePiece, playGameOver, playClear, playPlace, selectPiece, setClearingCells]);
 
   const handlePress = useCallback((index: number) => {
     if (activePowerUpMode === 'discard') {

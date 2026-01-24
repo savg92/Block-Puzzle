@@ -147,6 +147,31 @@ describe('clearLines', () => {
         expect(clearedLines).toBe(0);
         expect(newGrid).toEqual(grid);
     });
+
+    it('should clear all cells if the entire grid is full', () => {
+        const fullGrid: Grid = Array(3).fill(null).map(() => Array(3).fill(1));
+        const { grid: newGrid, clearedLines } = clearLines(fullGrid);
+        
+        expect(clearedLines).toBe(6); // 3 rows + 3 cols
+        expect(newGrid).toEqual([
+            [0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ]);
+    });
+
+    it('should correctly identify which rows and columns were cleared', () => {
+        const grid: Grid = [
+            [1, 1, 1], // Row 0 full
+            [1, 0, 1],
+            [1, 0, 1],
+        ]; // Col 0 full, Col 2 full
+        const { clearedLines, fullRows, fullCols } = clearLines(grid);
+        
+        expect(clearedLines).toBe(3);
+        expect(fullRows).toEqual([0]);
+        expect(fullCols).toEqual([0, 2]);
+    });
 });
 
 describe('canAnyPieceFit', () => {
@@ -170,6 +195,18 @@ describe('canAnyPieceFit', () => {
         expect(canAnyPieceFit(grid, [piece2x2])).toBe(false);
     });
 
+    it('should return true if a piece fits in an irregular gap', () => {
+        const grid: Grid = [
+            [1, 0, 1],
+            [1, 1, 1],
+            [1, 1, 1],
+        ];
+        // Only (0,1) is empty. 1x1 should fit.
+        expect(canAnyPieceFit(grid, [piece1x1])).toBe(true);
+        // 1x2 won't fit
+        expect(canAnyPieceFit(grid, [[[1, 1]]])).toBe(false);
+    });
+
     it('should check all available pieces', () => {
         const grid: Grid = [
             [1, 1],
@@ -182,5 +219,11 @@ describe('canAnyPieceFit', () => {
     it('should return false if availablePieces is empty', () => {
         const grid: Grid = [[0]];
         expect(canAnyPieceFit(grid, [])).toBe(false);
+    });
+
+    it('should return false if pieces are larger than the grid', () => {
+        const tinyGrid: Grid = [[0]];
+        const bigPiece: Piece = [[1, 1]];
+        expect(canAnyPieceFit(tinyGrid, [bigPiece])).toBe(false);
     });
 });

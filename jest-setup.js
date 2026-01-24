@@ -97,6 +97,7 @@ jest.mock('react-native-reanimated', () => {
       out: (fn) => fn,
       quad: (n) => n,
       linear: (n) => n,
+      back: (n) => (t) => t,
     },
     useDerivedValue: (cb) => ({ value: cb() }),
     useAnimatedProps: (cb) => cb(),
@@ -158,6 +159,9 @@ jest.mock('react-native-gesture-handler', () => {
         onUpdate: function() { return this; },
         onEnd: function() { return this; },
         runOnJS: function() { return this; },
+        minDistance: function() { return this; },
+        activeCursor: function() { return this; },
+        activateAfterLongPress: function() { return this; },
       }),
       Tap: () => ({
         onEnd: function() { return this; },

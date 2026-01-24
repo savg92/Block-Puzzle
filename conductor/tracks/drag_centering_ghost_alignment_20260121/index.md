@@ -1,4 +1,4 @@
-# Track powerups_20260120 Context
+# Track drag_centering_ghost_alignment_20260121 Context
 
 - [Specification](./spec.md)
 - [Implementation Plan](./plan.md)
