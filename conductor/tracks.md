@@ -12,5 +12,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [x] **Track: Drag UX Centering & Ghost Alignment**
-*Link: [./tracks/drag_centering_ghost_alignment_20260121/](./tracks/drag_centering_ghost_alignment_20260121/)*
+## [x] Track: Drag UX Centering & Ghost Alignment
+*Link: [./conductor/archive/drag_centering_ghost_alignment_20260121/](./conductor/archive/drag_centering_ghost_alignment_20260121/)*

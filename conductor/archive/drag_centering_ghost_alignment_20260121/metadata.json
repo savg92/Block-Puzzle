@@ -1,0 +1,8 @@
+{
+  "track_id": "drag_centering_ghost_alignment_20260121",
+  "type": "feature",
+  "status": "new",
+  "created_at": "2026-01-21T12:00:00Z",
+  "updated_at": "2026-01-21T12:00:00Z",
+  "description": "when user selects a piece from the tray, piece automatically places itself on top of the finger (no matter from where the piece is grabbed from), then when piece is moved to the grid, shadow should appear and follow the piece from right behind it (shadow is only for debugging purposes). Full test suite should be created to make sure shadow is right behind the piece and share same coordinates."
+}
