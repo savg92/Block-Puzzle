@@ -47,7 +47,7 @@ export const darkTheme = {
 export const lightTheme = {
   ...sharedStyles,
   colors: {
-    background: '#f8fafc', // slate-50 (Soft background)
+    background: '#ffffff', 
     surface: '#ffffff',    // pure white (Cards/Pop-ups)
     surfaceVariant: '#f1f5f9', // slate-100 (Empty grid cells)
     primary: '#2563eb',    // blue-600
@@ -55,7 +55,7 @@ export const lightTheme = {
     accent: '#d97706',     // amber-600
     error: '#dc2626',      // red-600
     text: {
-      primary: '#0f172a',  // slate-900
+      primary: '#000000',
       secondary: '#475569', // slate-600
       inverse: '#ffffff',
     },

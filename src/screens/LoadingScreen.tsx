@@ -39,7 +39,12 @@ export const LoadingScreen: React.FC = () => {
                 resizeMode="contain"
             />
         </View>
-        <Text style={[styles.title, { color: theme.colors.text.primary }]}>
+        <Text 
+          style={[
+            styles.title, 
+            { color: isDark ? '#ffffff' : '#000000' }
+          ]}
+        >
           Block Puzzle
         </Text>
       </Animated.View>
@@ -83,9 +88,5 @@ const styles = StyleSheet.create({
     fontWeight: '900',
     letterSpacing: 2,
     marginTop: 10,
-    // Add slight text shadow for better legibility during transitions
-    textShadowColor: 'rgba(0,0,0,0.1)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
   },
 });

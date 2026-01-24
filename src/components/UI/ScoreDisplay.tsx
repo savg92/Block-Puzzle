@@ -59,7 +59,7 @@ export const ScoreDisplay: React.FC = () => {
       textTransform: 'uppercase',
     },
     scoreText: {
-      color: theme.colors.text.primary,
+      color: theme.isDark ? '#f8fafc' : '#000000',
       fontSize: 28,
       fontWeight: 'bold',
     },

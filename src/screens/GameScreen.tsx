@@ -54,7 +54,7 @@ export const GameScreen: React.FC = () => {
     title: {
       fontSize: 28,
       fontWeight: 'bold',
-      color: theme.colors.text.primary,
+      color: isDark ? '#ffffff' : '#000000',
       marginBottom: 10,
       marginTop: 10,
     },
