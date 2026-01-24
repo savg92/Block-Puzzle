@@ -42,7 +42,9 @@
 
 ## 5. Development & Testing
 - **Unit Testing:** Jest
-  - Focused on the Game Engine logic.
+  - Global code coverage threshold set to 80%.
+  - **Integration Testing:** React Native Testing Library (RNTL) for verifying Store-Component interactions and complex user flows.
+  - **Visual Testing:** Snapshot testing for core UI components to prevent regressions.
 - **Linting:** Default Expo linting (`eslint-config-expo`) + Prettier
 - **Package Manager:** `bun` (User Preference)
 
