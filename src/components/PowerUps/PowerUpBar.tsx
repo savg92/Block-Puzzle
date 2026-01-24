@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useGameStore, PowerUpType } from '../../store/gameStore';
+import { POWER_UP_METADATA } from '../../store/powerUpMetadata';
 import { useTheme } from '../../styles/ThemeContext';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
@@ -190,46 +191,17 @@ export const PowerUpBar: React.FC = () => {
         </View>
       ) : (
         <>
-          <PowerUpButton 
-            type="undo"
-            icon="↩️"
-            label="Undo"
-            count={powerUps.undo}
-            isActive={false}
-            onPress={() => handlePress('undo')}
-          />
-          <PowerUpButton 
-            type="rotate"
-            icon="🔄"
-            label="Rotate"
-            count={powerUps.rotate}
-            isActive={false}
-            onPress={() => handlePress('rotate')}
-          />
-          <PowerUpButton 
-            type="discard"
-            icon="🗑️"
-            label="Discard"
-            count={powerUps.discard}
-            isActive={activePowerUpMode === 'discard'}
-            onPress={() => handlePress('discard')}
-          />
-          <PowerUpButton 
-            type="forcePlace"
-            icon="⚡"
-            label="Force"
-            count={powerUps.forcePlace}
-            isActive={activePowerUpMode === 'forcePlace'}
-            onPress={() => handlePress('forcePlace')}
-          />
-          <PowerUpButton 
-            type="addSingle"
-            icon="➕"
-            label="Single"
-            count={powerUps.addSingle}
-            isActive={activePowerUpMode === 'addSingle'}
-            onPress={() => handlePress('addSingle')}
-          />
+          {(['undo', 'rotate', 'discard', 'forcePlace', 'addSingle'] as PowerUpType[]).map((type) => (
+            <PowerUpButton 
+              key={type}
+              type={type}
+              icon={POWER_UP_METADATA[type].icon}
+              label={POWER_UP_METADATA[type].label}
+              count={powerUps[type]}
+              isActive={activePowerUpMode === type}
+              onPress={() => handlePress(type)}
+            />
+          ))}
         </>
       )}
     </View>

@@ -12,15 +12,15 @@ const sharedStyles = {
     lg: 12,
     full: 9999,
   },
-  // Block types - consistent across themes
+  // Master balanced palette for both themes
   blocks: {
-    blue: '#3B82F6',
-    green: '#10B981',
-    orange: '#F59E0B',
-    red: '#EF4444',
-    purple: '#8B5CF6',
-    cyan: '#06B6D4',
-    pink: '#EC4899',
+    blue: '#3b82f6',
+    green: '#10b981',
+    orange: '#f59e0b',
+    red: '#ef4444',
+    purple: '#8b5cf6',
+    cyan: '#06b6d4',
+    pink: '#ec4899',
   },
 };
 
@@ -47,20 +47,20 @@ export const darkTheme = {
 export const lightTheme = {
   ...sharedStyles,
   colors: {
-    background: '#f8fafc', // slate-50
-    surface: '#f1f5f9',    // slate-100
-    surfaceVariant: '#e2e8f0', // slate-200
+    background: '#f8fafc', // slate-50 (Soft background)
+    surface: '#ffffff',    // pure white (Cards/Pop-ups)
+    surfaceVariant: '#f1f5f9', // slate-100 (Empty grid cells)
     primary: '#2563eb',    // blue-600
     secondary: '#059669',  // emerald-600
     accent: '#d97706',     // amber-600
     error: '#dc2626',      // red-600
     text: {
       primary: '#0f172a',  // slate-900
-      secondary: '#64748b', // slate-500
-      inverse: '#f8fafc',  // slate-50
+      secondary: '#475569', // slate-600
+      inverse: '#ffffff',
     },
-    border: '#cbd5e1',     // slate-300
-    ...sharedStyles.blocks,
+    border: 'rgba(15, 23, 42, 0.08)', // Soft slate-900 border
+    ...sharedStyles.blocks, 
   },
 };
 

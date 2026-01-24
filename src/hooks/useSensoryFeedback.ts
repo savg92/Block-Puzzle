@@ -23,5 +23,6 @@ export const useSensoryFeedback = () => {
     playClear: () => playFeedback('clear'),
     playGameOver: () => playFeedback('gameOver'),
     playTap: () => playFeedback('tap'),
+    playSuccess: () => playFeedback('success'),
   };
 };

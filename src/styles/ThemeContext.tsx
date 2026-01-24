@@ -25,13 +25,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const mode = (preferences?.theme || 'system') as ThemeMode;
 
   const isDark = useMemo(() => {
-    return mode === 'system' ? systemColorScheme === 'dark' : mode === 'dark';
+    if (mode === 'system') {
+      return systemColorScheme === 'dark';
+    }
+    return mode === 'dark';
   }, [mode, systemColorScheme]);
 
   const theme: AppTheme = useMemo(() => {
-    const baseTheme = isDark ? (darkTheme || {}) : (lightTheme || {});
+    const baseTheme = isDark ? darkTheme : lightTheme;
+    
     return {
-      ...darkTheme, // Always spread darkTheme as base to ensure all fields exist
       ...baseTheme,
       mode,
       isDark,

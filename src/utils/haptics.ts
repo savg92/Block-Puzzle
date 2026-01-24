@@ -1,6 +1,6 @@
 import * as Haptics from 'expo-haptics';
 
-export type HapticType = 'pickup' | 'place' | 'clear' | 'gameOver' | 'tap';
+export type HapticType = 'pickup' | 'place' | 'clear' | 'gameOver' | 'tap' | 'success';
 
 export const triggerHaptic = async (type: HapticType) => {
   switch (type) {
@@ -16,6 +16,9 @@ export const triggerHaptic = async (type: HapticType) => {
       break;
     case 'gameOver':
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      break;
+    case 'success':
+      await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       break;
   }
 };

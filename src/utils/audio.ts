@@ -1,6 +1,6 @@
 import { createAudioPlayer, AudioPlayer } from 'expo-audio';
 
-export type SoundType = 'tap' | 'pickup' | 'place' | 'clear' | 'gameOver';
+export type SoundType = 'tap' | 'pickup' | 'place' | 'clear' | 'gameOver' | 'success';
 
 class AudioManager {
   private volume: number = 1.0;
@@ -14,6 +14,7 @@ class AudioManager {
     place: null,
     clear: null,
     gameOver: null,
+    success: null,
   };
 
   async playSound(type: SoundType) {

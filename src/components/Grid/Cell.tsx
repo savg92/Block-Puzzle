@@ -8,6 +8,8 @@ import Animated, {
   Easing 
 } from 'react-native-reanimated';
 
+import { useTheme } from '../../styles/ThemeContext';
+
 interface CellProps {
   color?: string | number | null;
   size?: number;
@@ -17,6 +19,7 @@ interface CellProps {
 }
 
 export const Cell: React.FC<CellProps> = memo(({ color, size = 30, testID, onPress, isClearing }) => {
+  const { theme } = useTheme();
   const isFilled = typeof color === 'string';
   const isEmpty = !color || color === 0;
   
@@ -55,8 +58,8 @@ export const Cell: React.FC<CellProps> = memo(({ color, size = 30, testID, onPre
             height: size,
             borderRadius: 4,
             margin: 1,
-            backgroundColor: isFilled ? (color as string) : (isEmpty ? '#1e293b' : 'transparent'),
-            borderColor: isFilled ? 'rgba(255,255,255,0.3)' : '#334155',
+            backgroundColor: isFilled ? (color as string) : (isEmpty ? theme.colors.surfaceVariant : 'transparent'),
+            borderColor: isFilled ? 'rgba(255,255,255,0.2)' : theme.colors.border,
             borderWidth: isEmpty && color !== 'transparent' ? 1 : 0,
           },
           animatedStyle

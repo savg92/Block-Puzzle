@@ -21,7 +21,7 @@ describe('Game Loop Integration', () => {
 
   it('completes a partial game loop: place pieces and clear a line', () => {
     const store = useGameStore.getState();
-    const colorHex = theme.colors.blocks['pink'];
+    const colorHex = (theme.colors as any)['pink'];
 
     // 1. Place a LINE_5 (1x5) at (0,0)
     // Row 0: [1, 1, 1, 1, 1, 0, 0, 0, 0, 0]

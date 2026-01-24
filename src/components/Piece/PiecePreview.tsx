@@ -18,7 +18,10 @@ export const PiecePreview: React.FC<PiecePreviewProps> = ({
   testID 
 }) => {
   const { theme } = useTheme();
-  const blockColor = (theme.colors as any)[color] || theme.colors.primary;
+  
+  // Extra safety check for blocks access to prevent TypeError
+  const colors = theme?.colors || {};
+  const blockColor = (colors as any)[color] || colors.primary || '#3b82f6';
 
   return (
     <View 

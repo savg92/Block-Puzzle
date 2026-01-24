@@ -1,5 +1,5 @@
 import { Piece } from './types';
-import { theme } from '../styles/theme';
+import { Theme } from '../styles/theme';
 
 export type PieceType =
   | 'SINGLE'
@@ -90,7 +90,6 @@ export const getRandomPieces = (count: number): Piece[] => {
 /**
  * Determines the color key for a given piece based on its shape.
  */
-import { Theme } from '../styles/theme';
 export const getPieceColor = (piece: Piece): keyof Theme['colors'] => {
   const cellCount = piece.flat().reduce((sum, cell) => sum + cell, 0);
   const rows = piece.length;

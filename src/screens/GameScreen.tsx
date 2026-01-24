@@ -6,6 +6,7 @@ import { ScoreDisplay } from '../components/UI/ScoreDisplay';
 import { PieceTray } from '../components/PieceTray/PieceTray';
 import { PowerUpBar } from '../components/PowerUps/PowerUpBar';
 import { GameOverModal } from '../components/UI/GameOverModal';
+import { PowerUpNotification } from '../components/UI/PowerUpNotification';
 import { SettingsScreen } from './SettingsScreen';
 import { StatusBar } from 'expo-status-bar';
 import { useGameStore } from '../store/gameStore';
@@ -53,7 +54,7 @@ export const GameScreen: React.FC = () => {
     title: {
       fontSize: 28,
       fontWeight: 'bold',
-      color: theme.colors.primary,
+      color: theme.colors.text.primary,
       marginBottom: 10,
       marginTop: 10,
     },
@@ -86,6 +87,7 @@ export const GameScreen: React.FC = () => {
     <SafeAreaView style={dynamicStyles.container}>
       <StatusBar style={isDark ? "light" : "dark"} />
       <GameOverModal />
+      <PowerUpNotification />
       <SettingsScreen visible={isSettingsVisible} onClose={() => setIsSettingsVisible(false)} />
       
       {/* Top Section: Score & Title */}

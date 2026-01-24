@@ -51,27 +51,28 @@ export const ScoreDisplay: React.FC = () => {
       flex: 1,
     },
     label: {
-      color: theme.colors.text.secondary,
-      fontSize: 12,
-      fontWeight: 'bold',
-      letterSpacing: 1,
-      marginBottom: 4,
+      color: theme.isDark ? theme.colors.text.secondary : '#7c8fa6', // Slightly deeper gray for light mode
+      fontSize: 10,
+      fontWeight: '900',
+      letterSpacing: 1.5,
+      marginBottom: 2,
+      textTransform: 'uppercase',
     },
     scoreText: {
       color: theme.colors.text.primary,
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: 'bold',
     },
     highScoreText: {
       color: theme.colors.secondary,
-      fontSize: 24,
+      fontSize: 28,
       fontWeight: 'bold',
     },
     divider: {
-      width: 2,
-      height: '100%',
+      width: 1,
+      height: '60%',
       backgroundColor: theme.colors.border,
-      marginHorizontal: 15,
+      marginHorizontal: 5,
     },
   });
 
