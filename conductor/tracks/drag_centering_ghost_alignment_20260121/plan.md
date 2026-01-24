@@ -1,18 +1,18 @@
 # Implementation Plan: Drag UX Centering & Ghost Alignment
 
-## Phase 1: Selection & Centering Infrastructure
+## Phase 1: Selection & Centering Infrastructure [checkpoint: 7ce175e]
 Implement the core logic for piece centering and vertical offset upon selection.
 
-- [x] Task: Update DraggablePiece State for Centering 220ee4a
+- [x] Task: Update DraggablePiece State for Centering 7ce175e
     - [x] Subtask: Define `touchOffsetX` and `touchOffsetY` shared values in `DraggablePiece.tsx`. (Note: Implemented as initialGrabX/Y and effectiveGrabX/Y)
     - [x] Subtask: Implement logic in `onStart` to capture touch point relative to piece.
-- [x] Task: Implement Centering and Offset Animation 220ee4a
+- [x] Task: Implement Centering and Offset Animation 7ce175e
     - [x] Subtask: Update `onUpdate` to adjust `translateX` and `translateY` using the captured offsets and `DRAG_VERTICAL_OFFSET`.
     - [x] Subtask: Use `withSpring` for smooth transition if needed, or immediate worklet update for direct finger following.
-- [x] Task: Write Tests for Centering Logic 220ee4a
+- [x] Task: Write Tests for Centering Logic 7ce175e
     - [x] Subtask: Create `src/components/Piece/__tests__/draggableUtils.test.ts` to verify coordinate transformations.
     - [x] Subtask: Assert that the piece's logical center aligns with the finger position (plus offset).
-- [ ] Task: Conductor - User Manual Verification 'Selection & Centering Infrastructure' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Selection & Centering Infrastructure' (Protocol in workflow.md) 7ce175e
 
 ## Phase 2: Ghost Piece (Shadow) Implementation
 Create the visual "ghost" version of the piece that snaps to the grid.
