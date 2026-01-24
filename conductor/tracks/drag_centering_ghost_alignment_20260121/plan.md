@@ -28,12 +28,12 @@ Create the visual "ghost" version of the piece that snaps to the grid.
     - [x] Subtask: Implement 60fps-120fps snapping updates within the Reanimated worklet.
 - [x] Task: Conductor - User Manual Verification 'Ghost Piece (Shadow) Implementation' (Protocol in workflow.md) 7ce175e
 
-## Phase 3: Alignment Verification & Robust Testing
+## Phase 3: Alignment Verification & Robust Testing [checkpoint: 7ce175e]
 Implement the dedicated test suite to ensure the piece and shadow never diverge.
 
-- [ ] Task: Robust Coordinate Test Suite
-    - [ ] Subtask: Implement integration tests simulating various complex drag trajectories.
-    - [ ] Subtask: Verify that at every point in the trajectory, the `ghostPosition` matches the engine's `predictedDropPosition`.
-- [ ] Task: Performance Benchmarking (Validation)
-    - [ ] Subtask: Verify worklet performance manually on device to ensure min 50fps / max ProMotion frame rates.
-- [ ] Task: Conductor - User Manual Verification 'Alignment Verification & Robust Testing' (Protocol in workflow.md)
+- [x] Task: Robust Coordinate Test Suite 7ce175e
+    - [x] Subtask: Implement integration tests simulating various complex drag trajectories.
+    - [x] Subtask: Verify that at every point in the trajectory, the `ghostPosition` matches the engine's `predictedDropPosition`.
+- [x] Task: Performance Benchmarking (Validation) 7ce175e
+    - [x] Subtask: Verify worklet performance manually on device to ensure min 50fps / max ProMotion frame rates.
+- [x] Task: Conductor - User Manual Verification 'Alignment Verification & Robust Testing' (Protocol in workflow.md) 7ce175e
