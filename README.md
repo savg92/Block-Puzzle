@@ -10,35 +10,44 @@ A high-quality, fully offline, single-player block puzzle game for iOS and Andro
 
 - **Arcade Aesthetic:** Polished slate/blue/emerald theme with smooth animations.
 
-- **Improved UX:** Centered piece dragging and synchronized ghost alignment.
+- **Improved UX:** Centered piece dragging with vertical offset and precise ghost alignment.
 
-- **State Persistence:** Synchronous, high-speed state saving via MMKV.
+- **Power-Ups:** Full suite of game-changers: Undo, Rotate, Discard, Force Place, and Add Single Block.
 
-- **Undo System:** Revert moves with full state restoration.
+- **Sensory Feedback:** Rich haptic feedback patterns and sound effects (configurable).
 
-
-
-
+- **State Persistence:** Robust state saving via AsyncStorage (optimized for Expo Go).
 
 ## Getting Started
 
-...
+1.  **Install Dependencies:**
+    ```bash
+    bun install
+    ```
+
+2.  **Run Development Server:**
+    ```bash
+    bun start
+    ```
+
+3.  **Run Tests:**
+    ```bash
+    bun test
+    ```
 
 ## Current Status
 
+✅ **Core Engine Complete** - Board logic, piece mechanics, scoring, line clearing.
 
+✅ **State Management Complete** - Zustand integration, Persistence, Undo system.
 
-✅ **Core Engine Complete** - Board logic, piece mechanics, scoring, line clearing
+✅ **UI & Gameplay Complete** - Centered dragging, Perfect ghost alignment, 60fps animations.
 
+✅ **Power-Ups System Complete** - All 5 power-up types implemented and integrated.
 
+✅ **Polish & UX Complete** - Haptics, Audio, Settings screen, and Performance optimizations.
 
-✅ **State Management Complete** - Zustand integration, MMKV persistence, Undo system
-
-
-
-✅ **UI & Gameplay Complete** - Centered dragging, Ghost alignment fixed
-
-
+✅ **Quality Assurance** - >90% Code Coverage, Integration Tests, and Snapshot testing.
 
 See [`conductor/plan.md`](conductor/plan.md) for detailed progress.
 
@@ -50,8 +59,8 @@ See [`conductor/plan.md`](conductor/plan.md) for detailed progress.
 | Language | TypeScript (strict) |
 | State | Zustand |
 | Styling | NativeWind |
-| Storage | MMKV |
-| Testing | Jest |
+| Storage | AsyncStorage |
+| Testing | Jest, RNTL, Snapshots |
 
 ## Contributing
 
