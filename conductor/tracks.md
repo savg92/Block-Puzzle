@@ -12,10 +12,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-## [x] **Track: Polish & UX**
-*Link: [./tracks/polish_ux_20260120/](./tracks/polish_ux_20260120/)*
-
----
-
 - [ ] **Track: Drag UX Centering & Ghost Alignment**
 *Link: [./tracks/drag_centering_ghost_alignment_20260121/](./tracks/drag_centering_ghost_alignment_20260121/)*
