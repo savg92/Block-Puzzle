@@ -12,6 +12,7 @@ export interface UserPreferences {
   isMuted: boolean;
   hapticIntensity: 'off' | 'low' | 'medium' | 'high';
   theme: 'light' | 'dark' | 'system';
+  showPieceShadow: boolean;
 }
 
 interface GameState {
@@ -23,6 +24,7 @@ interface GameState {
   hoverPosition: { row: number; col: number } | null;
   gridLayout: { x: number; y: number; width: number; height: number } | null;
   isGameOver: boolean;
+  scoreAtLastPowerUp: number;
   
   activePowerUpMode: null | 'discard' | 'forcePlace' | 'addSingle';
   powerUps: Record<PowerUpType, number>;
@@ -59,6 +61,7 @@ export const useGameStore = create<GameState>()(
       hoverPosition: null,
       gridLayout: null,
       isGameOver: false,
+      scoreAtLastPowerUp: 0,
       
       activePowerUpMode: null,
       powerUps: {
@@ -73,6 +76,7 @@ export const useGameStore = create<GameState>()(
         isMuted: false,
         hapticIntensity: 'medium',
         theme: 'system',
+        showPieceShadow: true,
       },
       clearingCells: null,
 
@@ -91,6 +95,7 @@ export const useGameStore = create<GameState>()(
           selectedPiece: null,
           hoverPosition: null,
           isGameOver: false,
+          scoreAtLastPowerUp: 0,
           
           activePowerUpMode: null,
           powerUps: {
@@ -105,7 +110,7 @@ export const useGameStore = create<GameState>()(
           // preferences are NOT reset on new game
         })),
       placePiece: (piece, row, col, color, sourceIndex) => {
-        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells } = get();
+        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp } = get();
         
         const isForcePlace = activePowerUpMode === 'forcePlace';
         if (isForcePlace && powerUps.forcePlace <= 0) return; // Should not happen via UI logic but safe check
@@ -115,7 +120,7 @@ export const useGameStore = create<GameState>()(
 
         if (result.success) {
           // Push current state to history before updating
-          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells };
+          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
           // Consume PowerUp if used
@@ -147,6 +152,26 @@ export const useGameStore = create<GameState>()(
           const newScore = engine.getScore();
           const newHighScore = Math.max(highScore, newScore);
 
+          // Power-Up Acquisition Logic
+          let { powerUps: finalPowerUps, scoreAtLastPowerUp: finalScoreAtLastPowerUp } = get();
+          finalPowerUps = { ...newPowerUps }; // Use newPowerUps from forcePlace check
+          
+          // 1. Every 500 points
+          const milestoneIncrement = 500;
+          if (newScore >= finalScoreAtLastPowerUp + milestoneIncrement) {
+            const types: PowerUpType[] = ['undo', 'rotate', 'discard', 'forcePlace', 'addSingle'];
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            finalPowerUps[randomType]++;
+            finalScoreAtLastPowerUp = Math.floor(newScore / milestoneIncrement) * milestoneIncrement;
+          }
+
+          // 2. Combo Clear (3+ lines)
+          if (result.clearedLines >= 3) {
+            const types: PowerUpType[] = ['undo', 'rotate', 'discard', 'forcePlace', 'addSingle'];
+            const randomType = types[Math.floor(Math.random() * types.length)];
+            finalPowerUps[randomType]++;
+          }
+
           if (newHighScore > highScore) {
             appStorage.setItem(HIGH_SCORE_KEY, newHighScore.toString());
           }
@@ -160,7 +185,8 @@ export const useGameStore = create<GameState>()(
             isGameOver: gameOver,
             history: newHistory,
             hoverPosition: null, // Clear hover
-            powerUps: newPowerUps,
+            powerUps: finalPowerUps,
+            scoreAtLastPowerUp: finalScoreAtLastPowerUp,
             activePowerUpMode: isForcePlace ? null : activePowerUpMode, // Reset mode if used
           });
 
@@ -199,7 +225,7 @@ export const useGameStore = create<GameState>()(
       },
 
       discardPiece: (index) => {
-        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences, clearingCells } = get();
+        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp } = get();
         
         if (activePowerUpMode !== 'discard') return false;
         if (powerUps.discard <= 0) return false;
@@ -207,7 +233,7 @@ export const useGameStore = create<GameState>()(
         if (availablePieces[index] === null) return false; 
 
         // Push state to history? (Assuming Discard is permanent step)
-        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells };
+        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp };
         const newHistory = [snapshot, ...history].slice(0, 20);
         
         let newAvailablePieces = [...availablePieces];
@@ -227,7 +253,7 @@ export const useGameStore = create<GameState>()(
       },
 
       addSingleBlock: (row, col) => {
-        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences, clearingCells } = get();
+        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp } = get();
 
         if (activePowerUpMode !== 'addSingle') return;
         if (powerUps.addSingle <= 0) return;
@@ -237,14 +263,37 @@ export const useGameStore = create<GameState>()(
 
         const engine = new GameEngine(grid, score);
         // Place SINGLE piece
-        const result = engine.makeMove(PIECES.SINGLE, row, col, getPieceColor(PIECES.SINGLE));
+        const result = engine.makeMove(PIECES.SINGLE, row, col, getPieceColor(PIECES.SINGLE) as string);
 
         if (result.success) {
-            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells };
+            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp };
             const newHistory = [snapshot, ...history].slice(0, 20);
 
             const newScore = engine.getScore();
             const newHighScore = Math.max(highScore, newScore);
+
+            // Power-Up Acquisition Logic
+            let finalPowerUps = { ...powerUps };
+            finalPowerUps.addSingle = Math.max(0, finalPowerUps.addSingle - 1); // Consume the one we just used
+            
+            let finalScoreAtLastPowerUp = scoreAtLastPowerUp;
+            
+            // 1. Every 500 points
+            const milestoneIncrement = 500;
+            if (newScore >= finalScoreAtLastPowerUp + milestoneIncrement) {
+              const types: PowerUpType[] = ['undo', 'rotate', 'discard', 'forcePlace', 'addSingle'];
+              const randomType = types[Math.floor(Math.random() * types.length)];
+              finalPowerUps[randomType]++;
+              finalScoreAtLastPowerUp = Math.floor(newScore / milestoneIncrement) * milestoneIncrement;
+            }
+
+            // 2. Combo Clear (3+ lines)
+            if (result.clearedLines >= 3) {
+              const types: PowerUpType[] = ['undo', 'rotate', 'discard', 'forcePlace', 'addSingle'];
+              const randomType = types[Math.floor(Math.random() * types.length)];
+              finalPowerUps[randomType]++;
+            }
+
             if (newHighScore > highScore) appStorage.setItem(HIGH_SCORE_KEY, newHighScore.toString());
 
             const remainingPieces = availablePieces.filter((p): p is Piece => p !== null);
@@ -254,7 +303,8 @@ export const useGameStore = create<GameState>()(
                 grid: engine.getGrid(),
                 score: newScore,
                 highScore: newHighScore,
-                powerUps: { ...powerUps, addSingle: powerUps.addSingle - 1 },
+                powerUps: finalPowerUps,
+                scoreAtLastPowerUp: finalScoreAtLastPowerUp,
                 activePowerUpMode: null,
                 isGameOver: gameOver,
                 history: newHistory,
@@ -296,7 +346,7 @@ export const useGameStore = create<GameState>()(
 
       updatePreferences: (prefs) => {
         set((state) => ({
-          preferences: { ...state.preferences, ...prefs }
+          preferences: { ...(state.preferences || {}), ...prefs }
         }));
       },
 

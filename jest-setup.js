@@ -127,23 +127,23 @@ jest.mock('expo-haptics', () => ({
   },
 }));
 
-// Mock expo-av
-jest.mock('expo-av', () => ({
-  Audio: {
-    Sound: {
-      createAsync: jest.fn().mockResolvedValue({
-        sound: {
-          playAsync: jest.fn(),
-          unloadAsync: jest.fn(),
-          setVolumeAsync: jest.fn(),
-          setStatusAsync: jest.fn(),
-          setOnPlaybackStatusUpdate: jest.fn(),
-        },
-        status: { isLoaded: true },
-      }),
-    },
-  },
-}));
+// Mock expo-audio
+jest.mock('expo-audio', () => {
+  const mockPlayer = {
+    play: jest.fn(),
+    remove: jest.fn(),
+    addListener: jest.fn().mockReturnValue({
+      remove: jest.fn(),
+    }),
+    volume: 1.0,
+    muted: false,
+  };
+  return {
+    useAudioPlayer: jest.fn().mockReturnValue(mockPlayer),
+    useAudioPlayerStatus: jest.fn(),
+    createAudioPlayer: jest.fn().mockReturnValue(mockPlayer),
+  };
+});
 
 // Mock gesture handler
 jest.mock('react-native-gesture-handler', () => {

@@ -3,13 +3,15 @@ import { View } from 'react-native';
 import { Cell } from './Cell';
 import { GhostPiece } from '../Piece/GhostPiece';
 import { useGameStore } from '../../store/gameStore';
+import { useTheme } from '../../styles/ThemeContext';
 import { canPlacePiece } from '../../engine/board';
 import { getPieceColor } from '../../engine/pieces';
 import { calculateGridDimensions, mapGridToLocal } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const Grid: React.FC = memo(() => {
-  const { grid, gridLayout, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock, clearingCells, setClearingCells } = useGameStore();
+  const { theme } = useTheme();
+  const { grid, gridLayout, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock, clearingCells, setClearingCells, preferences } = useGameStore();
   const gridRef = useRef<View>(null);
   const { playPlace, playClear, playGameOver } = useSensoryFeedback();
 
@@ -97,9 +99,9 @@ export const Grid: React.FC = memo(() => {
       style={{
         padding: 4, // Padding around the cells
         borderRadius: 8,
-        backgroundColor: '#0f172a', // slate-950
+        backgroundColor: theme.colors.surface,
         borderWidth: 4,
-        borderColor: '#1e293b',     // slate-800
+        borderColor: theme.colors.surfaceVariant,
       }}
     >
       {grid.map((row, rowIndex) => (
@@ -126,7 +128,7 @@ export const Grid: React.FC = memo(() => {
         </View>
       ))}
       
-      {ghost && (
+      {ghost && preferences.showPieceShadow && (
         <GhostPiece 
           piece={ghost.piece}
           color={ghost.color}

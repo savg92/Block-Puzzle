@@ -1,45 +1,46 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { useColorScheme } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { theme, Theme } from './theme';
+import { darkTheme, lightTheme, Theme } from './theme';
+import { useGameStore } from '../store/gameStore';
 
-type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeMode = 'light' | 'dark' | 'system';
+
+export type AppTheme = Theme & {
+  mode: ThemeMode;
+  isDark: boolean;
+};
 
 interface ThemeContextType {
-  theme: Theme;
+  theme: AppTheme;
   mode: ThemeMode;
-  setMode: (mode: ThemeMode) => void;
   isDark: boolean;
+  setMode: (mode: ThemeMode) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const THEME_STORAGE_KEY = 'app_theme_mode';
-
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const systemColorScheme = useColorScheme();
-  const [mode, setModeState] = useState<ThemeMode>('system');
+  const { preferences, updatePreferences } = useGameStore();
+  const mode = (preferences?.theme || 'system') as ThemeMode;
 
-  useEffect(() => {
-    const loadTheme = async () => {
-      try {
-        const savedMode = await AsyncStorage.getItem(THEME_STORAGE_KEY);
-        if (savedMode) {
-          setModeState(savedMode as ThemeMode);
-        }
-      } catch (e) {
-        console.error('Failed to load theme', e);
-      }
+  const isDark = useMemo(() => {
+    return mode === 'system' ? systemColorScheme === 'dark' : mode === 'dark';
+  }, [mode, systemColorScheme]);
+
+  const theme: AppTheme = useMemo(() => {
+    const baseTheme = isDark ? (darkTheme || {}) : (lightTheme || {});
+    return {
+      ...darkTheme, // Always spread darkTheme as base to ensure all fields exist
+      ...baseTheme,
+      mode,
+      isDark,
     };
-    loadTheme();
-  }, []);
+  }, [isDark, mode]);
 
   const setMode = (newMode: ThemeMode) => {
-    setModeState(newMode);
-    AsyncStorage.setItem(THEME_STORAGE_KEY, newMode);
+    updatePreferences({ theme: newMode });
   };
-
-  const isDark = mode === 'system' ? systemColorScheme === 'dark' : mode === 'dark';
 
   return (
     <ThemeContext.Provider value={{ theme, mode, setMode, isDark }}>

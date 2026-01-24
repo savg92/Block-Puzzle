@@ -1,22 +1,23 @@
-import { Audio } from 'expo-av';
+import { createAudioPlayer, useAudioPlayer, AudioPlayer, useAudioPlayerStatus } from 'expo-audio';
 import { audioManager } from '../audio';
 
-jest.mock('expo-av', () => ({
-  Audio: {
-    Sound: {
-      createAsync: jest.fn().mockResolvedValue({
-        sound: {
-          playAsync: jest.fn(),
-          unloadAsync: jest.fn(),
-          setVolumeAsync: jest.fn(),
-          setStatusAsync: jest.fn(),
-          setOnPlaybackStatusUpdate: jest.fn(),
-        },
-        status: { isLoaded: true },
-      }),
-    },
-  },
-}));
+// Mock the whole module
+jest.mock('expo-audio', () => {
+  const mockPlayer = {
+    play: jest.fn(),
+    remove: jest.fn(),
+    addListener: jest.fn().mockReturnValue({
+      remove: jest.fn(),
+    }),
+    volume: 1.0,
+    muted: false,
+  };
+  return {
+    useAudioPlayer: jest.fn().mockReturnValue(mockPlayer),
+    useAudioPlayerStatus: jest.fn(),
+    createAudioPlayer: jest.fn().mockReturnValue(mockPlayer),
+  };
+});
 
 describe('audioManager', () => {
   beforeEach(() => {
@@ -27,7 +28,7 @@ describe('audioManager', () => {
 
   it('plays tap sound', async () => {
     await audioManager.playSound('tap');
-    expect(Audio.Sound.createAsync).toHaveBeenCalled();
+    expect(createAudioPlayer).toHaveBeenCalled();
   });
 
   it('plays sound with asset', async () => {
@@ -36,9 +37,8 @@ describe('audioManager', () => {
     audioManager.assets.tap = { uri: 'real-asset' };
     
     await audioManager.playSound('tap');
-    expect(Audio.Sound.createAsync).toHaveBeenCalledWith(
-      { uri: 'real-asset' },
-      expect.anything()
+    expect(createAudioPlayer).toHaveBeenCalledWith(
+      { uri: 'real-asset' }
     );
     
     // Clean up
@@ -48,14 +48,15 @@ describe('audioManager', () => {
 
   it('unloads sound when finished', async () => {
     let callback: any;
-    const mockUnload = jest.fn();
-    (Audio.Sound.createAsync as jest.Mock).mockResolvedValue({
-      sound: {
-        playAsync: jest.fn(),
-        unloadAsync: mockUnload,
-        setOnPlaybackStatusUpdate: (cb: any) => { callback = cb; },
+    const mockRemove = jest.fn();
+    (createAudioPlayer as jest.Mock).mockReturnValue({
+      play: jest.fn(),
+      remove: mockRemove,
+      addListener: (event: string, cb: any) => { 
+        if (event === 'playbackStatusUpdate') callback = cb;
+        return { remove: jest.fn() };
       },
-      status: { isLoaded: true },
+      volume: 1.0,
     });
 
     // @ts-ignore
@@ -63,15 +64,17 @@ describe('audioManager', () => {
     await audioManager.playSound('tap');
     
     // Simulate finish
-    callback({ isLoaded: true, didJustFinish: true });
-    expect(mockUnload).toHaveBeenCalled();
+    callback({ didJustFinish: true });
+    expect(mockRemove).toHaveBeenCalled();
     
     // @ts-ignore
     audioManager.assets.tap = null;
   });
 
   it('handles playback errors', async () => {
-    (Audio.Sound.createAsync as jest.Mock).mockRejectedValue(new Error('Playback failed'));
+    (createAudioPlayer as jest.Mock).mockImplementation(() => {
+      throw new Error('Playback failed');
+    });
     const spy = jest.spyOn(console, 'error').mockImplementation();
     
     // @ts-ignore
@@ -85,26 +88,31 @@ describe('audioManager', () => {
   });
 
   it('sets volume', async () => {
+    const mockPlayer = {
+      play: jest.fn(),
+      remove: jest.fn(),
+      addListener: jest.fn().mockReturnValue({ remove: jest.fn() }),
+      volume: 1.0,
+    };
+    (createAudioPlayer as jest.Mock).mockReturnValue(mockPlayer);
+
     audioManager.setVolume(0.5);
     expect(audioManager.getVolume()).toBe(0.5);
     await audioManager.playSound('pickup');
-    expect(Audio.Sound.createAsync).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.objectContaining({ volume: 0.5 })
-    );
+    expect(mockPlayer.volume).toBe(0.5);
   });
 
   it('handles muted state', async () => {
     audioManager.setMuted(true);
     expect(audioManager.getIsMuted()).toBe(true);
     await audioManager.playSound('tap');
-    expect(Audio.Sound.createAsync).not.toHaveBeenCalled();
+    expect(createAudioPlayer).not.toHaveBeenCalled();
   });
 
   it('handles zero volume as muted', async () => {
     audioManager.setVolume(0);
     await audioManager.playSound('tap');
-    expect(Audio.Sound.createAsync).not.toHaveBeenCalled();
+    expect(createAudioPlayer).not.toHaveBeenCalled();
   });
 
   it('bounds volume between 0 and 1', () => {

@@ -4,17 +4,19 @@ import { useGameStore } from '../../store/gameStore';
 import { DraggablePiece } from '../Piece/DraggablePiece';
 import { mapScreenToGrid } from '../../utils/gridUtils';
 import { Piece } from '../../engine/types';
-import { theme } from '../../styles/theme';
+import { Theme } from '../../styles/theme';
+import { useTheme } from '../../styles/ThemeContext';
 import { getPieceColor } from '../../engine/pieces';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const PieceTray: React.FC = () => {
+  const { theme } = useTheme();
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece, setClearingCells } = useGameStore();
   const { playPlace, playClear, playGameOver, playTap } = useSensoryFeedback();
 
   const handleDragEnd = useCallback((
     piece: Piece, 
-    colorKey: keyof typeof theme.colors.blocks, 
+    colorKey: keyof Theme['colors'], 
     absoluteX: number, 
     absoluteY: number, 
     index: number,
@@ -26,7 +28,7 @@ export const PieceTray: React.FC = () => {
       const dropPos = gridPos || mapScreenToGrid(absoluteX, absoluteY, gridLayout, 10, 8);
       
       if (dropPos) {
-        const colorHex = theme.colors.blocks[colorKey];
+        const colorHex = (theme.colors as any)[colorKey];
         const result = placePiece(piece, dropPos.row, dropPos.col, colorHex, index);
         
         if (result?.success) {
@@ -46,7 +48,7 @@ export const PieceTray: React.FC = () => {
       }
     }
     selectPiece(null);
-  }, [gridLayout, placePiece, playGameOver, playClear, playPlace, selectPiece, setClearingCells]);
+  }, [gridLayout, placePiece, playGameOver, playClear, playPlace, selectPiece, setClearingCells, theme.colors]);
 
   const handlePress = useCallback((index: number) => {
     if (activePowerUpMode === 'discard') {
@@ -57,14 +59,34 @@ export const PieceTray: React.FC = () => {
     }
   }, [activePowerUpMode, discardPiece, playTap]);
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      width: '100%',
+      height: 120,
+      backgroundColor: theme.colors.surface,
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.border,
+      paddingHorizontal: 20,
+    },
+    pieceWrapper: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      minHeight: 80,
+    },
+  });
+
   return (
-    <View testID="piece-tray" style={styles.container}>
+    <View testID="piece-tray" style={dynamicStyles.container}>
       {availablePieces.map((piece, index) => {
         if (!piece) {
           return (
             <View 
               key={`piece-placeholder-${index}`} 
-              style={styles.pieceWrapper} 
+              style={dynamicStyles.pieceWrapper} 
             />
           );
         }
@@ -78,7 +100,7 @@ export const PieceTray: React.FC = () => {
             key={`piece-container-${index}`} 
             testID="piece-tray-item"
             style={[
-              styles.pieceWrapper,
+              dynamicStyles.pieceWrapper,
               { opacity: isDimmed ? 0.4 : 1 }
             ]}
           >
@@ -95,23 +117,3 @@ export const PieceTray: React.FC = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: '100%',
-    height: 120,
-    backgroundColor: '#0f172a',
-    borderTopWidth: 1,
-    borderTopColor: '#1e293b',
-    paddingHorizontal: 20,
-  },
-  pieceWrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 80,
-  },
-});

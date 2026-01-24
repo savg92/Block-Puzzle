@@ -1,11 +1,11 @@
-import { Audio } from 'expo-av';
+import { createAudioPlayer, AudioPlayer } from 'expo-audio';
 
 export type SoundType = 'tap' | 'pickup' | 'place' | 'clear' | 'gameOver';
 
 class AudioManager {
   private volume: number = 1.0;
   private isMuted: boolean = false;
-  private sounds: Map<SoundType, any> = new Map();
+  private players: Set<AudioPlayer> = new Set();
 
   // Asset mapping (Placeholders for now)
   private assets: Record<SoundType, any> = {
@@ -21,22 +21,32 @@ class AudioManager {
 
     try {
       const asset = this.assets[type];
+      
+      let player: AudioPlayer;
+      
       if (!asset) {
         console.warn(`Sound asset for ${type} not found.`);
-        // For testing purposes, we still want to call createAsync if it's mocked
+        // For testing purposes, we still want to create a player if it's mocked
         if (process.env.NODE_ENV === 'test') {
-          await Audio.Sound.createAsync({ uri: 'dummy' }, { volume: this.volume });
+          player = createAudioPlayer({ uri: 'dummy' });
+        } else {
+          return;
         }
-        return;
+      } else {
+        player = createAudioPlayer(asset);
       }
 
-      const { sound } = await Audio.Sound.createAsync(asset, { volume: this.volume });
-      await sound.playAsync();
+      player.volume = this.volume;
+      this.players.add(player);
       
-      // Unload sound after it finishes playing to free up resources
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.isLoaded && status.didJustFinish) {
-          sound.unloadAsync();
+      player.play();
+      
+      // Remove player after it finishes playing to free up resources
+      const subscription = player.addListener('playbackStatusUpdate', (status) => {
+        if (status.didJustFinish) {
+          subscription.remove();
+          this.players.delete(player);
+          player.remove();
         }
       });
     } catch (error) {

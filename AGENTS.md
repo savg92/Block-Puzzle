@@ -102,6 +102,11 @@ When all tasks in a track are complete:
    - Move track's spec/plan files to `conductor/archive/<track_id>/`
    - Create `metadata.json` with track completion info
 
+4. **Commit changes:**
+   - Commit all changes with conventional message
+   - Attach git note with task summary
+   - Push changes to remote
+
 ### Quality Gates (from workflow.md)
 
 Before marking any task complete, verify:
@@ -166,6 +171,3 @@ Check `conductor/plan.md` for:
 - 📋 Active tracks and current phase
 - ⏳ Upcoming work
 
----
-
-*This file should be kept in sync with conductor files. Last updated: 2026-01-16 12:00*

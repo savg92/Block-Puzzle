@@ -6,11 +6,12 @@ import Animated, {
   withTiming 
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
-import { theme } from '../../styles/theme';
+import { Theme } from '../../styles/theme';
+import { useTheme } from '../../styles/ThemeContext';
 
 interface GhostPieceProps {
   piece: number[][];
-  color: keyof typeof theme.colors.blocks;
+  color: keyof Theme['colors'];
   x: number;
   y: number;
   visible: boolean;

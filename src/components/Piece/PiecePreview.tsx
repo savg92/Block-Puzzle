@@ -1,11 +1,12 @@
 import React from 'react';
 import { View } from 'react-native';
-import { theme } from '../../styles/theme';
+import { Theme } from '../../styles/theme';
+import { useTheme } from '../../styles/ThemeContext';
 import { Cell } from '../Grid/Cell';
 
 interface PiecePreviewProps {
   piece: number[][];
-  color: keyof typeof theme.colors.blocks;
+  color: keyof Theme['colors'];
   size?: number;
   testID?: string;
 }
@@ -16,7 +17,8 @@ export const PiecePreview: React.FC<PiecePreviewProps> = ({
   size = 29, // Adjusted to 29px per user feedback
   testID 
 }) => {
-  const blockColor = theme.colors.blocks[color] || theme.colors.primary;
+  const { theme } = useTheme();
+  const blockColor = (theme.colors as any)[color] || theme.colors.primary;
 
   return (
     <View 

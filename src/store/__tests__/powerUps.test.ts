@@ -223,4 +223,83 @@ describe('Power-Ups State', () => {
         expect(state.powerUps.addSingle).toBe(1);
     });
   });
+
+  describe('Power-Up Acquisition', () => {
+    it('should award a power-up when score crosses 500 milestone', () => {
+        const piece = [[1]]; // 1 block = 1 point
+        // Total score will be 490 + 1 + 10 (line) = 501
+        
+        // Mock grid to have 9 cells in row 5
+        const mockGrid = Array(10).fill(null).map(() => Array(10).fill(0));
+        for(let i=1; i<10; i++) mockGrid[5][i] = 'blue';
+
+        useGameStore.setState({ 
+            grid: mockGrid,
+            availablePieces: [piece, null, null],
+            score: 490,
+            scoreAtLastPowerUp: 0,
+            powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+        });
+
+        useGameStore.getState().placePiece(piece, 5, 0, 'red', 0);
+
+        const state = useGameStore.getState();
+        expect(state.score).toBe(501);
+        expect(state.scoreAtLastPowerUp).toBe(500);
+        
+        const totalPowerUps = Object.values(state.powerUps).reduce((a: number, b: number) => a + b, 0);
+        expect(totalPowerUps).toBe(1);
+    });
+
+    it('should award a power-up for a combo clear (3+ lines)', () => {
+        useGameStore.setState({
+            score: 0,
+            scoreAtLastPowerUp: 0,
+            powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+        });
+
+        // Setup a 3-line clear
+        const mockGrid = Array(10).fill(null).map(() => Array(10).fill(0));
+        for(let r=0; r<3; r++) {
+            for(let c=1; c<10; c++) mockGrid[r][c] = 'blue';
+        }
+        useGameStore.setState({ grid: mockGrid });
+
+        const piece = [[1], [1], [1]]; // 3 vertical blocks
+        useGameStore.getState().placePiece(piece, 0, 0, 'red', 0);
+
+        const state = useGameStore.getState();
+        expect(state.score).toBeGreaterThan(0);
+        
+        const totalPowerUps = Object.values(state.powerUps).reduce((a: number, b: number) => a + b, 0);
+        // Should get 1 for the 3-line clear
+        expect(totalPowerUps).toBe(1);
+    });
+
+    it('should award TWO power-ups if both milestone and combo are met', () => {
+        useGameStore.setState({
+            score: 450,
+            scoreAtLastPowerUp: 0,
+            powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+        });
+
+        // Setup a 3-line clear
+        const mockGrid = Array(10).fill(null).map(() => Array(10).fill(0));
+        for(let r=0; r<3; r++) {
+            for(let c=1; c<10; c++) mockGrid[r][c] = 'blue';
+        }
+        useGameStore.setState({ grid: mockGrid });
+
+        const piece = [[1], [1], [1]]; // 3 vertical blocks
+        useGameStore.getState().placePiece(piece, 0, 0, 'red', 0);
+
+        const state = useGameStore.getState();
+        // Score: 3 blocks + 30 (lines) + 30 (bonus) = 63. Total: 450 + 63 = 513
+        expect(state.score).toBe(513);
+        expect(state.scoreAtLastPowerUp).toBe(500);
+        
+        const totalPowerUps = Object.values(state.powerUps).reduce((a: number, b: number) => a + b, 0);
+        expect(totalPowerUps).toBe(2);
+    });
+  });
 });

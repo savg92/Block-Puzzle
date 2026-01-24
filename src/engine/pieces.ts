@@ -90,7 +90,8 @@ export const getRandomPieces = (count: number): Piece[] => {
 /**
  * Determines the color key for a given piece based on its shape.
  */
-export const getPieceColor = (piece: Piece): keyof typeof theme.colors.blocks => {
+import { Theme } from '../styles/theme';
+export const getPieceColor = (piece: Piece): keyof Theme['colors'] => {
   const cellCount = piece.flat().reduce((sum, cell) => sum + cell, 0);
   const rows = piece.length;
   const cols = piece[0].length;

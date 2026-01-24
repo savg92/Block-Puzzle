@@ -10,10 +10,11 @@ import Animated, {
   runOnJS
 } from 'react-native-reanimated';
 import { useGameStore } from '../../store/gameStore';
-import { theme } from '../../styles/theme';
+import { useTheme } from '../../styles/ThemeContext';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const GameOverModal: React.FC = () => {
+  const { theme } = useTheme();
   const { isGameOver, score, highScore, powerUps, usePowerUp, newGame } = useGameStore();
   const [shouldRender, setShouldRender] = useState(isGameOver);
   const { playTap } = useSensoryFeedback();
@@ -47,6 +48,78 @@ export const GameOverModal: React.FC = () => {
     newGame();
   };
 
+  const dynamicStyles = StyleSheet.create({
+    overlay: {
+      flex: 1,
+      backgroundColor: theme.isDark ? 'rgba(2, 6, 23, 0.85)' : 'rgba(15, 23, 42, 0.7)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: 20,
+    },
+    container: {
+      width: '100%',
+      maxWidth: 340,
+      backgroundColor: theme.colors.surface,
+      borderRadius: 24,
+      padding: 32,
+      alignItems: 'center',
+      borderWidth: 4,
+      borderColor: theme.colors.primary,
+      shadowColor: theme.colors.primary,
+      shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.5,
+      shadowRadius: 20,
+      elevation: 10,
+    },
+    title: {
+      fontSize: 42,
+      fontWeight: '900',
+      color: theme.colors.error,
+      marginBottom: 24,
+      fontStyle: 'italic',
+      textShadowColor: theme.isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(220, 38, 38, 0.3)',
+      textShadowOffset: { width: 0, height: 0 },
+      textShadowRadius: 10,
+    },
+    scoreSection: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      width: '100%',
+      marginBottom: 32,
+      backgroundColor: theme.colors.background,
+      borderRadius: 16,
+      padding: 16,
+      opacity: 0.8,
+    },
+    scoreItem: {
+      alignItems: 'center',
+    },
+    scoreLabel: {
+      color: theme.colors.text.secondary,
+      fontSize: 12,
+      fontWeight: 'bold',
+      marginBottom: 4,
+    },
+    scoreValue: {
+      color: theme.colors.text.primary,
+      fontSize: 28,
+      fontWeight: 'bold',
+    },
+    mainButton: {
+      backgroundColor: theme.colors.primary,
+      paddingVertical: 16,
+      paddingHorizontal: 48,
+      borderRadius: 16,
+      width: '100%',
+      alignItems: 'center',
+    },
+    mainButtonText: {
+      color: theme.colors.text.inverse,
+      fontSize: 20,
+      fontWeight: '900',
+    },
+  });
+
   if (!shouldRender) return null;
 
   return (
@@ -55,97 +128,26 @@ export const GameOverModal: React.FC = () => {
       visible={shouldRender}
       animationType="none"
     >
-      <View style={styles.overlay}>
-        <Animated.View style={[styles.container, animatedStyle]}>
-          <Text style={styles.title}>GAME OVER</Text>
+      <View style={dynamicStyles.overlay}>
+        <Animated.View style={[dynamicStyles.container, animatedStyle]}>
+          <Text style={dynamicStyles.title}>GAME OVER</Text>
           
-          <View style={styles.scoreSection}>
-            <View style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>SCORE</Text>
-              <Text style={styles.scoreValue}>{score}</Text>
+          <View style={dynamicStyles.scoreSection}>
+            <View style={dynamicStyles.scoreItem}>
+              <Text style={dynamicStyles.scoreLabel}>SCORE</Text>
+              <Text style={dynamicStyles.scoreValue}>{score}</Text>
             </View>
-            <View style={styles.scoreItem}>
-              <Text style={styles.scoreLabel}>BEST</Text>
-              <Text style={styles.scoreValue}>{highScore}</Text>
+            <View style={dynamicStyles.scoreItem}>
+              <Text style={dynamicStyles.scoreLabel}>BEST</Text>
+              <Text style={dynamicStyles.scoreValue}>{highScore}</Text>
             </View>
           </View>
 
-          <TouchableOpacity style={styles.mainButton} onPress={handleNewGame}>
-            <Text style={styles.mainButtonText}>NEW GAME</Text>
+          <TouchableOpacity style={dynamicStyles.mainButton} onPress={handleNewGame}>
+            <Text style={dynamicStyles.mainButtonText}>NEW GAME</Text>
           </TouchableOpacity>
         </Animated.View>
       </View>
     </Modal>
   );
 };
-
-const styles = StyleSheet.create({
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(2, 6, 23, 0.85)',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  container: {
-    width: '100%',
-    maxWidth: 340,
-    backgroundColor: theme.colors.surface,
-    borderRadius: 24,
-    padding: 32,
-    alignItems: 'center',
-    borderWidth: 4,
-    borderColor: theme.colors.primary,
-    shadowColor: theme.colors.primary,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 20,
-    elevation: 10,
-  },
-  title: {
-    fontSize: 42,
-    fontWeight: '900',
-    color: theme.colors.error,
-    marginBottom: 24,
-    fontStyle: 'italic',
-    textShadowColor: 'rgba(239, 68, 68, 0.5)',
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
-  },
-  scoreSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    marginBottom: 32,
-    backgroundColor: 'rgba(15, 23, 42, 0.5)',
-    borderRadius: 16,
-    padding: 16,
-  },
-  scoreItem: {
-    alignItems: 'center',
-  },
-  scoreLabel: {
-    color: theme.colors.text.secondary,
-    fontSize: 12,
-    fontWeight: 'bold',
-    marginBottom: 4,
-  },
-  scoreValue: {
-    color: theme.colors.text.primary,
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  mainButton: {
-    backgroundColor: theme.colors.primary,
-    paddingVertical: 16,
-    paddingHorizontal: 48,
-    borderRadius: 16,
-    width: '100%',
-    alignItems: 'center',
-  },
-  mainButtonText: {
-    color: theme.colors.text.primary,
-    fontSize: 20,
-    fontWeight: '900',
-  },
-});

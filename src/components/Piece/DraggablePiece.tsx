@@ -16,7 +16,8 @@ import Animated, {
   runOnJS,
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
-import { theme } from '../../styles/theme';
+import { Theme } from '../../styles/theme';
+import { useTheme } from '../../styles/ThemeContext';
 import { useGameStore } from '../../store/gameStore';
 import { mapScreenToGrid } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
@@ -24,7 +25,7 @@ import { canPlacePiece } from '../../engine/board';
 
 interface Props {
   piece: number[][];
-  color: keyof typeof theme.colors.blocks;
+  color: keyof Theme['colors'];
   onDragEnd: (x: number, y: number, gridPos?: { row: number; col: number }) => void;
   onPress?: () => void;
   size?: number;

@@ -1,72 +1,74 @@
 import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react-native';
+
+// Mock useColorScheme for testing system theme
+const mockUseColorScheme = jest.fn();
+jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
+  __esModule: true,
+  default: mockUseColorScheme,
+}));
+
 import { ThemeProvider, useTheme } from '../ThemeContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useGameStore } from '../../store/gameStore';
 
 describe('ThemeContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUseColorScheme.mockReturnValue('light');
+    // Reset store to default
+    act(() => {
+      useGameStore.getState().updatePreferences({ theme: 'system' });
+    });
   });
 
-  it('provides default theme', async () => {
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('system');
-    
+  it('provides theme object with mode and isDark', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
     );
 
     const { result } = renderHook(() => useTheme(), { wrapper });
 
-    await waitFor(() => {
-      expect(result.current.theme).toBeDefined();
-      expect(result.current.mode).toBe('system');
-    });
+    expect(result.current.theme).toBeDefined();
+    expect(result.current.theme.mode).toBe('system');
+    expect(result.current.mode).toBe('system');
   });
 
-  it('allows changing theme mode', async () => {
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('system');
-    
+  it('allows changing theme mode via setMode', async () => {
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
     );
 
     const { result } = renderHook(() => useTheme(), { wrapper });
-
-    // Wait for initial load
-    await waitFor(() => {
-      expect(result.current.mode).toBe('system');
-    });
 
     await act(async () => {
       result.current.setMode('dark');
     });
 
     expect(result.current.mode).toBe('dark');
-    expect(AsyncStorage.setItem).toHaveBeenCalledWith('app_theme_mode', 'dark');
+    expect(result.current.isDark).toBe(true);
+    expect(useGameStore.getState().preferences.theme).toBe('dark');
   });
 
   it('respects system color scheme when mode is system', async () => {
-    const { useColorScheme } = require('react-native');
-    (useColorScheme as jest.Mock).mockReturnValue('dark');
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('system');
+    // Ensure mode is system
+    act(() => {
+      useGameStore.getState().updatePreferences({ theme: 'system' });
+    });
 
+    mockUseColorScheme.mockReturnValue('dark');
+    
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
     );
 
-    const { result } = renderHook(() => useTheme(), { wrapper });
+    const { result, rerender } = renderHook(() => useTheme(), { wrapper });
 
-    await waitFor(() => {
-      expect(result.current.isDark).toBe(true);
-    });
+    expect(result.current.isDark).toBe(true);
 
-    (useColorScheme as jest.Mock).mockReturnValue('light');
+    mockUseColorScheme.mockReturnValue('light');
+    rerender({});
     
-    // Rerender to pick up new system color scheme
-    const { result: result2 } = renderHook(() => useTheme(), { wrapper });
-    await waitFor(() => {
-      expect(result2.current.isDark).toBe(false);
-    });
+    expect(result.current.isDark).toBe(false);
   });
 
   it('throws error if used outside ThemeProvider', () => {

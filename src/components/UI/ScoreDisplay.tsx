@@ -6,8 +6,10 @@ import Animated, {
   Easing,
 } from 'react-native-reanimated';
 import { useGameStore } from '../../store/gameStore';
+import { useTheme } from '../../styles/ThemeContext';
 
 export const ScoreDisplay: React.FC = () => {
+  const { theme } = useTheme();
   const { score, highScore, initStore } = useGameStore();
   
   useEffect(() => {
@@ -31,59 +33,59 @@ export const ScoreDisplay: React.FC = () => {
     setDisplayScore(score);
   }, [score]);
 
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      backgroundColor: theme.colors.surface,
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 20,
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: theme.colors.border,
+      minWidth: 240,
+      justifyContent: 'space-between',
+    },
+    scoreBox: {
+      alignItems: 'center',
+      flex: 1,
+    },
+    label: {
+      color: theme.colors.text.secondary,
+      fontSize: 12,
+      fontWeight: 'bold',
+      letterSpacing: 1,
+      marginBottom: 4,
+    },
+    scoreText: {
+      color: theme.colors.text.primary,
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    highScoreText: {
+      color: theme.colors.secondary,
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    divider: {
+      width: 2,
+      height: '100%',
+      backgroundColor: theme.colors.border,
+      marginHorizontal: 15,
+    },
+  });
+
   return (
-    <View testID="score-container" style={styles.container}>
-      <View style={styles.scoreBox}>
-        <Text style={styles.label}>SCORE</Text>
-        <Text testID="current-score" style={styles.scoreText}>{displayScore}</Text>
+    <View testID="score-container" style={dynamicStyles.container}>
+      <View style={dynamicStyles.scoreBox}>
+        <Text style={dynamicStyles.label}>SCORE</Text>
+        <Text testID="current-score" style={dynamicStyles.scoreText}>{displayScore}</Text>
       </View>
-      <View style={styles.divider} />
-      <View style={styles.scoreBox}>
-        <Text style={styles.label}>BEST</Text>
-        <Text testID="high-score" style={styles.highScoreText}>{highScore}</Text>
+      <View style={dynamicStyles.divider} />
+      <View style={dynamicStyles.scoreBox}>
+        <Text style={dynamicStyles.label}>BEST</Text>
+        <Text testID="high-score" style={dynamicStyles.highScoreText}>{highScore}</Text>
       </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: '#1e293b', // slate-800
-    borderRadius: 12,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#334155', // slate-700
-    minWidth: 240,
-    justifyContent: 'space-between',
-  },
-  scoreBox: {
-    alignItems: 'center',
-    flex: 1,
-  },
-  label: {
-    color: '#94a3b8', // slate-400
-    fontSize: 12,
-    fontWeight: 'bold',
-    letterSpacing: 1,
-    marginBottom: 4,
-  },
-  scoreText: {
-    color: '#f8fafc', // slate-50
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  highScoreText: {
-    color: '#10b981', // emerald-500
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  divider: {
-    width: 2,
-    height: '100%',
-    backgroundColor: '#334155',
-    marginHorizontal: 15,
-  },
-});
