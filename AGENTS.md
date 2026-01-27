@@ -35,12 +35,12 @@ A high-quality, fully offline, single-player block puzzle game for iOS and Andro
 | Category | Technology |
 |----------|------------|
 | **Language** | TypeScript (v5+, strict mode, no `any`) |
-| **Framework** | Expo (SDK 50+) with React Native |
+| **Framework** | Expo (SDK 54) with React Native |
 | **State** | Zustand + Pure TypeScript Engine |
 | **Styling** | NativeWind (Tailwind CSS for RN) |
 | **Animations** | React Native Reanimated (v3+) |
 | **Gestures** | React Native Gesture Handler |
-| **Persistence** | MMKV |
+| **Persistence** | AsyncStorage |
 | **Testing** | Jest |
 | **Package Manager** | `bun` |
 

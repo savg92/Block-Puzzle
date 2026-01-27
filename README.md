@@ -3,7 +3,7 @@
 ![License](https://img.shields.io/badge/license-Private-red.svg)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey.svg)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-success.svg)
-![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen.svg)
+![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
 
 A premium, fully offline, single-player block puzzle game built with React Native and Expo. Designed for performance, aesthetics, and pure gameplay focus without the distractions of ads or monetization.
 
@@ -35,7 +35,7 @@ Built with a focus on **Clean Architecture** and **Performance**.
 
 | Layer | Technology | Description |
 |-------|------------|-------------|
-| **Core** | **Expo (SDK 50)** | Managed workflow for cross-platform stability. |
+| **Core** | **Expo (SDK 54)** | Managed workflow for cross-platform stability. |
 | **Logic** | **TypeScript** | Pure, dependency-free game engine (`src/engine`). |
 | **State** | **Zustand** | Lightweight store for reactive state and actions. |
 | **UI** | **NativeWind** | Utility-first styling (Tailwind CSS) for React Native. |
@@ -100,34 +100,36 @@ src/
 This project follows a strict **Test-Driven Development (TDD)** workflow.
 
 ### Running Tests
-```bash
 # Run all unit and integration tests
-bun test
+```bash
+bun x jest
+```
+or
+```bash
+npm run test
+```
 
 # Run tests in watch mode
-bun test --watch
+```bash
+bun x jest --watch
+```
+or
+```bash
+npm run test:watch
+```
 
 # Generate coverage report
-bun test --coverage
+```bash
+bun x jest --coverage
+```
+or
+```bash
+npm run test:coverage
 ```
 
 ### Coverage Targets
-- **Global:** >80% (Currently >90%)
+- **Global:** >80% (Currently ~96%)
 - **Critical Paths:** 100% (Engine logic, State management)
-
----
-
-## 📈 Development Tracks
-
-We use a "Conductor" framework to track feature implementation. See [`conductor/tracks.md`](conductor/tracks.md) for the full history.
-
-- ✅ **Core Engine** (Logic & Rules)
-- ✅ **State Management** (Zustand & Persistence)
-- ✅ **UI Foundation** (Grid & Pieces)
-- ✅ **Core Gameplay** (Drag & Drop, Clearing)
-- ✅ **Power-Ups** (Implementation & UI)
-- ✅ **Polish & UX** (Haptics, Audio, Settings)
-- ✅ **Drag UX Refinement** (Centering & Ghost Alignment)
 
 ---
 
