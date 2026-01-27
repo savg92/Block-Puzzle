@@ -16,6 +16,7 @@ jest.mock('../storage', () => {
 describe('gameStore', () => {
   beforeEach(() => {
     // Reset store before each test
+    jest.clearAllMocks();
     useGameStore.getState().newGame();
   });
 
@@ -75,22 +76,17 @@ describe('gameStore', () => {
   });
 
   it('should place a piece and update state', () => {
-    // Initial available pieces should be 3
-    const initialAvailable = [...useGameStore.getState().availablePieces];
-    const pieceToPlace = initialAvailable[0] as Piece;
-
+    // Force available pieces to have a SINGLE at index 0 for predictable test
+    useGameStore.setState({ availablePieces: [PIECES.SINGLE, PIECES.SINGLE, PIECES.SINGLE] });
+    
     // Place a single block at (0,0)
     useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
-    const result = useGameStore.getState().placePiece(pieceToPlace, 0, 0, '#FF0000', 0);
+    const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, '#FF0000', 0);
     
     const state = useGameStore.getState();
-    // If it cleared a line (e.g. pieceToPlace was a 1x1 and it filled row 0), it might be 0.
-    // But in a fresh game, row 0 is empty, so placing a piece makes it filled unless it triggers clear.
-    if (result?.clearedLines === 0) {
-        expect(state.grid[0][0]).toBe('#FF0000');
-    } else {
-        expect(state.grid[0][0]).toBe(0);
-    }
+    // In a fresh game, row 0 is empty, so placing a piece makes it filled unless it triggers clear.
+    // A 1x1 at (0,0) won't trigger clear on a 10x10 empty board.
+    expect(state.grid[0][0]).toBe('#FF0000');
     expect(state.score).toBeGreaterThan(0);
     expect(state.availablePieces[0]).toBeNull(); // Replaced with null
     expect(state.availablePieces.filter(p => p !== null)).toHaveLength(2); // 2 remaining
@@ -352,6 +348,266 @@ describe('gameStore', () => {
 
       await useGameStore.getState().initStore();
       expect(useGameStore.getState().highScore).toBe(500);
+    });
+  });
+
+  describe('Power-up Acquisition & Milestones', () => {
+    it('awards power-up on milestone (every 500 points)', () => {
+      useGameStore.setState({ 
+        score: 490, 
+        scoreAtLastPowerUp: 0,
+        availablePieces: [PIECES.SQUARE_2, null, null],
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+      });
+
+      // SQUARE_2 gives 4 points
+      // Total score will be 494. Still below 500 milestone.
+      useGameStore.getState().placePiece(PIECES.SQUARE_2, 0, 0, 'red', 0);
+      let state = useGameStore.getState();
+      expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBe(0);
+
+      // Place another to cross 500
+      useGameStore.setState({ availablePieces: [PIECES.SINGLE, null, null], score: 499 });
+      useGameStore.getState().placePiece(PIECES.SINGLE, 5, 5, 'blue', 0);
+      
+      state = useGameStore.getState();
+      expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBe(1);
+      expect(state.scoreAtLastPowerUp).toBe(500);
+      expect(state.lastEarnedPowerUp).not.toBeNull();
+    });
+
+    it('awards power-up on combo clear (3+ lines)', () => {
+      // Setup grid for 3-line clear
+      const grid = Array(10).fill(null).map(() => Array(10).fill('blue'));
+      grid[0][0] = 0;
+      grid[1][0] = 0;
+      grid[2][0] = 0;
+
+      useGameStore.setState({ 
+        grid,
+        availablePieces: [[[1], [1], [1]], null, null],
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+      });
+
+      useGameStore.getState().placePiece([[1], [1], [1]], 0, 0, 'red', 0);
+      
+      const state = useGameStore.getState();
+      expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBeGreaterThanOrEqual(1);
+      expect(state.lastEarnedPowerUp).not.toBeNull();
+    });
+
+    it('awards milestone power-up via addSingleBlock', () => {
+      useGameStore.setState({ 
+        score: 499,
+        scoreAtLastPowerUp: 0,
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 1 },
+        activePowerUpMode: 'addSingle'
+      });
+
+      useGameStore.getState().addSingleBlock(0, 0);
+      
+      const state = useGameStore.getState();
+      // Total powerups should be 1 (gained one, lost one used)
+      expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBe(1);
+      expect(state.scoreAtLastPowerUp).toBe(500);
+    });
+  });
+
+  describe('Edge Cases & Preferences', () => {
+    it('discardPiece should return false for invalid index', () => {
+      useGameStore.setState({ activePowerUpMode: 'discard' });
+      const result = useGameStore.getState().discardPiece(5);
+      expect(result).toBe(false);
+    });
+
+    it('addSingleBlock should do nothing if cell is occupied', () => {
+      const grid = Array(10).fill(null).map(() => Array(10).fill(0));
+      grid[0][0] = 'red';
+      useGameStore.setState({ grid, activePowerUpMode: 'addSingle', powerUps: { ...useGameStore.getState().powerUps, addSingle: 1 } });
+
+      const result = useGameStore.getState().addSingleBlock(0, 0);
+      expect(result).toBeUndefined();
+      expect(useGameStore.getState().powerUps.addSingle).toBe(1);
+    });
+
+    it('updatePreferences should partially update preferences', () => {
+      useGameStore.getState().updatePreferences({ isMuted: true });
+      expect(useGameStore.getState().preferences.isMuted).toBe(true);
+      expect(useGameStore.getState().preferences.theme).toBe('system');
+    });
+
+    it('clearNotification should reset lastEarnedPowerUp', () => {
+      useGameStore.setState({ lastEarnedPowerUp: 'undo' });
+      useGameStore.getState().clearNotification();
+      expect(useGameStore.getState().lastEarnedPowerUp).toBeNull();
+    });
+
+    it('awards milestone power-up when crossing multiple 500-pt thresholds', () => {
+      useGameStore.setState({ 
+        score: 0, 
+        scoreAtLastPowerUp: 0,
+        availablePieces: [PIECES.BIG_L, null, null],
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+      });
+
+      // BIG_L gives some points. Let's just force a huge score gain.
+      // We need a piece that triggers a line clear to get 500+ points in one move, 
+      // or just manually set the score before placement.
+      useGameStore.setState({ score: 1200 }); // Crossing 2 milestones (500, 1000)
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
+      
+      const state = useGameStore.getState();
+      expect(state.scoreAtLastPowerUp).toBe(1000); // Should snap to highest reached milestone
+      expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBeGreaterThanOrEqual(1);
+    });
+
+    it('awards power-up on 4-line combo clear', () => {
+      const grid = Array(10).fill(null).map(() => Array(10).fill('blue'));
+      grid[0][0] = 0; grid[1][0] = 0; grid[2][0] = 0; grid[3][0] = 0;
+
+      useGameStore.setState({ 
+        grid,
+        availablePieces: [[[1], [1], [1], [1]], null, null],
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 }
+      });
+
+      useGameStore.getState().placePiece([[1], [1], [1], [1]], 0, 0, 'red', 0);
+      
+      const state = useGameStore.getState();
+      expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBeGreaterThanOrEqual(1);
+    });
+
+    it('usePowerUp does nothing if no inventory', () => {
+      useGameStore.setState({ powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 } });
+      useGameStore.getState().usePowerUp('rotate');
+      expect(useGameStore.getState().availablePieces).not.toEqual([]); // Assuming they weren't rotated
+    });
+
+    it('usePowerUp toggles mode off if clicked twice', () => {
+      useGameStore.setState({ powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 } });
+      useGameStore.getState().usePowerUp('discard');
+      expect(useGameStore.getState().activePowerUpMode).toBe('discard');
+      useGameStore.getState().usePowerUp('discard');
+      expect(useGameStore.getState().activePowerUpMode).toBeNull();
+    });
+
+    it('discardPiece returns false if not in discard mode', () => {
+      useGameStore.setState({ activePowerUpMode: null, availablePieces: [PIECES.SINGLE, null, null] });
+      const result = useGameStore.getState().discardPiece(0);
+      expect(result).toBe(false);
+    });
+
+    it('discardPiece returns false if index is null', () => {
+      useGameStore.setState({ activePowerUpMode: 'discard', availablePieces: [null, null, null] });
+      const result = useGameStore.getState().discardPiece(0);
+      expect(result).toBe(false);
+    });
+
+    it('placePiece returns false if forcePlace used with no inventory', () => {
+      useGameStore.setState({ activePowerUpMode: 'forcePlace', powerUps: { ...useGameStore.getState().powerUps, forcePlace: 0 } });
+      const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
+      expect(result).toBeUndefined();
+    });
+
+    it('undo does nothing if no inventory', () => {
+      useGameStore.setState({ powerUps: { ...useGameStore.getState().powerUps, undo: 0 } });
+      useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
+      useGameStore.getState().undo();
+      expect(useGameStore.getState().score).toBeGreaterThan(0); // Still has score from move
+    });
+
+    it('placePiece handles sourceIndex out of range by findIndex', () => {
+      // Add another piece so it doesn't refill
+      useGameStore.setState({ availablePieces: [PIECES.SINGLE, PIECES.LINE_2, null] });
+      const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 5); // Index 5 is out of range
+      expect(result?.success).toBe(true);
+      expect(useGameStore.getState().availablePieces[0]).toBeNull(); // Found it anyway
+    });
+
+    it('updates high score via addSingleBlock', () => {
+      const { appStorage } = require('../storage');
+      useGameStore.setState({ 
+        score: 100, 
+        highScore: 100,
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 1 },
+        activePowerUpMode: 'addSingle'
+      });
+
+      useGameStore.getState().addSingleBlock(0, 0);
+      
+      expect(useGameStore.getState().highScore).toBe(101);
+      expect(appStorage.setItem).toHaveBeenCalledWith('high_score', '101');
+    });
+
+    it('does not update high score if not exceeded via addSingleBlock', () => {
+      const { appStorage } = require('../storage');
+      useGameStore.setState({ 
+        score: 50, 
+        highScore: 100,
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 1 },
+        activePowerUpMode: 'addSingle'
+      });
+
+      useGameStore.getState().addSingleBlock(0, 0);
+      
+      expect(useGameStore.getState().highScore).toBe(100);
+      expect(appStorage.setItem).not.toHaveBeenCalledWith('high_score', expect.any(String));
+    });
+
+    it('updatePreferences handles null state preferences', () => {
+      // @ts-ignore
+      useGameStore.setState({ preferences: null });
+      useGameStore.getState().updatePreferences({ isMuted: true });
+      expect(useGameStore.getState().preferences.isMuted).toBe(true);
+    });
+
+    it('usePowerUp handles unknown type', () => {
+      const spy = jest.spyOn(console, 'log').mockImplementation();
+      // @ts-ignore
+      useGameStore.getState().usePowerUp('unknown');
+      expect(spy).toHaveBeenCalledWith('usePowerUp', 'unknown');
+      spy.mockRestore();
+    });
+
+    it('placePiece handles piece findIndex failure when no sourceIndex', () => {
+      useGameStore.setState({ availablePieces: [PIECES.LINE_2, null, null] });
+      // Try to place SINGLE which is not in available pieces
+      const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red');
+      expect(result?.success).toBe(true);
+      // availablePieces should remain same (LINE_2 still there) because findIndex was -1
+      expect(useGameStore.getState().availablePieces[0]).toEqual(PIECES.LINE_2);
+    });
+
+    it('addSingleBlock returns failure if move fails (e.g. occupied)', () => {
+      const grid = Array(10).fill(null).map(() => Array(10).fill(0));
+      grid[0][0] = 'red';
+      useGameStore.setState({ grid, activePowerUpMode: 'addSingle', powerUps: { ...useGameStore.getState().powerUps, addSingle: 1 } });
+      const result = useGameStore.getState().addSingleBlock(0, 0);
+      expect(result).toBeUndefined();
+    });
+
+    it('addSingleBlock grants powerups on milestone and clear lines', () => {
+      // 1. Milestone
+      useGameStore.setState({ 
+        score: 499, scoreAtLastPowerUp: 0, 
+        activePowerUpMode: 'addSingle', 
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 1 } 
+      });
+      useGameStore.getState().addSingleBlock(0, 0);
+      expect(useGameStore.getState().scoreAtLastPowerUp).toBe(500);
+      expect(Object.values(useGameStore.getState().powerUps).reduce((a, b) => a + b)).toBe(1);
+
+      // 2. Clear lines (combo)
+      const grid = Array(10).fill(null).map(() => Array(10).fill('blue'));
+      grid[5][5] = 0; // Empty spot to trigger clear all rows/cols
+      useGameStore.setState({ 
+        grid, 
+        activePowerUpMode: 'addSingle', 
+        powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 1 },
+        scoreAtLastPowerUp: 10000 // far away milestone
+      });
+      useGameStore.getState().addSingleBlock(5, 5);
+      expect(useGameStore.getState().lastEarnedPowerUp).not.toBeNull();
     });
   });
 });

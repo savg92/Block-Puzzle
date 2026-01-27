@@ -67,6 +67,11 @@ describe('audioManager', () => {
     callback({ didJustFinish: true });
     expect(mockRemove).toHaveBeenCalled();
     
+    // Simulate non-finish update
+    mockRemove.mockClear();
+    callback({ didJustFinish: false });
+    expect(mockRemove).not.toHaveBeenCalled();
+    
     // @ts-ignore
     audioManager.assets.tap = null;
   });
@@ -83,6 +88,15 @@ describe('audioManager', () => {
     
     expect(spy).toHaveBeenCalled();
     spy.mockRestore();
+    // @ts-ignore
+    audioManager.assets.tap = null;
+  });
+
+  it('plays sound when asset is provided', async () => {
+    // @ts-ignore
+    audioManager.assets.tap = { uri: 'test-asset' };
+    await audioManager.playSound('tap');
+    expect(createAudioPlayer).toHaveBeenCalledWith({ uri: 'test-asset' });
     // @ts-ignore
     audioManager.assets.tap = null;
   });
@@ -115,10 +129,29 @@ describe('audioManager', () => {
     expect(createAudioPlayer).not.toHaveBeenCalled();
   });
 
+  it('does not create player when not in test env and asset is missing', async () => {
+    const originalEnv = process.env.NODE_ENV;
+    // @ts-ignore
+    process.env.NODE_ENV = 'production';
+    
+    await audioManager.playSound('tap');
+    expect(createAudioPlayer).not.toHaveBeenCalled();
+    
+    // @ts-ignore
+    process.env.NODE_ENV = originalEnv;
+  });
+
   it('bounds volume between 0 and 1', () => {
     audioManager.setVolume(1.5);
     expect(audioManager.getVolume()).toBe(1.0);
     audioManager.setVolume(-0.5);
     expect(audioManager.getVolume()).toBe(0);
+  });
+
+  it('warns when asset is missing in test environment', async () => {
+    const spy = jest.spyOn(console, 'warn').mockImplementation();
+    await audioManager.playSound('success');
+    expect(spy).toHaveBeenCalledWith('Sound asset for success not found.');
+    spy.mockRestore();
   });
 });

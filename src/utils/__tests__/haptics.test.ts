@@ -40,4 +40,26 @@ describe('haptics', () => {
     await triggerHaptic('gameOver');
     expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Heavy);
   });
+
+  it('triggers light impact for tap', async () => {
+    await triggerHaptic('tap');
+    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
+  });
+
+  it('triggers success notification for success', async () => {
+    await triggerHaptic('success');
+    expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
+  });
+
+  it('does nothing for invalid haptic type', async () => {
+    // @ts-ignore
+    await triggerHaptic('invalid');
+    expect(Haptics.impactAsync).not.toHaveBeenCalled();
+    expect(Haptics.notificationAsync).not.toHaveBeenCalled();
+  });
+
+  it('triggers light impact for tap explicitly', async () => {
+    await triggerHaptic('tap');
+    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
+  });
 });

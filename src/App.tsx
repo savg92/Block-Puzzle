@@ -8,12 +8,17 @@ import "./styles/global.css";
 
 // Dynamic require to prevent crash if module fails to resolve in target env
 let SplashScreen: any = null;
-try {
-  SplashScreen = require('expo-splash-screen');
-  SplashScreen?.preventAutoHideAsync?.().catch(() => {});
-} catch (e) {
-  console.warn('SplashScreen module failed to load:', e);
-}
+
+export const initSplashScreen = () => {
+  try {
+    SplashScreen = require('expo-splash-screen');
+    SplashScreen?.preventAutoHideAsync?.().catch(() => {});
+  } catch (e) {
+    console.warn('SplashScreen module failed to load:', e);
+  }
+};
+
+initSplashScreen();
 
 export default function App() {
   const [isReady, setIsReady] = React.useState(false);

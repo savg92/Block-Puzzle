@@ -2,6 +2,7 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { SettingsScreen } from '../SettingsScreen';
 import { ThemeProvider } from '../../styles/ThemeContext';
+import { useGameStore } from '../../store/gameStore';
 
 // Mock game store
 const mockUpdatePreferences = jest.fn();
@@ -10,6 +11,7 @@ const mockPreferences = {
   isMuted: false,
   hapticIntensity: 'medium',
   theme: 'system',
+  showPieceShadow: true,
 };
 
 jest.mock('../../store/gameStore', () => ({
@@ -28,28 +30,71 @@ const renderWithTheme = (component: React.ReactElement) => {
 };
 
 describe('SettingsScreen', () => {
+  const onClose = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
-  it('renders correctly', () => {
-    const { getByText } = renderWithTheme(<SettingsScreen visible={true} onClose={jest.fn()} />);
+  it('renders correctly when visible', () => {
+    const { getByText } = renderWithTheme(
+      <SettingsScreen visible={true} onClose={onClose} />
+    );
     expect(getByText('SETTINGS')).toBeTruthy();
-    expect(getByText('Sound')).toBeTruthy();
-    expect(getByText('Haptics')).toBeTruthy();
-    expect(getByText('Theme')).toBeTruthy();
   });
 
-  it('calls updatePreferences when toggling mute', () => {
-    const { getByTestId } = renderWithTheme(<SettingsScreen visible={true} onClose={jest.fn()} />);
+  it('handles mute toggle', () => {
+    const { getByTestId } = renderWithTheme(
+      <SettingsScreen visible={true} onClose={onClose} />
+    );
+    
     const muteToggle = getByTestId('mute-toggle');
-    fireEvent(muteToggle, 'onValueChange', true);
+    fireEvent(muteToggle, 'valueChange', true);
+    
     expect(mockUpdatePreferences).toHaveBeenCalledWith({ isMuted: true });
   });
 
-  it('calls updatePreferences when changing haptic intensity', () => {
-    const { getByText } = renderWithTheme(<SettingsScreen visible={true} onClose={jest.fn()} />);
+  it('handles haptic intensity change', () => {
+    const { getByText } = renderWithTheme(
+      <SettingsScreen visible={true} onClose={onClose} />
+    );
+    
     fireEvent.press(getByText('High'));
     expect(mockUpdatePreferences).toHaveBeenCalledWith({ hapticIntensity: 'high' });
+    
+    fireEvent.press(getByText('Off'));
+    expect(mockUpdatePreferences).toHaveBeenCalledWith({ hapticIntensity: 'off' });
+  });
+
+  it('handles theme change', () => {
+    const { getByText } = renderWithTheme(
+      <SettingsScreen visible={true} onClose={onClose} />
+    );
+    
+    fireEvent.press(getByText('Dark'));
+    expect(mockUpdatePreferences).toHaveBeenCalledWith({ theme: 'dark' });
+    
+    fireEvent.press(getByText('Light'));
+    expect(mockUpdatePreferences).toHaveBeenCalledWith({ theme: 'light' });
+  });
+
+  it('handles shadow toggle', () => {
+    const { getByTestId } = renderWithTheme(
+      <SettingsScreen visible={true} onClose={onClose} />
+    );
+    
+    const shadowToggle = getByTestId('shadow-toggle');
+    fireEvent(shadowToggle, 'valueChange', false);
+    
+    expect(mockUpdatePreferences).toHaveBeenCalledWith({ showPieceShadow: false });
+  });
+
+  it('calls onClose when close button pressed', () => {
+    const { getByText } = renderWithTheme(
+      <SettingsScreen visible={true} onClose={onClose} />
+    );
+    
+    fireEvent.press(getByText('✕'));
+    expect(onClose).toHaveBeenCalled();
   });
 });

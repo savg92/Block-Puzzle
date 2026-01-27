@@ -141,24 +141,51 @@ describe('getRandomPieces', () => {
   });
 });
 
-describe('getPieceColor', () => {
-  it('should map pieces to correct colors', () => {
-    expect(getPieceColor(PIECES.SINGLE)).toBe('cyan');
-    expect(getPieceColor(PIECES.LINE_2)).toBe('purple');
-    expect(getPieceColor(PIECES.LINE_3)).toBe('blue');
-    expect(getPieceColor(PIECES.LINE_4)).toBe('red');
-    expect(getPieceColor(PIECES.LINE_5)).toBe('pink');
-    expect(getPieceColor(PIECES.SQUARE_2)).toBe('green');
-    expect(getPieceColor(PIECES.SQUARE_3)).toBe('green');
-    expect(getPieceColor(PIECES.SMALL_L)).toBe('orange');
-    expect(getPieceColor(PIECES.BIG_L)).toBe('orange');
-  });
+  describe('getPieceColor', () => {
+    it('returns correct colors for all canonical pieces', () => {
+      expect(getPieceColor(PIECES.SINGLE)).toBe('cyan');
+      expect(getPieceColor(PIECES.LINE_2)).toBe('purple');
+      expect(getPieceColor(PIECES.LINE_3)).toBe('blue');
+      expect(getPieceColor(PIECES.SMALL_L)).toBe('orange');
+      expect(getPieceColor(PIECES.LINE_4)).toBe('red');
+      expect(getPieceColor(PIECES.SQUARE_2)).toBe('green');
+      expect(getPieceColor(PIECES.LINE_5)).toBe('pink');
+      expect(getPieceColor(PIECES.BIG_L)).toBe('orange');
+      expect(getPieceColor(PIECES.SQUARE_3)).toBe('green');
+    });
 
-  it('should maintain the same color regardless of rotation', () => {
-    const rotatedL = rotatePiece(PIECES.BIG_L);
-    expect(getPieceColor(rotatedL)).toBe('orange');
-    
-    const rotatedLine = rotatePiece(PIECES.LINE_3);
-    expect(getPieceColor(rotatedLine)).toBe('blue');
+    it('returns correct colors for rotated variants', () => {
+      // LINE_3 vertical (3x1, maxDim 3) -> blue
+      expect(getPieceColor([[1], [1], [1]])).toBe('blue');
+      // LINE_4 vertical (4x1, maxDim 4) -> red
+      expect(getPieceColor([[1], [1], [1], [1]])).toBe('red');
+      // LINE_5 vertical (5x1, maxDim 5) -> pink
+      expect(getPieceColor([[1], [1], [1], [1], [1]])).toBe('pink');
+    });
+
+    it('returns fallback color for unknown pieces', () => {
+      // 6 cells - no standard piece has 6 cells
+      const unknownPiece = [[1, 1, 1], [1, 1, 1]];
+      expect(getPieceColor(unknownPiece)).toBe('blue');
+      
+      // 0 cells
+      expect(getPieceColor([[0]])).toBe('blue');
+    });
+
+    it('handles unexpected dimensions for known cell counts', () => {
+      // 3 cells, but maxDim is NOT 3 (it's 2) -> orange
+      expect(getPieceColor([[1, 1], [1, 0]])).toBe('orange'); 
+      // 3 cells, but maxDim is 3 -> blue
+      expect(getPieceColor([[1, 1, 1]])).toBe('blue');
+
+      // 4 cells, but maxDim is NOT 4 (it's 2) -> green
+      expect(getPieceColor([[1, 1], [1, 1]])).toBe('green');
+      // 4 cells, but maxDim is 4 -> red
+      expect(getPieceColor([[1, 1, 1, 1]])).toBe('red');
+
+      // 5 cells, but maxDim is NOT 5 (it's 3) -> orange
+      expect(getPieceColor([[1, 1, 1], [1, 1, 0]])).toBe('orange');
+      // 5 cells, but maxDim is 5 -> pink
+      expect(getPieceColor([[1, 1, 1, 1, 1]])).toBe('pink');
+    });
   });
-});

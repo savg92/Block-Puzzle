@@ -28,8 +28,11 @@ export class GameEngine {
    * Updates the internal state if the move is valid.
    */
   public makeMove(piece: Piece, row: number, col: number, color: string | number = 1, options?: { ignoreCollision?: boolean }): MoveResult {
-    if (!options?.ignoreCollision && !canPlacePiece(this.grid, piece, row, col)) {
-      return { success: false, clearedLines: 0, scoreGained: 0, fullRows: [], fullCols: [] };
+    const ignoreCollision = options?.ignoreCollision ?? false;
+    if (!ignoreCollision) {
+      if (!canPlacePiece(this.grid, piece, row, col)) {
+        return { success: false, clearedLines: 0, scoreGained: 0, fullRows: [], fullCols: [] };
+      }
     }
 
     // 1. Place the piece

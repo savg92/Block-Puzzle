@@ -4,7 +4,15 @@ process.env.NATIVEWIND_NATIVE = 'true';
 // Mock react-native
 jest.mock('react-native', () => {
   const React = require('react');
-  const mockView = (props) => React.createElement('View', props);
+  
+  const mockView = React.forwardRef((props, ref) => {
+    // If ref is provided, we can attach some basic methods
+    React.useImperativeHandle(ref, () => ({
+      measureInWindow: (cb) => cb(10, 20, 300, 300),
+      measure: (cb) => cb(0, 0, 300, 300, 10, 20),
+    }));
+    return React.createElement('View', props);
+  });
   mockView.displayName = 'View';
   
   const mockText = (props) => React.createElement('Text', props);
@@ -40,6 +48,9 @@ jest.mock('react-native', () => {
     Dimensions: {
       get: jest.fn().mockReturnValue({ width: 375, height: 812 }),
       set: jest.fn(),
+    },
+    Alert: {
+      alert: jest.fn(),
     },
     NativeModules: {},
   };
@@ -103,12 +114,23 @@ jest.mock('react-native-reanimated', () => {
       addWhitelistedUIProps: () => {},
       interpolate: (v) => v,
     },
-    useSharedValue: (val) => ({ value: val }),
+    useSharedValue: (val) => {
+      const React = require('react');
+      const ref = React.useRef({ value: val });
+      return ref.current;
+    },
     useAnimatedStyle: (cb) => cb(),
-    withSpring: (val) => val,
-    withTiming: (val) => val,
-    withDelay: (delay, val) => val,
-    runOnJS: (fn) => fn,
+    withSpring: (val, config, cb) => {
+      if (cb) cb(true);
+      return val;
+    },
+    withTiming: (val, config, cb) => {
+      if (cb) cb(true);
+      return val;
+    },
+    withDelay: (delay, anim) => anim,
+    withSequence: (...anims) => anims[anims.length - 1],
+    runOnJS: (fn) => (...args) => fn(...args),
     View: View,
     Text: Text,
     Image: Image,

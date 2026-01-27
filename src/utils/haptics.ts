@@ -20,5 +20,7 @@ export const triggerHaptic = async (type: HapticType) => {
     case 'success':
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       break;
+    default:
+      break;
   }
 };

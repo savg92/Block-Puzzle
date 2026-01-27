@@ -9,11 +9,17 @@ describe('calculateScore', () => {
       [1, 1],
       [1, 1]
   ]; // 4 blocks
+  const pieceWithEmpty: Piece = [
+      [1, 0],
+      [0, 1]
+  ]; // 2 blocks
 
   it('should return points for placement only (0 lines cleared)', () => {
     expect(calculateScore(piece1, 0)).toBe(1);
     expect(calculateScore(piece3, 0)).toBe(3);
     expect(calculateScore(pieceSquare, 0)).toBe(4);
+    expect(calculateScore(pieceWithEmpty, 0)).toBe(2);
+    expect(calculateScore([[0, 0], [0, 0]], 0)).toBe(0);
   });
 
   it('should add points for cleared lines', () => {

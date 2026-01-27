@@ -21,6 +21,7 @@ describe('canPlacePiece', () => {
     expect(canPlacePiece(emptyGrid, piece2x1, 2, 0)).toBe(false);
     // Try to place at negative index
     expect(canPlacePiece(emptyGrid, piece2x1, -1, 0)).toBe(false);
+    expect(canPlacePiece(emptyGrid, piece2x1, 0, -1)).toBe(false);
     // Try to place out of bounds column
     expect(canPlacePiece(emptyGrid, piece2x1, 0, 3)).toBe(false);
   });
@@ -79,6 +80,18 @@ describe('placePiece', () => {
 
     it('throws error if placement is invalid', () => {
         expect(() => placePiece(emptyGrid, [[1], [1], [1], [1]], 0, 0)).toThrow();
+    });
+
+    it('allows invalid placement if ignoreCollision is true', () => {
+        const filledGrid: Grid = [
+            [1, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0],
+        ];
+        const piece = [[1]];
+        // Overlap at (0,0) - normally throws
+        const result = placePiece(filledGrid, piece, 0, 0, 'red', true);
+        expect(result[0][0]).toBe('red');
     });
 });
 

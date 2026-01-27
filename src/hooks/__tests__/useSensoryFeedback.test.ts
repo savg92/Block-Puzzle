@@ -65,6 +65,13 @@ describe('useSensoryFeedback', () => {
     expect(audioManager.playSound).toHaveBeenCalledWith('tap');
   });
 
+  it('triggers success feedback', () => {
+    const { result } = renderHook(() => useSensoryFeedback());
+    result.current.playSuccess();
+    expect(triggerHaptic).toHaveBeenCalledWith('success');
+    expect(audioManager.playSound).toHaveBeenCalledWith('success');
+  });
+
   it('does not trigger audio if muted', () => {
     (useGameStore as unknown as jest.Mock).mockReturnValue({
       preferences: {
@@ -89,5 +96,18 @@ describe('useSensoryFeedback', () => {
     result.current.playPickup();
     expect(triggerHaptic).not.toHaveBeenCalled();
     expect(audioManager.playSound).toHaveBeenCalled();
+  });
+
+  it('does not trigger anything if muted and intensity is off', () => {
+    (useGameStore as unknown as jest.Mock).mockReturnValue({
+      preferences: {
+        isMuted: true,
+        hapticIntensity: 'off',
+      },
+    });
+    const { result } = renderHook(() => useSensoryFeedback());
+    result.current.playPickup();
+    expect(triggerHaptic).not.toHaveBeenCalled();
+    expect(audioManager.playSound).not.toHaveBeenCalled();
   });
 });

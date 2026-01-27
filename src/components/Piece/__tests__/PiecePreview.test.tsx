@@ -40,4 +40,31 @@ describe('PiecePreview', () => {
     // Depending on implementation, we might just check existence.
     expect(cells).toHaveLength(4); 
   });
+
+  it('handles invalid color key by falling back to primary or default', () => {
+    const { getByTestId } = renderWithTheme(
+      // @ts-ignore
+      <PiecePreview piece={[[1]]} color="non-existent-color" testID="piece-preview" />
+    );
+    const cell = getByTestId('piece-cell-0-0');
+    // It should render without crashing and use a fallback color
+    expect(cell).toBeTruthy();
+  });
+
+  it('handles missing theme gracefully', () => {
+    const ThemeContext = require('../../../styles/ThemeContext');
+    const originalUseTheme = ThemeContext.useTheme;
+    // @ts-ignore
+    ThemeContext.useTheme = () => ({ theme: null });
+
+    const { getByTestId } = render(
+      // @ts-ignore
+      <PiecePreview piece={[[1]]} color="blue" testID="piece-preview" />
+    );
+    
+    expect(getByTestId('piece-preview')).toBeTruthy();
+    
+    // Restore
+    ThemeContext.useTheme = originalUseTheme;
+  });
 });

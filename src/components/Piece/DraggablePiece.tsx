@@ -91,21 +91,6 @@ export const DraggablePiece: React.FC<Props> = memo(({
   // Track last hover position to avoid redundant updates
   const lastHover = useRef<string | null>(null);
 
-  // Convert screen coords to grid position
-  const toGridPos = useCallback((screenX: number, screenY: number) => {
-    if (!gridLayout) return null;
-    
-    // Map screen point to grid cell using the generic helper
-    const cell = mapScreenToGrid(screenX, screenY, gridLayout, 10, 8);
-    if (!cell) return null;
-    
-    // Offset to align piece top-left with grid
-    const rowOff = Math.floor(piece.length / 2);
-    const colOff = Math.floor(piece[0].length / 2);
-    
-    return { row: cell.row - rowOff, col: cell.col - colOff };
-  }, [gridLayout, piece]);
-
   // Helper to check if a specific placement is valid (Logic mirrored from Grid/Engine)
   const isValidPlacement = useCallback((r: number, c: number) => {
       const isForcePlace = activePowerUpMode === 'forcePlace';
@@ -298,6 +283,8 @@ export const DraggablePiece: React.FC<Props> = memo(({
         testID="draggable-piece"
         // @ts-ignore - Exposing for testing simulation
         onDragStart={onStart}
+        // @ts-ignore - Exposing for testing simulation
+        onDragMove={onMove}
         // @ts-ignore - Exposing for testing simulation
         onDragEnd={onEnd}
         // @ts-ignore - Exposing for testing simulation
