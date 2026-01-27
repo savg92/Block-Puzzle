@@ -1,12 +1,6 @@
 import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react-native';
-
-// Mock useColorScheme for testing system theme
-const mockUseColorScheme = jest.fn();
-jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
-  __esModule: true,
-  default: mockUseColorScheme,
-}));
+import { useColorScheme } from 'react-native';
 
 import { ThemeProvider, useTheme } from '../ThemeContext';
 import { useGameStore } from '../../store/gameStore';
@@ -14,7 +8,7 @@ import { useGameStore } from '../../store/gameStore';
 describe('ThemeContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseColorScheme.mockReturnValue('light');
+    (useColorScheme as jest.Mock).mockReturnValue('light');
     // Reset store to default
     act(() => {
       useGameStore.getState().updatePreferences({ theme: 'system' });
@@ -55,7 +49,7 @@ describe('ThemeContext', () => {
       useGameStore.getState().updatePreferences({ theme: 'system' });
     });
 
-    mockUseColorScheme.mockReturnValue('dark');
+    (useColorScheme as jest.Mock).mockReturnValue('dark');
     
     const wrapper = ({ children }: { children: React.ReactNode }) => (
       <ThemeProvider>{children}</ThemeProvider>
@@ -65,7 +59,7 @@ describe('ThemeContext', () => {
 
     expect(result.current.isDark).toBe(true);
 
-    mockUseColorScheme.mockReturnValue('light');
+    (useColorScheme as jest.Mock).mockReturnValue('light');
     rerender({});
     
     expect(result.current.isDark).toBe(false);

@@ -22,6 +22,7 @@ describe('PieceTray Integration', () => {
     jest.clearAllMocks();
     (useGameStore as any).mockImplementation((selector?: any) => {
       const state = {
+        grid: Array(10).fill(null).map(() => Array(10).fill(0)),
         availablePieces: mockPieces,
         selectedPiece: null,
         selectPiece: mockSelectPiece,

@@ -2,6 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import { ScoreDisplay } from '../ScoreDisplay';
 import { useGameStore } from '../../../store/gameStore';
+import { ThemeProvider } from '../../../styles/ThemeContext';
 
 // Mock the store
 jest.mock('../../../store/gameStore', () => ({
@@ -14,9 +15,14 @@ describe('ScoreDisplay Snapshots', () => {
       score: 0,
       highScore: 0,
       initStore: jest.fn(),
+      preferences: { theme: 'dark' },
     });
 
-    const { toJSON } = render(<ScoreDisplay />);
+    const { toJSON } = render(
+      <ThemeProvider>
+        <ScoreDisplay />
+      </ThemeProvider>
+    );
     expect(toJSON()).toMatchSnapshot();
   });
 
@@ -25,9 +31,14 @@ describe('ScoreDisplay Snapshots', () => {
       score: 1250,
       highScore: 5000,
       initStore: jest.fn(),
+      preferences: { theme: 'dark' },
     });
 
-    const { toJSON } = render(<ScoreDisplay />);
+    const { toJSON } = render(
+      <ThemeProvider>
+        <ScoreDisplay />
+      </ThemeProvider>
+    );
     expect(toJSON()).toMatchSnapshot();
   });
 });

@@ -53,19 +53,19 @@ describe('gridUtils', () => {
     });
 
     it('returns null for points outside the grid', () => {
-      expect(mapScreenToGrid(0, 0, layout, gridSize, padding)).toBeNull();
-      expect(mapScreenToGrid(1000, 1000, layout, gridSize, padding)).toBeNull();
+      expect(mapScreenToGrid(0, 0, layout, gridSize, padding, 0)).toBeNull();
+      expect(mapScreenToGrid(1000, 1000, layout, gridSize, padding, 0)).toBeNull();
     });
 
     it('returns null for points within outer padding', () => {
       // Point at (52, 102) is within the 4px padding (starts at 50, 100)
-      expect(mapScreenToGrid(52, 102, layout, gridSize, padding)).toBeNull();
+      expect(mapScreenToGrid(52, 102, layout, gridSize, padding, 0)).toBeNull();
     });
 
     it('handles boundary edges (exclusive of far edge)', () => {
         // Inner grid ends at 50+4+200 = 254
-        expect(mapScreenToGrid(253.9, 303.9, layout, gridSize, padding)).toEqual({ row: 9, col: 9 });
-        expect(mapScreenToGrid(254, 304, layout, gridSize, padding)).toBeNull();
+        expect(mapScreenToGrid(253.9, 303.9, layout, gridSize, padding, 0)).toEqual({ row: 9, col: 9 });
+        expect(mapScreenToGrid(254, 304, layout, gridSize, padding, 0)).toBeNull();
     });
   });
 });

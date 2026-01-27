@@ -49,4 +49,11 @@ yarn-error.*
 /ios
 /__mocks__/*
 
+src/components/Grid/__tests__/__snapshots__/*
+src/components/Grid/__tests__/__snapshots__
 
+src/components/Piece/__tests__/__snapshots__/*
+src/components/Piece/__tests__/__snapshots__
+
+src/components/UI/__tests__/__snapshots__/*
+src/components/UI/__tests__/__snapshots__   

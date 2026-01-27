@@ -35,6 +35,11 @@ jest.mock('./store/gameStore', () => ({
   }),
 }));
 
+// Mock LoadingScreen to avoid its complex reanimated logic during App test
+jest.mock('./screens/LoadingScreen', () => ({
+  LoadingScreen: () => null
+}));
+
 describe('App', () => {
   it('renders correctly', () => {
     const { getByText, getAllByTestId } = render(<App />);

@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Grid Snapshots renders empty grid correctly 1`] = `
 <View
@@ -10,8 +10,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
   }
   style={
     {
-      "backgroundColor": "#0f172a",
-      "borderColor": "#1e293b",
+      "backgroundColor": "#ffffff",
+      "borderColor": "#f1f5f9",
       "borderRadius": 8,
       "borderWidth": 4,
       "padding": 4,
@@ -34,8 +34,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -63,8 +63,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -92,8 +92,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -121,8 +121,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -150,8 +150,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -179,8 +179,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -208,8 +208,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -237,8 +237,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -266,8 +266,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -295,8 +295,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -332,8 +332,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -361,8 +361,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -390,8 +390,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -419,8 +419,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -448,8 +448,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -477,8 +477,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -506,8 +506,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -535,8 +535,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -564,8 +564,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -593,8 +593,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -630,8 +630,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -659,8 +659,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -688,8 +688,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -717,8 +717,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -746,8 +746,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -775,8 +775,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -804,8 +804,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -833,8 +833,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -862,8 +862,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -891,8 +891,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -928,8 +928,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -957,8 +957,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -986,8 +986,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1015,8 +1015,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1044,8 +1044,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1073,8 +1073,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1102,8 +1102,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1131,8 +1131,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1160,8 +1160,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1189,8 +1189,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1226,8 +1226,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1255,8 +1255,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1284,8 +1284,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1313,8 +1313,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1342,8 +1342,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1371,8 +1371,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1400,8 +1400,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1429,8 +1429,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1458,8 +1458,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1487,8 +1487,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1524,8 +1524,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1553,8 +1553,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1582,8 +1582,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1611,8 +1611,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1640,8 +1640,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1669,8 +1669,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1698,8 +1698,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1727,8 +1727,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1756,8 +1756,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1785,8 +1785,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1822,8 +1822,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1851,8 +1851,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1880,8 +1880,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1909,8 +1909,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1938,8 +1938,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1967,8 +1967,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -1996,8 +1996,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2025,8 +2025,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2054,8 +2054,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2083,8 +2083,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2120,8 +2120,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2149,8 +2149,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2178,8 +2178,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2207,8 +2207,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2236,8 +2236,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2265,8 +2265,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2294,8 +2294,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2323,8 +2323,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2352,8 +2352,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2381,8 +2381,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2418,8 +2418,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2447,8 +2447,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2476,8 +2476,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2505,8 +2505,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2534,8 +2534,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2563,8 +2563,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2592,8 +2592,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2621,8 +2621,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2650,8 +2650,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2679,8 +2679,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2716,8 +2716,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2745,8 +2745,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2774,8 +2774,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2803,8 +2803,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2832,8 +2832,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2861,8 +2861,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2890,8 +2890,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2919,8 +2919,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2948,8 +2948,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -2977,8 +2977,8 @@ exports[`Grid Snapshots renders empty grid correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3012,8 +3012,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
   }
   style={
     {
-      "backgroundColor": "#0f172a",
-      "borderColor": "#1e293b",
+      "backgroundColor": "#ffffff",
+      "borderColor": "#f1f5f9",
       "borderRadius": 8,
       "borderWidth": 4,
       "padding": 4,
@@ -3037,7 +3037,7 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
           [
             {
               "backgroundColor": "red",
-              "borderColor": "rgba(255,255,255,0.3)",
+              "borderColor": "rgba(255,255,255,0.2)",
               "borderRadius": 4,
               "borderWidth": 0,
               "height": 30,
@@ -3066,7 +3066,7 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
           [
             {
               "backgroundColor": "red",
-              "borderColor": "rgba(255,255,255,0.3)",
+              "borderColor": "rgba(255,255,255,0.2)",
               "borderRadius": 4,
               "borderWidth": 0,
               "height": 30,
@@ -3094,8 +3094,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3123,8 +3123,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3152,8 +3152,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3181,8 +3181,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3210,8 +3210,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3239,8 +3239,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3268,8 +3268,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3297,8 +3297,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3334,8 +3334,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3363,8 +3363,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3392,8 +3392,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3421,8 +3421,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3450,8 +3450,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3479,8 +3479,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3508,8 +3508,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3537,8 +3537,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3566,8 +3566,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3595,8 +3595,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3632,8 +3632,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3661,8 +3661,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3690,8 +3690,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3719,8 +3719,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3748,8 +3748,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3777,8 +3777,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3806,8 +3806,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3835,8 +3835,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3864,8 +3864,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3893,8 +3893,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3930,8 +3930,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3959,8 +3959,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -3988,8 +3988,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4017,8 +4017,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4046,8 +4046,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4075,8 +4075,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4104,8 +4104,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4133,8 +4133,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4162,8 +4162,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4191,8 +4191,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4228,8 +4228,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4257,8 +4257,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4286,8 +4286,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4315,8 +4315,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4344,8 +4344,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4373,8 +4373,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4402,8 +4402,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4431,8 +4431,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4460,8 +4460,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4489,8 +4489,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4526,8 +4526,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4555,8 +4555,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4584,8 +4584,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4613,8 +4613,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4642,8 +4642,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4672,7 +4672,7 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
           [
             {
               "backgroundColor": "blue",
-              "borderColor": "rgba(255,255,255,0.3)",
+              "borderColor": "rgba(255,255,255,0.2)",
               "borderRadius": 4,
               "borderWidth": 0,
               "height": 30,
@@ -4700,8 +4700,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4729,8 +4729,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4758,8 +4758,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4787,8 +4787,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4824,8 +4824,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4853,8 +4853,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4882,8 +4882,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4911,8 +4911,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4940,8 +4940,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4969,8 +4969,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -4998,8 +4998,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5027,8 +5027,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5056,8 +5056,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5085,8 +5085,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5122,8 +5122,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5151,8 +5151,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5180,8 +5180,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5209,8 +5209,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5238,8 +5238,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5267,8 +5267,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5296,8 +5296,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5325,8 +5325,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5354,8 +5354,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5383,8 +5383,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5420,8 +5420,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5449,8 +5449,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5478,8 +5478,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5507,8 +5507,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5536,8 +5536,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5565,8 +5565,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5594,8 +5594,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5623,8 +5623,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5652,8 +5652,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5681,8 +5681,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5718,8 +5718,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5747,8 +5747,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5776,8 +5776,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5805,8 +5805,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5834,8 +5834,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5863,8 +5863,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5892,8 +5892,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5921,8 +5921,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5950,8 +5950,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,
@@ -5979,8 +5979,8 @@ exports[`Grid Snapshots renders grid with some pieces correctly 1`] = `
         style={
           [
             {
-              "backgroundColor": "#1e293b",
-              "borderColor": "#334155",
+              "backgroundColor": "#f1f5f9",
+              "borderColor": "rgba(15, 23, 42, 0.08)",
               "borderRadius": 4,
               "borderWidth": 1,
               "height": 30,

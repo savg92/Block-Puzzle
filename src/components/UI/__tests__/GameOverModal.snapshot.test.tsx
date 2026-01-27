@@ -18,6 +18,7 @@ describe('GameOverModal Snapshots', () => {
       powerUps: { undo: 1 },
       usePowerUp: jest.fn(),
       newGame: jest.fn(),
+      preferences: { theme: 'dark' },
     });
 
     const { toJSON } = render(
@@ -36,6 +37,7 @@ describe('GameOverModal Snapshots', () => {
       powerUps: { undo: 1 },
       usePowerUp: jest.fn(),
       newGame: jest.fn(),
+      preferences: { theme: 'dark' },
     });
 
     const { toJSON } = render(
@@ -54,6 +56,7 @@ describe('GameOverModal Snapshots', () => {
       powerUps: { undo: 1 },
       usePowerUp: jest.fn(),
       newGame: jest.fn(),
+      preferences: { theme: 'dark' },
     });
 
     const { toJSON } = render(

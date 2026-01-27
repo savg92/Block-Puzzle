@@ -27,6 +27,7 @@ describe('Grid', () => {
       setGridLayout: jest.fn(),
       selectedPiece: null,
       hoverPosition: null,
+      preferences: { showPieceShadow: true },
     });
   });
 
@@ -45,6 +46,7 @@ describe('Grid', () => {
       selectedPiece: [[1, 1]], // 1x2 piece
       hoverPosition: { row: 0, col: 0 },
       clearingCells: null,
+      preferences: { showPieceShadow: true },
     });
 
     const { getByTestId } = renderWithTheme(<Grid />);

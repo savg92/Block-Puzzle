@@ -37,6 +37,10 @@ jest.mock('react-native', () => {
       addChangeListener: () => ({ remove: () => {} }),
     },
     useColorScheme: jest.fn(() => 'light'),
+    Dimensions: {
+      get: jest.fn().mockReturnValue({ width: 375, height: 812 }),
+      set: jest.fn(),
+    },
     NativeModules: {},
   };
 });
@@ -83,16 +87,31 @@ jest.mock('react-native-css-interop', () => {
 // Mock reanimated
 jest.mock('react-native-reanimated', () => {
   const React = require('react');
+  const View = (props) => React.createElement('View', props);
+  const Text = (props) => React.createElement('Text', props);
+  const Image = (props) => React.createElement('Image', props);
+  
   return {
+    __esModule: true,
     default: {
-      call: () => {},
+      View: View,
+      Text: Text,
+      Image: Image,
+      ScrollView: View,
+      createAnimatedComponent: (c) => c,
+      addWhitelistedNativeProps: () => {},
+      addWhitelistedUIProps: () => {},
+      interpolate: (v) => v,
     },
     useSharedValue: (val) => ({ value: val }),
     useAnimatedStyle: (cb) => cb(),
     withSpring: (val) => val,
     withTiming: (val) => val,
+    withDelay: (delay, val) => val,
     runOnJS: (fn) => fn,
-    View: (props) => React.createElement('View', props),
+    View: View,
+    Text: Text,
+    Image: Image,
     Easing: {
       out: (fn) => fn,
       quad: (n) => n,

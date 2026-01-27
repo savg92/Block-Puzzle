@@ -146,6 +146,15 @@ export const GameOverModal: React.FC = () => {
           <TouchableOpacity style={dynamicStyles.mainButton} onPress={handleNewGame}>
             <Text style={dynamicStyles.mainButtonText}>NEW GAME</Text>
           </TouchableOpacity>
+
+          {powerUps.undo > 0 && (
+            <TouchableOpacity 
+              style={[dynamicStyles.mainButton, { marginTop: 12, backgroundColor: theme.colors.secondary }]} 
+              onPress={() => usePowerUp('undo')}
+            >
+              <Text style={dynamicStyles.mainButtonText}>UNDO ({powerUps.undo})</Text>
+            </TouchableOpacity>
+          )}
         </Animated.View>
       </View>
     </Modal>

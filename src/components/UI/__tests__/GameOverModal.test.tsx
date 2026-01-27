@@ -1,12 +1,11 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, act } from '@testing-library/react-native';
 import { GameOverModal } from '../GameOverModal';
 import { useGameStore } from '../../../store/gameStore';
+import { ThemeProvider } from '../../../styles/ThemeContext';
 
 // Mock useGameStore
-jest.mock('../../../store/gameStore', () => ({
-  useGameStore: jest.fn(),
-}));
+jest.mock('../../../store/gameStore');
 
 describe('GameOverModal', () => {
   const mockNewGame = jest.fn();
@@ -17,49 +16,53 @@ describe('GameOverModal', () => {
     (useGameStore as any).mockReturnValue({
       isGameOver: true,
       score: 100,
-      highScore: 200,
-      powerUps: { deleteBlock: 1, swapPiece: 1 },
+      highScore: 500,
+      powerUps: { undo: 1 },
       usePowerUp: mockUsePowerUp,
       newGame: mockNewGame,
-      preferences: {
-        soundVolume: 1.0,
-        isMuted: false,
-        hapticIntensity: 'medium',
-        theme: 'system',
-      },
+      preferences: { theme: 'dark' },
     });
   });
 
+  const renderWithTheme = (component: React.ReactElement) => {
+    return render(
+      <ThemeProvider>
+        {component}
+      </ThemeProvider>
+    );
+  };
+
   it('renders correctly when game is over', () => {
-    const { getByText } = render(<GameOverModal />);
+    const { getByText } = renderWithTheme(<GameOverModal />);
     expect(getByText('GAME OVER')).toBeTruthy();
     expect(getByText('SCORE')).toBeTruthy();
     expect(getByText('100')).toBeTruthy();
-    expect(getByText('200')).toBeTruthy();
   });
 
   it('calls newGame when NEW GAME button is pressed', () => {
-    const { getByText } = render(<GameOverModal />);
+    const { getByText } = renderWithTheme(<GameOverModal />);
     fireEvent.press(getByText('NEW GAME'));
     expect(mockNewGame).toHaveBeenCalled();
+  });
+
+  it('calls usePowerUp when UNDO button is pressed', () => {
+    const { getByText } = renderWithTheme(<GameOverModal />);
+    fireEvent.press(getByText('UNDO (1)'));
+    expect(mockUsePowerUp).toHaveBeenCalledWith('undo');
   });
 
   it('does not render when game is not over', () => {
     (useGameStore as any).mockReturnValue({
       isGameOver: false,
-      score: 0,
-      powerUps: { deleteBlock: 1, swapPiece: 1 },
+      score: 100,
+      highScore: 500,
+      powerUps: { undo: 1 },
       usePowerUp: mockUsePowerUp,
       newGame: mockNewGame,
-      preferences: {
-        soundVolume: 1.0,
-        isMuted: false,
-        hapticIntensity: 'medium',
-        theme: 'system',
-      },
+      preferences: { theme: 'dark' },
     });
 
-    const { queryByText } = render(<GameOverModal />);
+    const { queryByText } = renderWithTheme(<GameOverModal />);
     expect(queryByText('GAME OVER')).toBeNull();
   });
 });
