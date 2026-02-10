@@ -14,3 +14,8 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ## [x] Track: Drag UX Centering & Ghost Alignment
 *Link: [./conductor/archive/drag_centering_ghost_alignment_20260121/](./conductor/archive/drag_centering_ghost_alignment_20260121/)*
+
+---
+
+- [ ] **Track: Pivot to PWA (Offline Web App)**
+*Link: [./tracks/pwa_pivot_20260210/](./tracks/pwa_pivot_20260210/)*

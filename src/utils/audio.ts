@@ -7,14 +7,14 @@ class AudioManager {
   private isMuted: boolean = false;
   private players: Set<AudioPlayer> = new Set();
 
-  // Asset mapping (Placeholders for now)
+  // Asset mapping
   private assets: Record<SoundType, any> = {
-    tap: null,
-    pickup: null,
-    place: null,
-    clear: null,
-    gameOver: null,
-    success: null,
+    tap: require('../../assets/sounds/tap.ogg'),
+    pickup: require('../../assets/sounds/pickup.ogg'),
+    place: require('../../assets/sounds/place.ogg'),
+    clear: require('../../assets/sounds/clear.ogg'),
+    gameOver: require('../../assets/sounds/gameOver.ogg'),
+    success: require('../../assets/sounds/success.ogg'),
   };
 
   async playSound(type: SoundType) {
