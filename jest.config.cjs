@@ -4,7 +4,7 @@ module.exports = {
       preset: 'jest-expo/universal',
       testMatch: ['**/src/**/*.test.tsx'],
       moduleNameMapper: {
-        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js',
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$': '<rootDir>/__mocks__/fileMock.js',
         '\\.css$': 'identity-obj-proxy',
         '^react-native-mmkv$': '<rootDir>/__mocks__/react-native-mmkv.js',
       },
@@ -26,7 +26,7 @@ module.exports = {
       ],
       moduleDirectories: ['node_modules', '<rootDir>'],
       moduleNameMapper: {
-        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': '<rootDir>/__mocks__/fileMock.js',
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$': '<rootDir>/__mocks__/fileMock.js',
         '^react-native-mmkv$': '<rootDir>/__mocks__/react-native-mmkv.js',
       },
       setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],

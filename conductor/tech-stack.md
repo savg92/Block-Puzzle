@@ -4,9 +4,9 @@
 - **Language:** TypeScript (v5+)
   - Strict mode enabled for type safety.
   - No `any` policy for core game logic.
-- **Framework:** Expo (SDK 50+)
+- **Framework:** Expo (SDK 54+)
   - Managed workflow for cross-platform compatibility.
-  - iOS and Android targeting.
+  - iOS, Android, and Web (PWA) targeting.
 - **Base:** React Native
 
 ## 2. State Management & Logic
@@ -29,16 +29,17 @@
   - Native-driven gesture handling for piece dragging and dropping.
 
 ## 4. Sensory Feedback
-- **Haptics:** `expo-haptics`
+- **Haptics:** `expo-haptics` (Native) and `navigator.vibrate` (Web).
   - Integrated into piece pickup, drop, line clears, and game over.
-- **Audio:** `expo-av`
+- **Audio:** `expo-audio`
   - Handles pre-loading and playback of sound effects.
+  - Web version includes a "Tap to Start" interaction to unlock audio.
 
 ## 5. Persistence & Storage
-- **Local Storage:** AsyncStorage (Required for Expo Go)
-  - Provides reliable persistence compatible with the standard Expo Go environment.
+- **Local Storage:** AsyncStorage
+  - Provides reliable persistence across iOS, Android, and Web.
   - Used for persisting high scores, game state, and theme settings.
-- **Offline Strategy:** 100% Local-first. No external data dependencies.
+- **Offline Strategy:** 100% Local-first. Service Workers ensure offline reliability for Web.
 
 ## 5. Development & Testing
 - **Unit Testing:** Jest

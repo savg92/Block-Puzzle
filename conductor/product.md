@@ -35,10 +35,10 @@
 - **Add Single:** Spawn a 1x1 piece for tight spots.
 
 ## 3. Technical Constraints & Requirements
-**Platform:** iOS and Android (iOS-first optimization).
-**Connectivity:** 100% Offline. No network calls, no backend, no analytics.
+**Platform:** iOS, Android, and Web (Progressive Web App).
+**Connectivity:** 100% Offline. No network calls, no backend, no analytics. Web version supports full offline play via Service Workers.
 **Monetization:** None (No ads, no IAP).
-**Persistence:** Robust local storage (AsyncStorage/MMKV) to save board state, score, inventory, and pieces instantly.
+**Persistence:** Robust local storage (AsyncStorage/LocalStorage) to save board state, score, inventory, and pieces instantly across all platforms.
 
 ## 4. Design Philosophy
 **Visuals:** Light/Dark theme, modern aesthetic, smooth animations for interactions (clears, placement).

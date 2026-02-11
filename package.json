@@ -7,6 +7,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "postinstall": "find node_modules/zustand -name \"*.mjs\" -exec sed -i '' 's/import.meta/({})/g' {} +",
+    "export:web": "npx expo export --platform web --clear && npm run fix-web-bundle && mkdir -p dist/assets && cp assets/icon.png dist/assets/icon.png",
+    "fix-web-bundle": "find dist/_expo/static/js/web -name \"*.js\" -exec sed -i '' 's/import.meta/({})/g' {} +",
     "test": "jest",
     "lint": "expo lint"
   },
@@ -22,6 +25,8 @@
     "@types/bun": "latest",
     "@types/jest": "29.5.14",
     "babel-jest": "^30.2.0",
+    "babel-plugin-transform-import-meta": "^2.3.3",
+    "expo-pwa": "^0.0.127",
     "identity-obj-proxy": "^3.0.0",
     "jest": "~29.7.0",
     "jest-expo": "^54.0.16",
@@ -45,16 +50,18 @@
     "expo-video": "^3.0.15",
     "nativewind": "5.0.0-preview.2",
     "react": "19.1.0",
+    "react-dom": "19.1.0",
     "react-native": "0.81.5",
     "react-native-css": "3.0.1",
     "react-native-css-interop": "^0.2.1",
     "react-native-gesture-handler": "~2.28.0",
     "react-native-reanimated": "~4.1.1",
     "react-native-safe-area-context": "^5.6.2",
+    "react-native-web": "^0.21.0",
     "react-native-worklets": "0.5.1",
     "react-native-worklets-core": "^1.6.2",
     "tailwindcss": "^4.1.18",
-    "zustand": "^5.0.10"
+    "zustand": "4.4.7"
   },
   "version": "1.0.0"
 }

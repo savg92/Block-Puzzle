@@ -53,7 +53,7 @@ export const GhostPiece: React.FC<GhostPieceProps> = memo(({
   }));
 
   return (
-    <Animated.View testID="ghost-piece" style={style} pointerEvents="none">
+    <Animated.View testID="ghost-piece" style={[style, { pointerEvents: 'none' }]}>
       <PiecePreview 
         piece={piece} 
         color={color} 

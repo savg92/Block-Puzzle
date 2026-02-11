@@ -32,8 +32,9 @@ interface GameState {
   clearingCells: { rows: number[]; cols: number[] } | null;
   lastEarnedPowerUp: PowerUpType | null;
   notificationId: number;
+  isAudioUnlocked: boolean;
 
-  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition' | 'updatePreferences' | 'setClearingCells' | 'clearNotification'>[];
+  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition' | 'updatePreferences' | 'setClearingCells' | 'clearNotification' | 'unlockAudio'>[];
   
   newGame: () => void;
   initStore: () => Promise<void>;
@@ -48,6 +49,7 @@ interface GameState {
   updatePreferences: (prefs: Partial<UserPreferences>) => void;
   setClearingCells: (cells: { rows: number[]; cols: number[] } | null) => void;
   clearNotification: () => void;
+  unlockAudio: () => void;
 }
 
 const HIGH_SCORE_KEY = 'high_score';
@@ -84,6 +86,7 @@ export const useGameStore = create<GameState>()(
       clearingCells: null,
       lastEarnedPowerUp: null,
       notificationId: 0,
+      isAudioUnlocked: false,
 
       history: [],
       initStore: async () => {
@@ -117,7 +120,7 @@ export const useGameStore = create<GameState>()(
           // preferences are NOT reset on new game
         })),
       placePiece: (piece, row, col, color, sourceIndex) => {
-        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId } = get();
+        const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId, isAudioUnlocked } = get();
         
         const isForcePlace = activePowerUpMode === 'forcePlace';
         if (isForcePlace && powerUps.forcePlace <= 0) return; // Should not happen via UI logic but safe check
@@ -127,7 +130,7 @@ export const useGameStore = create<GameState>()(
 
         if (result.success) {
           // Push current state to history before updating
-          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp, lastEarnedPowerUp: get().lastEarnedPowerUp, notificationId };
+          const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp, lastEarnedPowerUp: get().lastEarnedPowerUp, notificationId, isAudioUnlocked };
           const newHistory = [snapshot, ...history].slice(0, 20); // Limit to 20 moves
 
           // Consume PowerUp if used
@@ -243,7 +246,7 @@ export const useGameStore = create<GameState>()(
       },
 
       discardPiece: (index) => {
-        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId } = get();
+        const { activePowerUpMode, powerUps, availablePieces, history, grid, score, highScore, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId, isAudioUnlocked } = get();
         
         if (activePowerUpMode !== 'discard') return false;
         if (powerUps.discard <= 0) return false;
@@ -251,7 +254,7 @@ export const useGameStore = create<GameState>()(
         if (availablePieces[index] === null) return false; 
 
         // Push state to history? (Assuming Discard is permanent step)
-        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp, lastEarnedPowerUp: get().lastEarnedPowerUp, notificationId };
+        const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp, lastEarnedPowerUp: get().lastEarnedPowerUp, notificationId, isAudioUnlocked };
         const newHistory = [snapshot, ...history].slice(0, 20);
         
         let newAvailablePieces = [...availablePieces];
@@ -271,7 +274,7 @@ export const useGameStore = create<GameState>()(
       },
 
       addSingleBlock: (row, col) => {
-        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId } = get();
+        const { activePowerUpMode, powerUps, grid, score, highScore, availablePieces, history, selectedPiece, isGameOver, gridLayout, hoverPosition, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId, isAudioUnlocked } = get();
 
         if (activePowerUpMode !== 'addSingle') return;
         if (powerUps.addSingle <= 0) return;
@@ -284,7 +287,7 @@ export const useGameStore = create<GameState>()(
         const result = engine.makeMove(PIECES.SINGLE, row, col, getPieceColor(PIECES.SINGLE) as string);
 
         if (result.success) {
-            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp, lastEarnedPowerUp: get().lastEarnedPowerUp, notificationId };
+            const snapshot = { grid, score, highScore, availablePieces, selectedPiece, isGameOver, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences, clearingCells, scoreAtLastPowerUp, lastEarnedPowerUp: get().lastEarnedPowerUp, notificationId, isAudioUnlocked };
             const newHistory = [snapshot, ...history].slice(0, 20);
 
             const newScore = engine.getScore();
@@ -379,12 +382,14 @@ export const useGameStore = create<GameState>()(
       setClearingCells: (cells) => set({ clearingCells: cells }),
       
       clearNotification: () => set({ lastEarnedPowerUp: null }),
+
+      unlockAudio: () => set({ isAudioUnlocked: true }),
     }),
     {
       name: 'game-storage',
       storage: createJSONStorage(() => appStorage),
       partialize: (state) => {
-        const { history, ...rest } = state;
+        const { history, isAudioUnlocked, ...rest } = state;
         return rest;
       },
     }

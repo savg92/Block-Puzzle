@@ -149,9 +149,15 @@ describe('audioManager', () => {
   });
 
   it('warns when asset is missing in test environment', async () => {
+    // @ts-ignore
+    const originalAsset = audioManager.assets.success;
+    // @ts-ignore
+    audioManager.assets.success = null;
     const spy = jest.spyOn(console, 'warn').mockImplementation();
     await audioManager.playSound('success');
     expect(spy).toHaveBeenCalledWith('Sound asset for success not found.');
     spy.mockRestore();
+    // @ts-ignore
+    audioManager.assets.success = originalAsset;
   });
 });

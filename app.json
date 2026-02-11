@@ -26,7 +26,18 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "shortName": "Block Puzzle",
+      "themeColor": "#3b82f6",
+      "backgroundColor": "#020617",
+      "display": "standalone",
+      "config": {
+        "pwa": {
+          "manifest": {
+            "description": "A high-quality, fully offline, single-player block puzzle game."
+          }
+        }
+      }
     },
     "plugins": [
       "expo-audio",

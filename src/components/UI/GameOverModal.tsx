@@ -65,10 +65,7 @@ export const GameOverModal: React.FC = () => {
       alignItems: 'center',
       borderWidth: 4,
       borderColor: theme.colors.primary,
-      shadowColor: theme.colors.primary,
-      shadowOffset: { width: 0, height: 0 },
-      shadowOpacity: 0.5,
-      shadowRadius: 20,
+      boxShadow: `0 0 20px ${theme.colors.primary}80`,
       elevation: 10,
     },
     title: {
@@ -77,9 +74,7 @@ export const GameOverModal: React.FC = () => {
       color: theme.colors.error,
       marginBottom: 24,
       fontStyle: 'italic',
-      textShadowColor: theme.isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(220, 38, 38, 0.3)',
-      textShadowOffset: { width: 0, height: 0 },
-      textShadowRadius: 10,
+      textShadow: `0 0 10px ${theme.isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(220, 38, 38, 0.3)'}`,
     },
     scoreSection: {
       flexDirection: 'row',

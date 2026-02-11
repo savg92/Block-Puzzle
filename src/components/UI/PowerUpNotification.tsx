@@ -85,10 +85,7 @@ export const PowerUpNotification: React.FC = () => {
       borderWidth: 1,
       borderColor: theme.colors.primary,
       // Shadow
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 4 },
-      shadowOpacity: 0.3,
-      shadowRadius: 5,
+      boxShadow: '0 4px 5px rgba(0,0,0,0.3)',
       elevation: 8,
       maxWidth: width - 40,
     },
@@ -111,7 +108,7 @@ export const PowerUpNotification: React.FC = () => {
   });
 
   return (
-    <View style={styles.container} pointerEvents="none">
+    <View style={[styles.container, { pointerEvents: 'none' }]}>
       <Animated.View style={[styles.toast, animatedStyle]}>
         <Text style={styles.icon}>{metadata.icon}</Text>
         <View style={styles.content}>

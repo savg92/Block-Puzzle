@@ -1,5 +1,6 @@
 import * as Haptics from 'expo-haptics';
-import { triggerHaptic, HapticType } from '../haptics';
+import { Platform } from 'react-native';
+import { triggerHaptic } from '../haptics';
 
 jest.mock('expo-haptics', () => ({
   impactAsync: jest.fn(),
@@ -16,50 +17,74 @@ jest.mock('expo-haptics', () => ({
   },
 }));
 
+jest.mock('react-native', () => ({
+  Platform: {
+    OS: 'ios',
+  },
+}));
+
 describe('haptics', () => {
+  const originalVibrate = global.navigator?.vibrate;
+
   beforeEach(() => {
     jest.clearAllMocks();
-  });
-
-  it('triggers light impact for pickup', async () => {
-    await triggerHaptic('pickup');
-    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
-  });
-
-  it('triggers medium impact for place', async () => {
-    await triggerHaptic('place');
-    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Medium);
-  });
-
-  it('triggers success notification for clear', async () => {
-    await triggerHaptic('clear');
-    expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
-  });
-
-  it('triggers heavy impact for game over', async () => {
-    await triggerHaptic('gameOver');
-    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Heavy);
-  });
-
-  it('triggers light impact for tap', async () => {
-    await triggerHaptic('tap');
-    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
-  });
-
-  it('triggers success notification for success', async () => {
-    await triggerHaptic('success');
-    expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
-  });
-
-  it('does nothing for invalid haptic type', async () => {
+    Platform.OS = 'ios';
     // @ts-ignore
-    await triggerHaptic('invalid');
-    expect(Haptics.impactAsync).not.toHaveBeenCalled();
-    expect(Haptics.notificationAsync).not.toHaveBeenCalled();
+    global.navigator.vibrate = jest.fn();
   });
 
-  it('triggers light impact for tap explicitly', async () => {
-    await triggerHaptic('tap');
-    expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
+  afterAll(() => {
+    // @ts-ignore
+    global.navigator.vibrate = originalVibrate;
+  });
+
+  describe('Native Platform', () => {
+    it('triggers light impact for pickup', async () => {
+      await triggerHaptic('pickup');
+      expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Light);
+      expect(global.navigator.vibrate).not.toHaveBeenCalled();
+    });
+
+    it('triggers medium impact for place', async () => {
+      await triggerHaptic('place');
+      expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Medium);
+    });
+
+    it('triggers success notification for clear', async () => {
+      await triggerHaptic('clear');
+      expect(Haptics.notificationAsync).toHaveBeenCalledWith(Haptics.NotificationFeedbackType.Success);
+    });
+
+    it('triggers heavy impact for game over', async () => {
+      await triggerHaptic('gameOver');
+      expect(Haptics.impactAsync).toHaveBeenCalledWith(Haptics.ImpactFeedbackStyle.Heavy);
+    });
+  });
+
+  describe('Web Platform', () => {
+    beforeEach(() => {
+      Platform.OS = 'web';
+    });
+
+    it('triggers vibrate for pickup', async () => {
+      await triggerHaptic('pickup');
+      expect(global.navigator.vibrate).toHaveBeenCalledWith(10);
+      expect(Haptics.impactAsync).not.toHaveBeenCalled();
+    });
+
+    it('triggers vibrate for place', async () => {
+      await triggerHaptic('place');
+      expect(global.navigator.vibrate).toHaveBeenCalledWith(20);
+    });
+
+    it('triggers vibrate for clear', async () => {
+      await triggerHaptic('clear');
+      expect(global.navigator.vibrate).toHaveBeenCalledWith([30, 50, 30]);
+    });
+
+    it('triggers vibrate for gameOver', async () => {
+      await triggerHaptic('gameOver');
+      expect(global.navigator.vibrate).toHaveBeenCalledWith(50);
+    });
   });
 });

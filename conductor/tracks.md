@@ -17,5 +17,5 @@ This file tracks all major tracks for the project. Each track has its own detail
 
 ---
 
-- [ ] **Track: Pivot to PWA (Offline Web App)**
-*Link: [./tracks/pwa_pivot_20260210/](./tracks/pwa_pivot_20260210/)*
+## [x] Track: Pivot to PWA (Offline Web App)
+*Link: [./conductor/archive/pwa_pivot_20260210/](./conductor/archive/pwa_pivot_20260210/)*

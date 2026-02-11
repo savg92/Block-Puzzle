@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Grid } from '../components/Grid/Grid';
 import { ScoreDisplay } from '../components/UI/ScoreDisplay';
@@ -11,10 +11,11 @@ import { SettingsScreen } from './SettingsScreen';
 import { StatusBar } from 'expo-status-bar';
 import { useGameStore } from '../store/gameStore';
 import { useTheme } from '../styles/ThemeContext';
+import { audioManager } from '../utils/audio';
 
 export const GameScreen: React.FC = () => {
   const { theme, isDark } = useTheme();
-  const { newGame, availablePieces, activePowerUpMode } = useGameStore();
+  const { newGame, availablePieces, activePowerUpMode, isAudioUnlocked, unlockAudio } = useGameStore();
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
 
   useEffect(() => {
@@ -23,6 +24,11 @@ export const GameScreen: React.FC = () => {
       newGame();
     }
   }, [availablePieces.length, newGame]);
+
+  const handleUnlockAudio = () => {
+    audioManager.playSound('tap');
+    unlockAudio();
+  };
 
   const dynamicStyles = StyleSheet.create({
     container: {
@@ -81,6 +87,27 @@ export const GameScreen: React.FC = () => {
       borderColor: theme.colors.error,
       backgroundColor: isDark ? 'rgba(239, 68, 68, 0.05)' : 'rgba(220, 38, 38, 0.05)',
     },
+    webAudioOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+    },
+    webAudioText: {
+      color: '#ffffff',
+      fontSize: 24,
+      fontWeight: 'bold',
+    },
+    webAudioSubText: {
+      color: '#cccccc',
+      fontSize: 16,
+      marginTop: 10,
+    }
   });
 
   return (
@@ -90,6 +117,17 @@ export const GameScreen: React.FC = () => {
       <PowerUpNotification />
       <SettingsScreen visible={isSettingsVisible} onClose={() => setIsSettingsVisible(false)} />
       
+      {Platform.OS === 'web' && !isAudioUnlocked && (
+        <TouchableOpacity 
+          activeOpacity={1} 
+          style={dynamicStyles.webAudioOverlay} 
+          onPress={handleUnlockAudio}
+        >
+          <Text style={dynamicStyles.webAudioText}>Tap to Start</Text>
+          <Text style={dynamicStyles.webAudioSubText}>Unlocks audio for web play</Text>
+        </TouchableOpacity>
+      )}
+
       {/* Top Section: Score & Title */}
       <View style={dynamicStyles.topSection}>
         <Text style={dynamicStyles.title}>Block Puzzle</Text>

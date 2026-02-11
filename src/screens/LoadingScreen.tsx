@@ -73,10 +73,7 @@ const styles = StyleSheet.create({
     // Add shadow and border for better visibility on white backgrounds
     borderWidth: 1,
     borderColor: 'rgba(0,0,0,0.05)',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.1,
-    shadowRadius: 20,
+    boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
     elevation: 8,
   },
   logo: {
