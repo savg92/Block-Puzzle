@@ -7,9 +7,9 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
-    "postinstall": "find node_modules/zustand -name \"*.mjs\" -exec sed -i '' 's/import.meta/({})/g' {} +",
-    "export:web": "npx expo export --platform web --clear && npm run fix-web-bundle && mkdir -p dist/assets && cp assets/icon.png dist/assets/icon.png",
-    "fix-web-bundle": "find dist/_expo/static/js/web -name \"*.js\" -exec sed -i '' 's/import.meta/({})/g' {} +",
+    "postinstall": "node scripts/fix-imports.mjs",
+    "export:web": "npx expo export --platform web --clear && node scripts/fix-imports.mjs && mkdir -p dist/assets && cp assets/icon.png dist/assets/icon.png",
+    "fix-web-bundle": "node scripts/fix-imports.mjs",
     "test": "jest",
     "lint": "expo lint"
   },
