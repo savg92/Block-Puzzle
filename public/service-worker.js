@@ -1,10 +1,12 @@
-const CACHE_NAME = 'block-puzzle-v1';
+const CACHE_NAME = 'block-puzzle-v2';
+// BUILD_ASSETS_PLACEHOLDER
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
   '/favicon.ico',
   '/assets/icon.png',
+  ...(typeof BUILD_ASSETS !== 'undefined' ? BUILD_ASSETS : []),
 ];
 
 self.addEventListener('install', (event) => {
@@ -12,7 +14,12 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       console.log('Opened cache');
-      return cache.addAll(ASSETS_TO_CACHE);
+      return cache.addAll(ASSETS_TO_CACHE.map(url => {
+        // Ensure we don't try to cache things that might fail if they don't exist yet
+        return new Request(url, { cache: 'reload' });
+      })).catch(err => {
+        console.warn('Preprocessing failed for some assets, but continuing...', err);
+      });
     })
   );
 });
@@ -50,11 +57,26 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Caching strategy: Stale-While-Revalidate for same-origin assets
+  // Caching strategy: Cache First for same-origin assets (to ensure offline works)
   if (url.origin === self.location.origin) {
     event.respondWith(
       caches.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
+        if (cachedResponse) {
+          // Fire and forget update in background
+          if (navigator.onLine) {
+            fetch(event.request).then((networkResponse) => {
+              if (networkResponse && networkResponse.status === 200) {
+                const responseToCache = networkResponse.clone();
+                caches.open(CACHE_NAME).then((cache) => {
+                  cache.put(event.request, responseToCache);
+                });
+              }
+            }).catch(() => {});
+          }
+          return cachedResponse;
+        }
+
+        return fetch(event.request).then((networkResponse) => {
           if (
             networkResponse &&
             networkResponse.status === 200 &&
@@ -67,10 +89,9 @@ self.addEventListener('fetch', (event) => {
           }
           return networkResponse;
         }).catch(() => {
-          // If network fails, we already have cachedResponse or undefined
+          // Fallback if both fail
+          return null;
         });
-
-        return cachedResponse || fetchPromise;
       })
     );
   }

@@ -8,7 +8,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "postinstall": "node scripts/fix-imports.mjs",
-    "export:web": "npx expo export --platform web --clear && node scripts/fix-imports.mjs && mkdir -p dist/assets && cp assets/icon.png dist/assets/icon.png",
+    "export:web": "npx expo export --platform web --clear && node scripts/fix-imports.mjs && node scripts/inject-sw-assets.mjs && mkdir -p dist/assets && cp assets/icon.png dist/assets/icon.png",
     "fix-web-bundle": "node scripts/fix-imports.mjs",
     "test": "jest",
     "lint": "expo lint"
