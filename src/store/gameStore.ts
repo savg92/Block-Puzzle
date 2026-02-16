@@ -110,7 +110,9 @@ export const useGameStore = create<GameState>()(
           notificationId: 0,
           
           history: [],
-          // preferences are NOT reset on new game
+          // Keep power-ups and preferences on new game
+          powerUps: state.powerUps,
+          preferences: state.preferences,
         })),
       placePiece: (piece, row, col, color, sourceIndex) => {
         const { grid, score, highScore, availablePieces, selectedPiece, isGameOver, history, gridLayout, powerUps, hoverPosition, activePowerUpMode, preferences = { soundVolume: 1.0, isMuted: false, hapticIntensity: 'medium', theme: 'system', showPieceShadow: true }, clearingCells, scoreAtLastPowerUp, notificationId, isAudioUnlocked } = get();
