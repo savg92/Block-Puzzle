@@ -111,16 +111,19 @@ src/
     bun web
     ```
 
-### 🌍 Deployment (PWA)
+### 🌍 Deployment (Vercel)
 
-To generate a production-ready PWA bundle:
+The project is pre-configured for one-click deployment to **Vercel**.
 
-1.  **Export for Web:**
+1.  **Connect GitHub:** Link your repository to a new project in the [Vercel Dashboard](https://vercel.com/new).
+2.  **Automatic Detection:** Vercel will automatically detect the **Expo** framework and use the configured settings from `vercel.json`:
+    - **Build Command:** `bun run export:web`
+    - **Output Directory:** `dist`
+3.  **Manual Build:**
     ```bash
     bun export:web
     ```
-2.  **Verify & Serve:**
-    The output in `dist/` is a static site ready for hosting on services like Vercel, Netlify, or GitHub Pages.
+    The output in `dist/` is a static site ready for any static hosting.
 
 ### 📱 Installing as a PWA
 1. Open the game URL in your mobile browser (Safari on iOS, Chrome on Android).
