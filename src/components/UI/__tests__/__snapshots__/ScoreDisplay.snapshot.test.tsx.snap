@@ -11,9 +11,9 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
       "borderWidth": 2,
       "flexDirection": "row",
       "justifyContent": "space-between",
-      "minWidth": 240,
-      "paddingHorizontal": 20,
-      "paddingVertical": 12,
+      "minWidth": 230,
+      "paddingHorizontal": 19,
+      "paddingVertical": 11,
     }
   }
   testID="score-container"
@@ -30,7 +30,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
       style={
         {
           "color": "#94a3b8",
-          "fontSize": 10,
+          "fontSize": 9,
           "fontWeight": "900",
           "letterSpacing": 1.5,
           "marginBottom": 2,
@@ -45,7 +45,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
       style={
         {
           "color": "#f8fafc",
-          "fontSize": 28,
+          "fontSize": 26,
           "fontWeight": "bold",
           "userSelect": "none",
         }
@@ -77,7 +77,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
       style={
         {
           "color": "#94a3b8",
-          "fontSize": 10,
+          "fontSize": 9,
           "fontWeight": "900",
           "letterSpacing": 1.5,
           "marginBottom": 2,
@@ -92,7 +92,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
       style={
         {
           "color": "#10b981",
-          "fontSize": 28,
+          "fontSize": 26,
           "fontWeight": "bold",
           "userSelect": "none",
         }
@@ -116,9 +116,9 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
       "borderWidth": 2,
       "flexDirection": "row",
       "justifyContent": "space-between",
-      "minWidth": 240,
-      "paddingHorizontal": 20,
-      "paddingVertical": 12,
+      "minWidth": 230,
+      "paddingHorizontal": 19,
+      "paddingVertical": 11,
     }
   }
   testID="score-container"
@@ -135,7 +135,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
       style={
         {
           "color": "#94a3b8",
-          "fontSize": 10,
+          "fontSize": 9,
           "fontWeight": "900",
           "letterSpacing": 1.5,
           "marginBottom": 2,
@@ -150,7 +150,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
       style={
         {
           "color": "#f8fafc",
-          "fontSize": 28,
+          "fontSize": 26,
           "fontWeight": "bold",
           "userSelect": "none",
         }
@@ -182,7 +182,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
       style={
         {
           "color": "#94a3b8",
-          "fontSize": 10,
+          "fontSize": 9,
           "fontWeight": "900",
           "letterSpacing": 1.5,
           "marginBottom": 2,
@@ -197,7 +197,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
       style={
         {
           "color": "#10b981",
-          "fontSize": 28,
+          "fontSize": 26,
           "fontWeight": "bold",
           "userSelect": "none",
         }

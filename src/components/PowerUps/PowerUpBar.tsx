@@ -4,6 +4,7 @@ import { useGameStore, PowerUpType } from '../../store/gameStore';
 import { POWER_UP_METADATA } from '../../store/powerUpMetadata';
 import { useTheme } from '../../styles/ThemeContext';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
+import { useResponsiveSize } from '../../hooks/useResponsiveSize';
 
 import Animated, { useSharedValue, useAnimatedStyle, withRepeat, withTiming, withSequence } from 'react-native-reanimated';
 
@@ -18,6 +19,7 @@ interface PowerUpButtonProps {
 
 const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count, isActive, onPress }) => {
   const { theme } = useTheme();
+  const rs = useResponsiveSize();
   const scale = useSharedValue(1);
   
   // Use useMemo for persistent dynamic styles
@@ -25,10 +27,10 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
     button: {
       alignItems: 'center',
       justifyContent: 'center',
-      padding: 8,
+      padding: rs.iconButtonPadding,
       borderRadius: 12,
       backgroundColor: theme.colors.surfaceVariant,
-      minWidth: 64,
+      minWidth: rs.powerUpMinWidth,
       position: 'relative',
       borderWidth: 1,
       borderColor: 'transparent',
@@ -41,11 +43,11 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
       opacity: 0.4,
     },
     icon: {
-      fontSize: 20,
-      marginBottom: 4,
+      fontSize: rs.powerUpIconSize,
+      marginBottom: Math.floor(4 * rs.scale),
     },
     label: {
-      fontSize: 10,
+      fontSize: rs.powerUpLabelSize,
       color: theme.colors.text.secondary,
       fontWeight: 'bold',
       textTransform: 'uppercase',
@@ -56,9 +58,9 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
       right: -4,
       backgroundColor: theme.colors.accent,
       borderRadius: 10,
-      minWidth: 18,
-      height: 18,
-      paddingHorizontal: 4,
+      minWidth: Math.floor(18 * rs.scale),
+      height: Math.floor(18 * rs.scale),
+      paddingHorizontal: Math.floor(4 * rs.scale),
       justifyContent: 'center',
       alignItems: 'center',
       borderWidth: 1,
@@ -66,7 +68,7 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
     },
     badgeText: {
       color: theme.colors.text.inverse,
-      fontSize: 10,
+      fontSize: rs.powerUpBadgeSize,
       fontWeight: '900',
     },
   });
@@ -117,6 +119,7 @@ export const PowerUpBar: React.FC = () => {
   const { theme } = useTheme();
   const { powerUps, applyPowerUp, undo, activePowerUpMode } = useGameStore();
   const { playTap } = useSensoryFeedback();
+  const rs = useResponsiveSize();
 
   const handlePress = (type: PowerUpType) => {
     playTap();
@@ -142,13 +145,13 @@ export const PowerUpBar: React.FC = () => {
       justifyContent: 'space-around',
       alignItems: 'center',
       width: '100%',
-      paddingVertical: 12,
-      paddingHorizontal: 8,
+      paddingVertical: rs.powerUpPaddingV,
+      paddingHorizontal: rs.powerUpPaddingH,
       backgroundColor: theme.isDark ? 'rgba(15, 23, 42, 0.8)' : 'rgba(241, 245, 249, 0.8)',
       borderTopWidth: 1,
       borderBottomWidth: 1,
       borderColor: theme.colors.border,
-      minHeight: 80,
+      minHeight: rs.powerUpMinHeight,
     },
     activeModeContainer: {
       flex: 1,
@@ -160,19 +163,19 @@ export const PowerUpBar: React.FC = () => {
     activeModeText: {
       color: theme.colors.primary,
       fontWeight: '900',
-      fontSize: 14,
+      fontSize: Math.floor(14 * rs.scale),
       letterSpacing: 1,
     },
     cancelButton: {
       backgroundColor: theme.colors.error,
-      paddingHorizontal: 16,
-      paddingVertical: 8,
+      paddingHorizontal: Math.floor(16 * rs.scale),
+      paddingVertical: rs.iconButtonPadding,
       borderRadius: 8,
     },
     cancelButtonText: {
       color: 'white',
       fontWeight: '900',
-      fontSize: 12,
+      fontSize: Math.floor(12 * rs.scale),
     },
   });
 

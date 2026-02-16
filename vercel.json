@@ -2,9 +2,24 @@
     "buildCommand": "bun run export:web",
     "outputDirectory": "dist",
     "framework": null,
+    "headers": [
+        {
+            "source": "/service-worker.js",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "no-cache, no-store, must-revalidate"
+                },
+                {
+                    "key": "Service-Worker-Allowed",
+                    "value": "/"
+                }
+            ]
+        }
+    ],
     "rewrites": [
         {
-            "source": "/(.*)",
+            "source": "/((?!_expo|assets|service-worker\\.js|manifest\\.json|favicon\\.ico|icon\\.png).*)",
             "destination": "/"
         }
     ]

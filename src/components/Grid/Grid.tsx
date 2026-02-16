@@ -8,12 +8,14 @@ import { canPlacePiece } from '../../engine/board';
 import { getPieceColor } from '../../engine/pieces';
 import { calculateGridDimensions, mapGridToLocal } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
+import { useResponsiveSize } from '../../hooks/useResponsiveSize';
 
 export const Grid: React.FC = memo(() => {
   const { theme } = useTheme();
   const { grid, gridLayout, setGridLayout, selectedPiece, hoverPosition, activePowerUpMode, addSingleBlock, clearingCells, setClearingCells, preferences } = useGameStore();
   const gridRef = useRef<View>(null);
   const { playPlace, playClear, playGameOver } = useSensoryFeedback();
+  const rs = useResponsiveSize();
 
   const handleLayout = () => {
     if (gridRef.current) {
@@ -119,6 +121,7 @@ export const Grid: React.FC = memo(() => {
               <Cell
                 key={`cell-${rowIndex}-${colIndex}`}
                 color={cell || null}
+                size={rs.cellSize}
                 testID={`cell-${rowIndex}-${colIndex}`}
                 onPress={() => handleCellPress(rowIndex, colIndex)}
                 isClearing={isClearing}

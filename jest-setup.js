@@ -45,6 +45,7 @@ jest.mock('react-native', () => {
       addChangeListener: () => ({ remove: () => {} }),
     },
     useColorScheme: jest.fn(() => 'light'),
+    useWindowDimensions: jest.fn(() => ({ width: 375, height: 812, scale: 1, fontScale: 1 })),
     Dimensions: {
       get: jest.fn().mockReturnValue({ width: 375, height: 812 }),
       set: jest.fn(),

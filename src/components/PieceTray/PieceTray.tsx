@@ -8,11 +8,13 @@ import { Theme } from '../../styles/theme';
 import { useTheme } from '../../styles/ThemeContext';
 import { getPieceColor } from '../../engine/pieces';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
+import { useResponsiveSize } from '../../hooks/useResponsiveSize';
 
 export const PieceTray: React.FC = () => {
   const { theme } = useTheme();
   const { availablePieces, selectPiece, selectedPiece, gridLayout, placePiece, activePowerUpMode, discardPiece, setClearingCells } = useGameStore();
   const { playPlace, playClear, playGameOver, playTap } = useSensoryFeedback();
+  const rs = useResponsiveSize();
 
   const handleDragEnd = useCallback((
     piece: Piece, 
@@ -65,18 +67,18 @@ export const PieceTray: React.FC = () => {
       justifyContent: 'space-around',
       alignItems: 'center',
       width: '100%',
-      height: 120,
+      height: rs.trayHeight,
       backgroundColor: theme.colors.surface,
       borderTopWidth: 1,
       borderTopColor: theme.colors.border,
-      paddingHorizontal: 20,
+      paddingHorizontal: rs.trayPaddingH,
     },
     pieceWrapper: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: 100,
-      paddingVertical: 10,
+      minHeight: rs.trayMinHeight,
+      paddingVertical: Math.floor(10 * rs.scale),
     },
   });
 
@@ -110,7 +112,7 @@ export const PieceTray: React.FC = () => {
               color={colorKey}
               onDragEnd={(x, y, gridPos) => handleDragEnd(piece, colorKey, x, y, index, gridPos)}
               onPress={() => handlePress(index)}
-              size={25}
+              size={rs.pieceSize}
             />
           </View>
         );

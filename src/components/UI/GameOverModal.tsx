@@ -10,12 +10,14 @@ import Animated, {
 import { useGameStore } from '../../store/gameStore';
 import { useTheme } from '../../styles/ThemeContext';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
+import { useResponsiveSize } from '../../hooks/useResponsiveSize';
 
 export const GameOverModal: React.FC = () => {
   const { theme } = useTheme();
   const { isGameOver, score, highScore, powerUps, applyPowerUp, newGame } = useGameStore();
   const [shouldRender, setShouldRender] = useState(isGameOver);
   const { playTap } = useSensoryFeedback();
+  const rs = useResponsiveSize();
 
   // Animation values
   const scale = useSharedValue(0);
@@ -52,14 +54,14 @@ export const GameOverModal: React.FC = () => {
       backgroundColor: theme.isDark ? 'rgba(2, 6, 23, 0.85)' : 'rgba(15, 23, 42, 0.7)',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: 20,
+      padding: rs.screenPadding,
     },
     container: {
       width: '100%',
       maxWidth: 340,
       backgroundColor: theme.colors.surface,
       borderRadius: 24,
-      padding: 32,
+      padding: rs.gameOverPadding,
       alignItems: 'center',
       borderWidth: 4,
       borderColor: theme.colors.primary,
@@ -67,10 +69,10 @@ export const GameOverModal: React.FC = () => {
       elevation: 10,
     },
     title: {
-      fontSize: 42,
+      fontSize: rs.gameOverTitleSize,
       fontWeight: '900',
       color: theme.colors.error,
-      marginBottom: 24,
+      marginBottom: Math.floor(24 * rs.scale),
       fontStyle: 'italic',
       textShadowColor: theme.isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(220, 38, 38, 0.3)',
       textShadowOffset: { width: 0, height: 0 },
@@ -80,10 +82,10 @@ export const GameOverModal: React.FC = () => {
       flexDirection: 'row',
       justifyContent: 'space-around',
       width: '100%',
-      marginBottom: 32,
+      marginBottom: rs.gameOverPadding,
       backgroundColor: theme.colors.background,
       borderRadius: 16,
-      padding: 16,
+      padding: Math.floor(16 * rs.scale),
       opacity: 0.8,
     },
     scoreItem: {
@@ -91,26 +93,26 @@ export const GameOverModal: React.FC = () => {
     },
     scoreLabel: {
       color: theme.colors.text.secondary,
-      fontSize: 12,
+      fontSize: Math.floor(12 * rs.scale),
       fontWeight: 'bold',
       marginBottom: 4,
     },
     scoreValue: {
       color: theme.colors.text.primary,
-      fontSize: 28,
+      fontSize: rs.gameOverScoreSize,
       fontWeight: 'bold',
     },
     mainButton: {
       backgroundColor: theme.colors.primary,
-      paddingVertical: 16,
-      paddingHorizontal: 48,
+      paddingVertical: Math.floor(16 * rs.scale),
+      paddingHorizontal: Math.floor(48 * rs.scale),
       borderRadius: 16,
       width: '100%',
       alignItems: 'center',
     },
     mainButtonText: {
       color: theme.colors.text.inverse,
-      fontSize: 20,
+      fontSize: rs.gameOverButtonSize,
       fontWeight: '900',
     },
   });

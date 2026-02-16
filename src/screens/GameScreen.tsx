@@ -12,11 +12,13 @@ import { StatusBar } from 'expo-status-bar';
 import { useGameStore } from '../store/gameStore';
 import { useTheme } from '../styles/ThemeContext';
 import { audioManager } from '../utils/audio';
+import { useResponsiveSize } from '../hooks/useResponsiveSize';
 
 export const GameScreen: React.FC = () => {
   const { theme, isDark } = useTheme();
   const { newGame, availablePieces, activePowerUpMode, isAudioUnlocked, unlockAudio } = useGameStore();
   const [isSettingsVisible, setIsSettingsVisible] = useState(false);
+  const rs = useResponsiveSize();
 
   useEffect(() => {
     // Initialize game if no pieces are available (e.g. first launch)
@@ -36,33 +38,33 @@ export const GameScreen: React.FC = () => {
       backgroundColor: theme.colors.background,
     },
     topSection: {
-      padding: 20,
+      padding: rs.screenPadding,
       alignItems: 'center',
       position: 'relative',
       width: '100%',
     },
     headerButtons: {
       position: 'absolute',
-      right: 20,
-      top: 20,
+      right: rs.screenPadding,
+      top: rs.screenPadding,
       flexDirection: 'row',
       alignItems: 'center',
-      gap: 10,
+      gap: Math.floor(10 * rs.scale),
     },
     iconButton: {
-      padding: 8,
+      padding: rs.iconButtonPadding,
       borderRadius: 8,
       backgroundColor: theme.colors.surfaceVariant,
     },
     iconText: {
-      fontSize: 22,
+      fontSize: rs.iconSize,
     },
     title: {
-      fontSize: 28,
+      fontSize: rs.titleFontSize,
       fontWeight: 'bold',
       color: isDark ? '#ffffff' : '#000000',
-      marginBottom: 10,
-      marginTop: 10,
+      marginBottom: Math.floor(10 * rs.scale),
+      marginTop: Math.floor(10 * rs.scale),
       userSelect: 'none',
     },
     gridSection: {
@@ -77,7 +79,7 @@ export const GameScreen: React.FC = () => {
       backgroundColor: isDark ? 'rgba(59, 130, 246, 0.05)' : 'rgba(37, 99, 235, 0.05)',
     },
     bottomSection: {
-      paddingTop: 20,
+      paddingTop: Math.floor(20 * rs.scale),
       alignItems: 'center',
       width: '100%',
       zIndex: 100,

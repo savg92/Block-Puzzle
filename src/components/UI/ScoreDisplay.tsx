@@ -7,10 +7,12 @@ import {
 } from 'react-native-reanimated';
 import { useGameStore } from '../../store/gameStore';
 import { useTheme } from '../../styles/ThemeContext';
+import { useResponsiveSize } from '../../hooks/useResponsiveSize';
 
 export const ScoreDisplay: React.FC = () => {
   const { theme } = useTheme();
   const { score, highScore, initStore } = useGameStore();
+  const rs = useResponsiveSize();
   
   useEffect(() => {
     initStore();
@@ -38,12 +40,12 @@ export const ScoreDisplay: React.FC = () => {
       flexDirection: 'row',
       backgroundColor: theme.colors.surface,
       borderRadius: 12,
-      paddingVertical: 12,
-      paddingHorizontal: 20,
+      paddingVertical: rs.scorePaddingV,
+      paddingHorizontal: rs.scorePaddingH,
       alignItems: 'center',
       borderWidth: 2,
       borderColor: theme.colors.border,
-      minWidth: 240,
+      minWidth: rs.scoreMinWidth,
       justifyContent: 'space-between',
     },
     scoreBox: {
@@ -51,8 +53,8 @@ export const ScoreDisplay: React.FC = () => {
       flex: 1,
     },
     label: {
-      color: theme.isDark ? theme.colors.text.secondary : '#7c8fa6', // Slightly deeper gray for light mode
-      fontSize: 10,
+      color: theme.isDark ? theme.colors.text.secondary : '#7c8fa6',
+      fontSize: Math.floor(10 * rs.scale),
       fontWeight: '900',
       letterSpacing: 1.5,
       marginBottom: 2,
@@ -61,13 +63,13 @@ export const ScoreDisplay: React.FC = () => {
     },
     scoreText: {
       color: theme.isDark ? '#f8fafc' : '#000000',
-      fontSize: 28,
+      fontSize: rs.scoreFontSize,
       fontWeight: 'bold',
       userSelect: 'none',
     },
     highScoreText: {
       color: theme.colors.secondary,
-      fontSize: 28,
+      fontSize: rs.scoreFontSize,
       fontWeight: 'bold',
       userSelect: 'none',
     },

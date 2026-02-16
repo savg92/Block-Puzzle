@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, useWindowDimensions } from 'react-native';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
@@ -13,13 +13,15 @@ import { useGameStore } from '../../store/gameStore';
 import { POWER_UP_METADATA } from '../../store/powerUpMetadata';
 import { useTheme } from '../../styles/ThemeContext';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
+import { useResponsiveSize } from '../../hooks/useResponsiveSize';
 
-const { width } = Dimensions.get('window');
 
 export const PowerUpNotification: React.FC = () => {
   const { theme } = useTheme();
   const { lastEarnedPowerUp, notificationId, clearNotification } = useGameStore();
   const { playSuccess } = useSensoryFeedback();
+  const { width } = useWindowDimensions();
+  const rs = useResponsiveSize();
   
   const translateY = useSharedValue(-100);
   const opacity = useSharedValue(0);
@@ -87,11 +89,11 @@ export const PowerUpNotification: React.FC = () => {
       // Shadow
       boxShadow: '0 4px 5px rgba(0,0,0,0.3)',
       elevation: 8,
-      maxWidth: width - 40,
+      maxWidth: width - Math.floor(40 * rs.scale),
     },
     icon: {
-      fontSize: 24,
-      marginRight: 12,
+      fontSize: Math.floor(24 * rs.scale),
+      marginRight: Math.floor(12 * rs.scale),
     },
     content: {
       flexDirection: 'column',
@@ -99,11 +101,11 @@ export const PowerUpNotification: React.FC = () => {
     title: {
       color: theme.colors.text.primary,
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: rs.notificationTitleSize,
     },
     subtitle: {
       color: theme.colors.text.secondary,
-      fontSize: 12,
+      fontSize: rs.notificationSubSize,
     },
   });
 
