@@ -10,7 +10,7 @@
   }
   
   html, body {
-    background-color: #020617 !important;
+    background-color: var(--app-bg, #020617) !important;
     overscroll-behavior: none;
     overflow: hidden;
     position: fixed;

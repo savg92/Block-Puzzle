@@ -137,14 +137,20 @@ export const GameScreen: React.FC = () => {
         <View style={dynamicStyles.headerButtons}>
             <TouchableOpacity 
               onPress={() => {
-                  Alert.alert(
-                      "Restart Game",
-                      "Are you sure you want to restart? Current progress will be lost.",
-                      [
-                          { text: "Cancel", style: "cancel" },
-                          { text: "Restart", style: "destructive", onPress: () => newGame() }
-                      ]
-                  );
+                if (Platform.OS === 'web') {
+                  const confirmed = window.confirm("Are you sure you want to restart? Current progress will be lost.");
+                  if (confirmed) newGame();
+                  return;
+                }
+                
+                Alert.alert(
+                  "Restart Game",
+                  "Are you sure you want to restart? Current progress will be lost.",
+                  [
+                    { text: "Cancel", style: "cancel" },
+                    { text: "Restart", style: "destructive", onPress: () => newGame() }
+                  ]
+                );
               }}
               style={dynamicStyles.iconButton}
               testID="restart-button"
