@@ -287,8 +287,8 @@ export const DraggablePiece: React.FC<Props> = memo(({
         onDragEnd={onEnd}
         // @ts-ignore - Exposing for testing simulation
         onPiecePress={onPress}
-        style={style}
-        hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}
+        style={[style, { cursor: 'grab' } as any]}
+        hitSlop={{ top: 40, bottom: 40, left: 40, right: 40 }}
       >
         <PiecePreview piece={piece} color={color} size={size} />
       </Animated.View>

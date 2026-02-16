@@ -1,12 +1,12 @@
 # Block Puzzle 10x10
 
-A premium, fully offline, single-player block puzzle game built with React Native and Expo. Designed for performance, aesthetics, and pure gameplay focus—now available as a high-performance **Progressive Web App (PWA)** alongside native mobile support.
-
 ![License](https://img.shields.io/badge/license-Private-red.svg)
 ![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-lightgrey.svg)
 ![PWA](https://img.shields.io/badge/PWA-Ready-blue.svg)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-success.svg)
 ![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
+
+A premium, fully offline, single-player block puzzle game built with React Native and Expo. Designed for performance, aesthetics, and pure gameplay focus—now available as a high-performance **Progressive Web App (PWA)** alongside native mobile support.
 
 ---
 

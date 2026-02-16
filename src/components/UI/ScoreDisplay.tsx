@@ -79,7 +79,7 @@ export const ScoreDisplay: React.FC = () => {
   return (
     <View testID="score-container" style={dynamicStyles.container}>
       <View style={dynamicStyles.scoreBox}>
-        <Text style={styles.label}>SCORE</Text>
+        <Text style={dynamicStyles.label}>SCORE</Text>
         <Text testID="current-score" style={dynamicStyles.scoreText}>{displayScore}</Text>
       </View>
       <View style={dynamicStyles.divider} />
