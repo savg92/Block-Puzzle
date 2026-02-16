@@ -17,9 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
 import { Theme } from '../../styles/theme';
-import { useTheme } from '../../styles/ThemeContext';
 import { useGameStore } from '../../store/gameStore';
-import { mapScreenToGrid } from '../../utils/gridUtils';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 import { canPlacePiece } from '../../engine/board';
 
@@ -35,7 +33,7 @@ interface Props {
 const DRAG_LIFT = 110;
 // Correction to move shadow UP (user reported shadow was below piece)
 // Increasing this value makes the system think the piece is higher up
-const CALC_LIFT = DRAG_LIFT + 20;
+const CALC_LIFT = DRAG_LIFT;
 
 // Helper to calculate positions (exported for testing)
 export const calculatePiecePosition = (
@@ -297,3 +295,5 @@ export const DraggablePiece: React.FC<Props> = memo(({
     </GestureDetector>
   );
 });
+
+DraggablePiece.displayName = 'DraggablePiece';

@@ -9,11 +9,17 @@ class AudioManager {
 
   // Asset mapping
   private assets: Record<SoundType, any> = {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     tap: require('../../assets/sounds/tap.ogg'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     pickup: require('../../assets/sounds/pickup.ogg'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     place: require('../../assets/sounds/place.ogg'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     clear: require('../../assets/sounds/clear.ogg'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     gameOver: require('../../assets/sounds/gameOver.ogg'),
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     success: require('../../assets/sounds/success.ogg'),
   };
 

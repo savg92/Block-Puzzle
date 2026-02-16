@@ -4,7 +4,6 @@ import Animated, {
   useAnimatedStyle, 
   useSharedValue, 
   withTiming, 
-  withSequence,
   Easing 
 } from 'react-native-reanimated';
 
@@ -41,7 +40,7 @@ export const Cell: React.FC<CellProps> = memo(({ color, size = 30, testID, onPre
         opacity.value = 1;
       }
     }
-  }, [isClearing, isFilled]);
+  }, [isClearing, isFilled, opacity, scale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -68,3 +67,5 @@ export const Cell: React.FC<CellProps> = memo(({ color, size = 30, testID, onPre
     </Pressable>
   );
 });
+
+Cell.displayName = 'Cell';

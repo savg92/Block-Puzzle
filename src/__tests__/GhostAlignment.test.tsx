@@ -1,5 +1,4 @@
-import React from 'react';
-import { render, act } from '@testing-library/react-native';
+import { act } from '@testing-library/react-native';
 import { useGameStore } from '../store/gameStore';
 import { PIECES } from '../engine/pieces';
 import { mapScreenToGrid } from '../utils/gridUtils';
@@ -51,7 +50,8 @@ describe('Ghost Alignment Logic', () => {
     // Verify that placePiece uses this exact coordinate
     // (In actual UI, onDragEnd calls toGridPos(centerX, centerY) which is the same logic)
     const result = store.placePiece(piece, predictedPos.row, predictedPos.col, 'red', 0);
-    expect(result.success).toBe(true);
+    expect(result).toBeDefined();
+    expect(result?.success).toBe(true);
     
     // Verify it landed exactly where the ghost would have been
     expect(useGameStore.getState().grid[predictedPos.row][predictedPos.col]).toBe('red');
@@ -77,7 +77,8 @@ describe('Ghost Alignment Logic', () => {
         
         if (!isValid) {
             const result = useGameStore.getState().placePiece(piece, predictedPos.row, predictedPos.col, 'red', 0);
-            expect(result.success).toBe(false);
+            expect(result).toBeDefined();
+            expect(result?.success).toBe(false);
         }
     } else {
         expect(mapPos).toBeNull();

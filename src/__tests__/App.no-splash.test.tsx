@@ -1,6 +1,6 @@
-
 import React from 'react';
 import { render, act } from '@testing-library/react-native';
+import App, { initSplashScreen } from '../App';
 
 // Mock the whole module to fail
 jest.mock('expo-splash-screen', () => {
@@ -24,8 +24,8 @@ jest.mock('../screens/LoadingScreen', () => ({
   LoadingScreen: () => null
 }));
 
-// We need to require App AFTER mocking failure
-import App, { initSplashScreen } from '../App';
+// Mocking failure manually via the exported init function
+// Trigger the failure manually via the exported init function
 
 describe('App with no splash screen module', () => {
   beforeEach(() => {

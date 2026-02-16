@@ -11,6 +11,7 @@ let SplashScreen: any = null;
 
 export const initSplashScreen = () => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     SplashScreen = require('expo-splash-screen');
     SplashScreen?.preventAutoHideAsync?.().catch(() => {});
   } catch (e) {

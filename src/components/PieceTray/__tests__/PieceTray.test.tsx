@@ -3,7 +3,6 @@ import { render, fireEvent, act } from '@testing-library/react-native';
 import { PieceTray } from '../PieceTray';
 import { ThemeProvider } from '../../../styles/ThemeContext';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { StyleSheet, View } from 'react-native';
 import { useGameStore } from '../../../store/gameStore';
 
 // Mock sensory feedback
@@ -28,6 +27,7 @@ jest.mock('../../../store/gameStore', () => ({
 
 // Mock DraggablePiece to easily trigger handleDragEnd
 jest.mock('../../Piece/DraggablePiece', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const { View } = require('react-native');
   return {
     DraggablePiece: ({ onDragEnd, onPress }: any) => (

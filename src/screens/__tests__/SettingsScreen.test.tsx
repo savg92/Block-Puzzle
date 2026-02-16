@@ -2,7 +2,6 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { SettingsScreen } from '../SettingsScreen';
 import { ThemeProvider } from '../../styles/ThemeContext';
-import { useGameStore } from '../../store/gameStore';
 
 // Mock game store
 const mockUpdatePreferences = jest.fn();

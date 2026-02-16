@@ -51,7 +51,12 @@ exports[`GameOverModal Snapshots renders correctly in high score state 1`] = `
             "fontStyle": "italic",
             "fontWeight": "900",
             "marginBottom": 24,
-            "textShadow": "0 0 10px rgba(239, 68, 68, 0.5)",
+            "textShadowColor": "rgba(239, 68, 68, 0.5)",
+            "textShadowOffset": {
+              "height": 0,
+              "width": 0,
+            },
+            "textShadowRadius": 10,
           }
         }
       >
@@ -248,7 +253,12 @@ exports[`GameOverModal Snapshots renders correctly in standard state 1`] = `
             "fontStyle": "italic",
             "fontWeight": "900",
             "marginBottom": 24,
-            "textShadow": "0 0 10px rgba(239, 68, 68, 0.5)",
+            "textShadowColor": "rgba(239, 68, 68, 0.5)",
+            "textShadowOffset": {
+              "height": 0,
+              "width": 0,
+            },
+            "textShadowRadius": 10,
           }
         }
       >

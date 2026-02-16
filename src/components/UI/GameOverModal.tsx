@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Modal, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import Animated, { 
   useSharedValue, 
   useAnimatedStyle, 
   withSpring, 
-  withDelay,
-  Easing,
   withTiming,
   runOnJS
 } from 'react-native-reanimated';
@@ -15,7 +13,7 @@ import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 
 export const GameOverModal: React.FC = () => {
   const { theme } = useTheme();
-  const { isGameOver, score, highScore, powerUps, usePowerUp, newGame } = useGameStore();
+  const { isGameOver, score, highScore, powerUps, applyPowerUp, newGame } = useGameStore();
   const [shouldRender, setShouldRender] = useState(isGameOver);
   const { playTap } = useSensoryFeedback();
 
@@ -36,7 +34,7 @@ export const GameOverModal: React.FC = () => {
         }
       });
     }
-  }, [isGameOver]);
+  }, [isGameOver, scale, opacity]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -74,7 +72,9 @@ export const GameOverModal: React.FC = () => {
       color: theme.colors.error,
       marginBottom: 24,
       fontStyle: 'italic',
-      textShadow: `0 0 10px ${theme.isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(220, 38, 38, 0.3)'}`,
+      textShadowColor: theme.isDark ? 'rgba(239, 68, 68, 0.5)' : 'rgba(220, 38, 38, 0.3)',
+      textShadowOffset: { width: 0, height: 0 },
+      textShadowRadius: 10,
     },
     scoreSection: {
       flexDirection: 'row',
@@ -145,7 +145,7 @@ export const GameOverModal: React.FC = () => {
           {powerUps.undo > 0 && (
             <TouchableOpacity 
               style={[dynamicStyles.mainButton, { marginTop: 12, backgroundColor: theme.colors.secondary }]} 
-              onPress={() => usePowerUp('undo')}
+              onPress={() => applyPowerUp('undo')}
             >
               <Text style={dynamicStyles.mainButtonText}>UNDO ({powerUps.undo})</Text>
             </TouchableOpacity>

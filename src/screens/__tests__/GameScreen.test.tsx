@@ -172,6 +172,7 @@ describe('GameScreen', () => {
   });
 
   it('renders correctly in light mode', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const ThemeContext = require('../../styles/ThemeContext');
     const originalUseTheme = ThemeContext.useTheme;
     ThemeContext.useTheme = () => ({ 
@@ -203,6 +204,7 @@ describe('GameScreen', () => {
   });
 
   it('renders correctly in dark mode', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const ThemeContext = require('../../styles/ThemeContext');
     const originalUseTheme = ThemeContext.useTheme;
     ThemeContext.useTheme = () => ({ 

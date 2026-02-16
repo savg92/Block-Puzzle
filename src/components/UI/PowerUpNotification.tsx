@@ -17,7 +17,7 @@ import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 const { width } = Dimensions.get('window');
 
 export const PowerUpNotification: React.FC = () => {
-  const { theme, isDark } = useTheme();
+  const { theme } = useTheme();
   const { lastEarnedPowerUp, notificationId, clearNotification } = useGameStore();
   const { playSuccess } = useSensoryFeedback();
   
@@ -52,7 +52,7 @@ export const PowerUpNotification: React.FC = () => {
         withDelay(2000, withSpring(0.8, { damping: 15 }))
       );
     }
-  }, [notificationId]); // Trigger on every new notification
+  }, [notificationId, lastEarnedPowerUp, playSuccess, translateY, clearNotification, opacity, scale]); // Trigger on every new notification
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [

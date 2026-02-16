@@ -2,12 +2,10 @@ import React, { memo, useEffect } from 'react';
 import Animated, { 
   useAnimatedStyle, 
   useSharedValue, 
-  withSpring, 
   withTiming 
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
 import { Theme } from '../../styles/theme';
-import { useTheme } from '../../styles/ThemeContext';
 
 interface GhostPieceProps {
   piece: number[][];
@@ -34,11 +32,11 @@ export const GhostPiece: React.FC<GhostPieceProps> = memo(({
     // Snap to new position with a short, non-bouncy timing for stability
     translateX.value = withTiming(x, { duration: 80 });
     translateY.value = withTiming(y, { duration: 80 });
-  }, [x, y]);
+  }, [x, y, translateX, translateY]);
 
   useEffect(() => {
     opacity.value = withTiming(visible ? 0.4 : 0, { duration: 150 });
-  }, [visible]);
+  }, [visible, opacity]);
 
   const style = useAnimatedStyle(() => ({
     position: 'absolute',
@@ -62,3 +60,5 @@ export const GhostPiece: React.FC<GhostPieceProps> = memo(({
     </Animated.View>
   );
 });
+
+GhostPiece.displayName = 'GhostPiece';

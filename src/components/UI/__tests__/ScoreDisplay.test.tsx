@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { ScoreDisplay } from '../ScoreDisplay';
 import { ThemeProvider } from '../../../styles/ThemeContext';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Mock game store
 jest.mock('../../../store/gameStore', () => ({

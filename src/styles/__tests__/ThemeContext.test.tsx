@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderHook, act, waitFor } from '@testing-library/react-native';
+import { renderHook, act } from '@testing-library/react-native';
 import { useColorScheme } from 'react-native';
 
 import { ThemeProvider, useTheme } from '../ThemeContext';

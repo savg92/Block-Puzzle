@@ -34,7 +34,7 @@ interface GameState {
   notificationId: number;
   isAudioUnlocked: boolean;
 
-  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'usePowerUp' | 'initStore' | 'setHoverPosition' | 'updatePreferences' | 'setClearingCells' | 'clearNotification' | 'unlockAudio'>[];
+  history: Omit<GameState, 'newGame' | 'placePiece' | 'selectPiece' | 'undo' | 'discardPiece' | 'addSingleBlock' | 'history' | 'setGridLayout' | 'applyPowerUp' | 'initStore' | 'setHoverPosition' | 'updatePreferences' | 'setClearingCells' | 'clearNotification' | 'unlockAudio'>[];
   
   newGame: () => void;
   initStore: () => Promise<void>;
@@ -42,7 +42,7 @@ interface GameState {
   selectPiece: (piece: Piece | null) => void;
   setHoverPosition: (pos: { row: number; col: number } | null) => void;
   setGridLayout: (layout: { x: number; y: number; width: number; height: number } | null) => void;
-  usePowerUp: (type: PowerUpType, row?: number, col?: number) => void;
+  applyPowerUp: (type: PowerUpType, row?: number, col?: number) => void;
   discardPiece: (index: number) => boolean;
   addSingleBlock: (row: number, col: number) => { success: boolean; clearedLines: number; isGameOver: boolean; fullRows: number[]; fullCols: number[] } | undefined;
   undo: () => void;
@@ -225,8 +225,8 @@ export const useGameStore = create<GameState>()(
       setHoverPosition: (pos) => set({ hoverPosition: pos }),
       setGridLayout: (layout) => set({ gridLayout: layout }),
       
-      usePowerUp: (type, row, col) => {
-        const { grid, powerUps, availablePieces, activePowerUpMode } = get();
+      applyPowerUp: (type, row, col) => {
+        const { powerUps, availablePieces, activePowerUpMode } = get();
         
         if (powerUps[type] <= 0) return;
 
@@ -241,7 +241,7 @@ export const useGameStore = create<GameState>()(
           const newMode = activePowerUpMode === type ? null : type;
           set({ activePowerUpMode: newMode });
         } else {
-          console.log('usePowerUp', type);
+          console.log('applyPowerUp', type);
         }
       },
 

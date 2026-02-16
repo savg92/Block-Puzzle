@@ -77,7 +77,7 @@ describe('Power-Ups State', () => {
     expect(state.availablePieces[0]).toEqual(line2);
     
     // Perform Rotate
-    useGameStore.getState().usePowerUp('rotate');
+    useGameStore.getState().applyPowerUp('rotate');
     
     // Verify Rotation
     state = useGameStore.getState();
@@ -98,7 +98,7 @@ describe('Power-Ups State', () => {
       powerUps: { ...useGameStore.getState().powerUps, rotate: 0 }
     });
 
-    useGameStore.getState().usePowerUp('rotate');
+    useGameStore.getState().applyPowerUp('rotate');
     
     const state = useGameStore.getState();
     expect(state.availablePieces[0]).toEqual(line2); // Unchanged
@@ -107,10 +107,10 @@ describe('Power-Ups State', () => {
 
   describe('Discard Power-Up', () => {
     it('should toggle discard mode', () => {
-      useGameStore.getState().usePowerUp('discard');
+      useGameStore.getState().applyPowerUp('discard');
       expect(useGameStore.getState().activePowerUpMode).toBe('discard');
       
-      useGameStore.getState().usePowerUp('discard');
+      useGameStore.getState().applyPowerUp('discard');
       expect(useGameStore.getState().activePowerUpMode).toBeNull();
     });
 

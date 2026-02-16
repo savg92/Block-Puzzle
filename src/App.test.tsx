@@ -56,7 +56,7 @@ describe('App', () => {
   });
 
   it('renders correctly and transitions from loading to game', async () => {
-    const { getByText, getAllByTestId, queryByTestId } = render(<App />);
+    const { getByText, getAllByTestId } = render(<App />);
     
     // Should show loading screen initially (isReady is false)
     // LoadingScreen is mocked to null, so we just check if it's rendered by logic
@@ -75,7 +75,8 @@ describe('App', () => {
   });
 
   it('handles SplashScreen failure', async () => {
-    const splash = require('expo-splash-screen');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const splash = require('expo-splash-screen') as jest.Mocked<typeof import('expo-splash-screen')>;
     splash.hideAsync.mockRejectedValueOnce(new Error('Splash error'));
     
     const { getByText } = render(<App />);

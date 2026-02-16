@@ -84,7 +84,7 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
     } else {
       scale.value = withTiming(1);
     }
-  }, [isActive]);
+  }, [isActive, scale, theme.colors.primary]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }],
@@ -115,7 +115,7 @@ const PowerUpButton: React.FC<PowerUpButtonProps> = ({ type, icon, label, count,
 
 export const PowerUpBar: React.FC = () => {
   const { theme } = useTheme();
-  const { powerUps, usePowerUp, undo, activePowerUpMode } = useGameStore();
+  const { powerUps, applyPowerUp, undo, activePowerUpMode } = useGameStore();
   const { playTap } = useSensoryFeedback();
 
   const handlePress = (type: PowerUpType) => {
@@ -124,15 +124,15 @@ export const PowerUpBar: React.FC = () => {
       undo();
     }
     else {
-      usePowerUp(type);
+      applyPowerUp(type);
     }
   };
 
   const handleCancel = () => {
     playTap();
-    // Calling usePowerUp with the current type will toggle it off in our store logic
+    // Calling applyPowerUp with the current type will toggle it off in our store logic
     if (activePowerUpMode) {
-      usePowerUp(activePowerUpMode);
+      applyPowerUp(activePowerUpMode);
     }
   };
 

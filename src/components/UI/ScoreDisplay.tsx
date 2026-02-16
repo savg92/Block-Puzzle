@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Animated, { 
+import { 
   useSharedValue, 
   withTiming, 
   Easing,
@@ -25,7 +25,7 @@ export const ScoreDisplay: React.FC = () => {
       duration: 500,
       easing: Easing.out(Easing.quad),
     });
-  }, [score]);
+  }, [score, animatedScore]);
 
   // Use state for simpler test compatibility while we refine reanimated tests
   const [displayScore, setDisplayScore] = useState(score);
@@ -79,7 +79,7 @@ export const ScoreDisplay: React.FC = () => {
   return (
     <View testID="score-container" style={dynamicStyles.container}>
       <View style={dynamicStyles.scoreBox}>
-        <Text style={dynamicStyles.label}>SCORE</Text>
+        <Text style={styles.label}>SCORE</Text>
         <Text testID="current-score" style={dynamicStyles.scoreText}>{displayScore}</Text>
       </View>
       <View style={dynamicStyles.divider} />
@@ -90,3 +90,13 @@ export const ScoreDisplay: React.FC = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: {
+    fontSize: 10,
+    fontWeight: '900',
+    letterSpacing: 1.5,
+    marginBottom: 2,
+    textTransform: 'uppercase',
+  },
+});

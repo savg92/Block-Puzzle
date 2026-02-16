@@ -159,6 +159,7 @@ describe('Grid', () => {
     const mockPlayClear = jest.fn();
     
     // We need to mock useSensoryFeedback because it's used in Grid
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     require('../../../hooks/useSensoryFeedback').useSensoryFeedback = () => ({
       playPlace: mockPlayPlace,
       playClear: mockPlayClear,
@@ -231,4 +232,3 @@ describe('Grid', () => {
     expect(queryByTestId('ghost-piece')).toBeNull();
   });
 });
-

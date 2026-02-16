@@ -38,7 +38,7 @@ describe('PowerUpBar', () => {
         forcePlace: 4,
         addSingle: 5,
       },
-      usePowerUp: mockUsePowerUp,
+      applyPowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: null,
       preferences: {
@@ -74,13 +74,13 @@ describe('PowerUpBar', () => {
     expect(mockUndo).toHaveBeenCalled();
   });
 
-  it('calls usePowerUp when Rotate is pressed', () => {
+  it('calls applyPowerUp when Rotate is pressed', () => {
     const { getByText } = renderWithTheme(<PowerUpBar />);
     fireEvent.press(getByText('Rotate'));
     expect(mockUsePowerUp).toHaveBeenCalledWith('rotate');
   });
 
-  it('calls usePowerUp when Discard is pressed', () => {
+  it('calls applyPowerUp when Discard is pressed', () => {
     const { getByText } = renderWithTheme(<PowerUpBar />);
     fireEvent.press(getByText('Discard'));
     expect(mockUsePowerUp).toHaveBeenCalledWith('discard');
@@ -91,7 +91,7 @@ describe('PowerUpBar', () => {
       powerUps: {
         undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1
       },
-      usePowerUp: mockUsePowerUp,
+      applyPowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: 'discard',
       preferences: {
@@ -107,12 +107,12 @@ describe('PowerUpBar', () => {
     expect(getByText('CANCEL')).toBeTruthy();
   });
 
-  it('calls usePowerUp to toggle off when CANCEL is pressed', () => {
+  it('calls applyPowerUp to toggle off when CANCEL is pressed', () => {
     mockUseGameStore.mockReturnValue({
       powerUps: {
         undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1
       },
-      usePowerUp: mockUsePowerUp,
+      applyPowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: 'discard',
       preferences: {
@@ -133,7 +133,7 @@ describe('PowerUpBar', () => {
       powerUps: {
         undo: 0, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1
       },
-      usePowerUp: mockUsePowerUp,
+      applyPowerUp: mockUsePowerUp,
       undo: mockUndo,
       activePowerUpMode: null,
       preferences: { isMuted: false },
@@ -152,7 +152,7 @@ describe('PowerUpBar', () => {
     modes.forEach((mode, i) => {
       mockUseGameStore.mockReturnValue({
         powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 },
-        usePowerUp: mockUsePowerUp,
+        applyPowerUp: mockUsePowerUp,
         undo: mockUndo,
         activePowerUpMode: mode,
         preferences: { isMuted: false },
@@ -164,19 +164,20 @@ describe('PowerUpBar', () => {
     });
   });
 
-  it('calls usePowerUp when Force is pressed', () => {
+  it('calls applyPowerUp when Force is pressed', () => {
     const { getByText } = renderWithTheme(<PowerUpBar />);
     fireEvent.press(getByText('Force'));
     expect(mockUsePowerUp).toHaveBeenCalledWith('forcePlace');
   });
 
-  it('calls usePowerUp when Single is pressed', () => {
+  it('calls applyPowerUp when Single is pressed', () => {
     const { getByText } = renderWithTheme(<PowerUpBar />);
     fireEvent.press(getByText('Single'));
     expect(mockUsePowerUp).toHaveBeenCalledWith('addSingle');
   });
 
   it('renders correctly in dark mode', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const ThemeContext = require('../../../styles/ThemeContext');
     const originalUseTheme = ThemeContext.useTheme;
     ThemeContext.useTheme = () => ({ 

@@ -16,7 +16,7 @@ describe('GameOverModal Snapshots', () => {
       score: 500,
       highScore: 1000,
       powerUps: { undo: 1 },
-      usePowerUp: jest.fn(),
+      applyPowerUp: jest.fn(),
       newGame: jest.fn(),
       preferences: { theme: 'dark' },
     });
@@ -35,7 +35,7 @@ describe('GameOverModal Snapshots', () => {
       score: 1500,
       highScore: 1500,
       powerUps: { undo: 1 },
-      usePowerUp: jest.fn(),
+      applyPowerUp: jest.fn(),
       newGame: jest.fn(),
       preferences: { theme: 'dark' },
     });
@@ -54,7 +54,7 @@ describe('GameOverModal Snapshots', () => {
       score: 500,
       highScore: 1000,
       powerUps: { undo: 1 },
-      usePowerUp: jest.fn(),
+      applyPowerUp: jest.fn(),
       newGame: jest.fn(),
       preferences: { theme: 'dark' },
     });

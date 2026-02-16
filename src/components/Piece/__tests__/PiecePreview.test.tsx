@@ -52,6 +52,7 @@ describe('PiecePreview', () => {
   });
 
   it('handles missing theme gracefully', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const ThemeContext = require('../../../styles/ThemeContext');
     const originalUseTheme = ThemeContext.useTheme;
     // @ts-ignore

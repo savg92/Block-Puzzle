@@ -5,7 +5,6 @@ import Animated, {
   useSharedValue, 
   useAnimatedStyle, 
   withTiming, 
-  withDelay,
   Easing 
 } from 'react-native-reanimated';
 
@@ -22,7 +21,7 @@ export const LoadingScreen: React.FC = () => {
       duration: 1000, 
       easing: Easing.out(Easing.back(1.5)) 
     });
-  }, []);
+  }, [opacity, scale]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,

@@ -89,7 +89,7 @@ export const Grid: React.FC = memo(() => {
       color: getPieceColor(selectedPiece),
       size: cellWidth - 2 // Account for margin
     };
-  }, [selectedPiece, hoverPosition, grid, gridLayout]);
+  }, [selectedPiece, hoverPosition, grid, gridLayout, activePowerUpMode]);
 
   return (
     <View 
@@ -141,3 +141,5 @@ export const Grid: React.FC = memo(() => {
     </View>
   );
 });
+
+Grid.displayName = 'Grid';

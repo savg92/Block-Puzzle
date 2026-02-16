@@ -81,7 +81,7 @@ describe('gameStore', () => {
     
     // Place a single block at (0,0)
     useGameStore.getState().setHoverPosition({ row: 0, col: 0 });
-    const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, '#FF0000', 0);
+    useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, '#FF0000', 0);
     
     const state = useGameStore.getState();
     // In a fresh game, row 0 is empty, so placing a piece makes it filled unless it triggers clear.
@@ -131,23 +131,12 @@ describe('gameStore', () => {
         grid: Array(10).fill(null).map((_, r) => Array(10).fill(r === 0 ? 'red' : 0)),
         powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 } 
       });
-      
-      // Note: The logic for 'discard' has not been implemented in usePowerUp yet.
-      // useGameStore.getState().usePowerUp('discard', 0, 0);
-      // expect(useGameStore.getState().grid[0][0]).toBe(0);
     });
 
     it('should use forcePlace power-up', () => {
-      const initialPieces = [...useGameStore.getState().availablePieces];
       useGameStore.setState({ 
         powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 } 
       });
-      
-      // Note: Logic not yet implemented
-      // useGameStore.getState().usePowerUp('forcePlace');
-      
-      // expect(useGameStore.getState().availablePieces).not.toEqual(initialPieces);
-      // expect(useGameStore.getState().powerUps.forcePlace).toBe(0);
     });
 
     it('should set isGameOver to true when no moves are possible', () => {
@@ -257,7 +246,7 @@ describe('gameStore', () => {
         powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 }
       });
 
-      useGameStore.getState().usePowerUp('rotate');
+      useGameStore.getState().applyPowerUp('rotate');
 
       const state = useGameStore.getState();
       expect(state.powerUps.rotate).toBe(0);
@@ -271,7 +260,7 @@ describe('gameStore', () => {
         powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 }
       });
 
-      useGameStore.getState().usePowerUp('discard');
+      useGameStore.getState().applyPowerUp('discard');
       expect(useGameStore.getState().activePowerUpMode).toBe('discard');
 
       useGameStore.getState().discardPiece(0);
@@ -298,7 +287,7 @@ describe('gameStore', () => {
       expect(normalResult?.success).toBe(false);
 
       // Use forcePlace
-      useGameStore.getState().usePowerUp('forcePlace');
+      useGameStore.getState().applyPowerUp('forcePlace');
       const forceResult = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'blue', 0);
       
       expect(forceResult?.success).toBe(true);
@@ -313,7 +302,7 @@ describe('gameStore', () => {
         powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 }
       });
 
-      useGameStore.getState().usePowerUp('addSingle');
+      useGameStore.getState().applyPowerUp('addSingle');
       useGameStore.getState().addSingleBlock(5, 5);
 
       const state = useGameStore.getState();
@@ -329,6 +318,7 @@ describe('gameStore', () => {
     });
 
     it('should update high score and call storage when score exceeds high score', () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { appStorage } = require('../storage');
       useGameStore.setState({ score: 0, highScore: 100 });
 
@@ -343,6 +333,7 @@ describe('gameStore', () => {
     });
 
     it('should init high score from storage', async () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { appStorage } = require('../storage');
       appStorage.getItem.mockResolvedValue('500');
 
@@ -477,17 +468,17 @@ describe('gameStore', () => {
       expect(Object.values(state.powerUps).reduce((a, b) => a + b)).toBeGreaterThanOrEqual(1);
     });
 
-    it('usePowerUp does nothing if no inventory', () => {
+    it('applyPowerUp does nothing if no inventory', () => {
       useGameStore.setState({ powerUps: { undo: 0, rotate: 0, discard: 0, forcePlace: 0, addSingle: 0 } });
-      useGameStore.getState().usePowerUp('rotate');
+      useGameStore.getState().applyPowerUp('rotate');
       expect(useGameStore.getState().availablePieces).not.toEqual([]); // Assuming they weren't rotated
     });
 
-    it('usePowerUp toggles mode off if clicked twice', () => {
+    it('applyPowerUp toggles mode off if clicked twice', () => {
       useGameStore.setState({ powerUps: { undo: 1, rotate: 1, discard: 1, forcePlace: 1, addSingle: 1 } });
-      useGameStore.getState().usePowerUp('discard');
+      useGameStore.getState().applyPowerUp('discard');
       expect(useGameStore.getState().activePowerUpMode).toBe('discard');
-      useGameStore.getState().usePowerUp('discard');
+      useGameStore.getState().applyPowerUp('discard');
       expect(useGameStore.getState().activePowerUpMode).toBeNull();
     });
 
@@ -505,7 +496,7 @@ describe('gameStore', () => {
 
     it('placePiece returns false if forcePlace used with no inventory', () => {
       useGameStore.setState({ activePowerUpMode: 'forcePlace', powerUps: { ...useGameStore.getState().powerUps, forcePlace: 0 } });
-      const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
+      const result = useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, '#FF0000', 0);
       expect(result).toBeUndefined();
     });
 
@@ -525,6 +516,7 @@ describe('gameStore', () => {
     });
 
     it('updates high score via addSingleBlock', () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { appStorage } = require('../storage');
       useGameStore.setState({ 
         score: 100, 
@@ -540,6 +532,7 @@ describe('gameStore', () => {
     });
 
     it('does not update high score if not exceeded via addSingleBlock', () => {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const { appStorage } = require('../storage');
       useGameStore.setState({ 
         score: 50, 
@@ -561,11 +554,11 @@ describe('gameStore', () => {
       expect(useGameStore.getState().preferences.isMuted).toBe(true);
     });
 
-    it('usePowerUp handles unknown type', () => {
+    it('applyPowerUp handles unknown type', () => {
       const spy = jest.spyOn(console, 'log').mockImplementation();
       // @ts-ignore
-      useGameStore.getState().usePowerUp('unknown');
-      expect(spy).toHaveBeenCalledWith('usePowerUp', 'unknown');
+      useGameStore.getState().applyPowerUp('unknown');
+      expect(spy).toHaveBeenCalledWith('applyPowerUp', 'unknown');
       spy.mockRestore();
     });
 

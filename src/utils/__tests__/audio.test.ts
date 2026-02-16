@@ -1,4 +1,4 @@
-import { createAudioPlayer, useAudioPlayer, AudioPlayer, useAudioPlayerStatus } from 'expo-audio';
+import { createAudioPlayer } from 'expo-audio';
 import { audioManager } from '../audio';
 
 // Mock the whole module

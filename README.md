@@ -1,11 +1,12 @@
 # Block Puzzle 10x10
 
 ![License](https://img.shields.io/badge/license-Private-red.svg)
-![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android-lightgrey.svg)
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-lightgrey.svg)
+![PWA](https://img.shields.io/badge/PWA-Ready-blue.svg)
 ![Status](https://img.shields.io/badge/status-Production%20Ready-success.svg)
 ![Coverage](https://img.shields.io/badge/coverage-96%25-brightgreen.svg)
 
-A premium, fully offline, single-player block puzzle game built with React Native and Expo. Designed for performance, aesthetics, and pure gameplay focus without the distractions of ads or monetization.
+A premium, fully offline, single-player block puzzle game built with React Native and Expo. Designed for performance, aesthetics, and pure gameplay focus—now available as a high-performance **Progressive Web App (PWA)** alongside native mobile support.
 
 ---
 
@@ -29,13 +30,25 @@ Strategize with 5 unique game-changing abilities:
 
 ---
 
+## 🌐 PWA & Web Support
+
+The game has been pivoted to support a first-class Web experience, allowing it to be "installed" on any device.
+
+- **100% Offline Gameplay:** Powered by Service Workers, the game caches all assets (logic, UI, audio, images) on the first load for stable offline play.
+- **App-Like Experience:** Configured as a `standalone` PWA, it runs in its own window without browser chrome when "Added to Home Screen".
+- **Web-Native Haptics:** Uses the browser's `navigator.vibrate` API to provide tactile feedback on supported mobile browsers.
+- **Audio Unlock:** Features a "Tap to Start" interaction to comply with modern browser autoplays policies while ensuring a rich sensory experience.
+- **Adaptive Layout:** Tailored for mobile viewports, handling safe area insets and dynamic URL bar behavioral changes.
+
+---
+
 ## 🛠 Tech Stack
 
 Built with a focus on **Clean Architecture** and **Performance**.
 
 | Layer | Technology | Description |
 |-------|------------|-------------|
-| **Core** | **Expo (SDK 54)** | Managed workflow for cross-platform stability. |
+| **Core** | **Expo (SDK 54)** | Managed workflow for cross-platform stability (iOS, Android, Web). |
 | **Logic** | **TypeScript** | Pure, dependency-free game engine (`src/engine`). |
 | **State** | **Zustand** | Lightweight store for reactive state and actions. |
 | **UI** | **NativeWind** | Utility-first styling (Tailwind CSS) for React Native. |
@@ -92,6 +105,28 @@ src/
     bun start
     ```
     *Scan the QR code with your iPhone (Camera) or Android (Expo Go).*
+
+4.  **Run for Web:**
+    ```bash
+    bun web
+    ```
+
+### 🌍 Deployment (PWA)
+
+To generate a production-ready PWA bundle:
+
+1.  **Export for Web:**
+    ```bash
+    bun export:web
+    ```
+2.  **Verify & Serve:**
+    The output in `dist/` is a static site ready for hosting on services like Vercel, Netlify, or GitHub Pages.
+
+### 📱 Installing as a PWA
+1. Open the game URL in your mobile browser (Safari on iOS, Chrome on Android).
+2. Tap the **Share** button (iOS) or **Menu** icon (Android).
+3. Select **"Add to Home Screen"**.
+4. Launch from your home screen for the full, offline, immersive experience.
 
 ---
 

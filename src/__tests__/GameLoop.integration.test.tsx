@@ -63,13 +63,8 @@ describe('Game Loop Integration', () => {
       });
     });
 
-    // Check game over immediately - should be true because none of these fit in isolated holes
-    const isGameOver = useGameStore.getState().isGameOver;
-    
-    // Note: newGame() or placePiece() triggers checkGameOver. 
-    // Manual setState doesn't trigger logic. 
-    // We should trigger a placement or call checkGameOver logic if exposed.
-    // Or we can just place a SINGLE piece at some 0 to trigger the check.
+    // Check game over after a piece that triggers the check
+    // (Manual setState doesn't trigger logic. We should trigger a placement)
     
     const firstEmpty = { row: 0, col: 1 }; // (0+1)%2 = 1 -> 0
     act(() => {

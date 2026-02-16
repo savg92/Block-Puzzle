@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import { GameOverModal } from '../GameOverModal';
 import { useGameStore } from '../../../store/gameStore';
 import { ThemeProvider } from '../../../styles/ThemeContext';
@@ -18,7 +18,7 @@ describe('GameOverModal', () => {
       score: 100,
       highScore: 500,
       powerUps: { undo: 1 },
-      usePowerUp: mockUsePowerUp,
+      applyPowerUp: mockUsePowerUp,
       newGame: mockNewGame,
       preferences: { theme: 'dark' },
     });
@@ -45,7 +45,7 @@ describe('GameOverModal', () => {
     expect(mockNewGame).toHaveBeenCalled();
   });
 
-  it('calls usePowerUp when UNDO button is pressed', () => {
+  it('calls applyPowerUp when UNDO button is pressed', () => {
     const { getByText } = renderWithTheme(<GameOverModal />);
     fireEvent.press(getByText('UNDO (1)'));
     expect(mockUsePowerUp).toHaveBeenCalledWith('undo');
@@ -57,7 +57,7 @@ describe('GameOverModal', () => {
       score: 100,
       highScore: 500,
       powerUps: { undo: 1 },
-      usePowerUp: mockUsePowerUp,
+      applyPowerUp: mockUsePowerUp,
       newGame: mockNewGame,
       preferences: { theme: 'dark' },
     });

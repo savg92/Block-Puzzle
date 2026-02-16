@@ -1,5 +1,4 @@
 import { useGameStore } from '../gameStore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Mock storage module
 jest.mock('../storage', () => {

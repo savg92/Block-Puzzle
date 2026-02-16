@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
 <View
@@ -29,7 +29,6 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
     <Text
       style={
         {
-          "color": "#94a3b8",
           "fontSize": 10,
           "fontWeight": "900",
           "letterSpacing": 1.5,
@@ -130,7 +129,6 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
     <Text
       style={
         {
-          "color": "#94a3b8",
           "fontSize": 10,
           "fontWeight": "900",
           "letterSpacing": 1.5,

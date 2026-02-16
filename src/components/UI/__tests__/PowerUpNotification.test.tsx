@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, act } from '@testing-library/react-native';
+import { render } from '@testing-library/react-native';
 import { PowerUpNotification } from '../PowerUpNotification';
 import { useGameStore } from '../../../store/gameStore';
 import { ThemeProvider } from '../../../styles/ThemeContext';

@@ -4,7 +4,6 @@ import { Piece } from '../types';
 describe('calculateScore', () => {
   const piece1: Piece = [[1]]; // 1 block
   const piece3: Piece = [[1, 1, 1]]; // 3 blocks
-  const piece5: Piece = [[1, 1, 1, 1, 1]]; // 5 blocks
   const pieceSquare: Piece = [
       [1, 1],
       [1, 1]
