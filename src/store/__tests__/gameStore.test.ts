@@ -40,11 +40,12 @@ describe('gameStore', () => {
   });
 
   it('should start a new game', () => {
-    // Manually set some state
+    const initialPowerUps = { undo: 5, rotate: 2, discard: 0, forcePlace: 0, addSingle: 1 };
     useGameStore.setState({
       score: 100,
       isGameOver: true,
       hoverPosition: { row: 1, col: 1 },
+      powerUps: initialPowerUps,
     });
 
     useGameStore.getState().newGame();
@@ -53,6 +54,7 @@ describe('gameStore', () => {
     expect(state.score).toBe(0);
     expect(state.isGameOver).toBe(false);
     expect(state.hoverPosition).toBeNull();
+    expect(state.powerUps).toEqual(initialPowerUps);
   });
 
   it('should select a piece', () => {

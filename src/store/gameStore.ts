@@ -106,13 +106,6 @@ export const useGameStore = create<GameState>()(
           scoreAtLastPowerUp: 0,
           
           activePowerUpMode: null,
-          powerUps: {
-            undo: 0,
-            rotate: 0,
-            discard: 0,
-            forcePlace: 0,
-            addSingle: 0,
-          },
           lastEarnedPowerUp: null,
           notificationId: 0,
           
