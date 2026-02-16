@@ -9,17 +9,17 @@ export const triggerHaptic = async (type: HapticType) => {
       switch (type) {
         case 'tap':
         case 'pickup':
-          navigator.vibrate(10);
+          navigator.vibrate(20);
           break;
         case 'place':
-          navigator.vibrate(20);
+          navigator.vibrate(30);
           break;
         case 'clear':
         case 'success':
-          navigator.vibrate([30, 50, 30]);
+          navigator.vibrate([40, 60, 40]);
           break;
         case 'gameOver':
-          navigator.vibrate(50);
+          navigator.vibrate(70);
           break;
         default:
           break;

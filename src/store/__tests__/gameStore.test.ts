@@ -31,11 +31,11 @@ describe('gameStore', () => {
     expect(state.gridLayout).toBeNull();
     expect(state.isGameOver).toBe(false);
     expect(state.powerUps).toEqual({ 
-      undo: 1, 
-      rotate: 1, 
-      discard: 1, 
-      forcePlace: 1, 
-      addSingle: 1 
+      undo: 0, 
+      rotate: 0, 
+      discard: 0, 
+      forcePlace: 0, 
+      addSingle: 0 
     });
   });
 
@@ -167,6 +167,7 @@ describe('gameStore', () => {
 
   describe('Undo', () => {
     it('should undo a piece placement', () => {
+      useGameStore.setState({ powerUps: { ...useGameStore.getState().powerUps, undo: 1 } });
       useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
       expect(useGameStore.getState().score).toBeGreaterThan(0);
       
@@ -214,6 +215,7 @@ describe('gameStore', () => {
       });
 
       // 1. Move
+      useGameStore.setState({ powerUps: { ...useGameStore.getState().powerUps, undo: 5 } });
       useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
       // 2. Undo
       useGameStore.getState().undo();
@@ -232,6 +234,7 @@ describe('gameStore', () => {
     });
 
     it('should clear history on new game', () => {
+      useGameStore.setState({ powerUps: { ...useGameStore.getState().powerUps, undo: 1 } });
       useGameStore.getState().placePiece(PIECES.SINGLE, 0, 0, 'red', 0);
       useGameStore.getState().newGame();
       useGameStore.getState().undo(); // Should do nothing

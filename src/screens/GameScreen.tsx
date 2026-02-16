@@ -63,6 +63,7 @@ export const GameScreen: React.FC = () => {
       color: isDark ? '#ffffff' : '#000000',
       marginBottom: 10,
       marginTop: 10,
+      userSelect: 'none',
     },
     gridSection: {
       flex: 1,

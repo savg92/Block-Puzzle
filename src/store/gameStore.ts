@@ -70,18 +70,18 @@ export const useGameStore = create<GameState>()(
       
       activePowerUpMode: null,
       powerUps: {
-        undo: 1,
-        rotate: 1,
-        discard: 1,
-        forcePlace: 1,
-        addSingle: 1,
+        undo: 0,
+        rotate: 0,
+        discard: 0,
+        forcePlace: 0,
+        addSingle: 0,
       },
       preferences: {
         soundVolume: 1.0,
-        isMuted: false,
+        isMuted: true,
         hapticIntensity: 'medium',
         theme: 'system',
-        showPieceShadow: true,
+        showPieceShadow: false,
       },
       clearingCells: null,
       lastEarnedPowerUp: null,
@@ -90,9 +90,9 @@ export const useGameStore = create<GameState>()(
 
       history: [],
       initStore: async () => {
-        const saved = await appStorage.getItem(HIGH_SCORE_KEY);
-        if (saved) {
-          set({ highScore: parseInt(saved, 10) });
+        const savedHighScore = await appStorage.getItem(HIGH_SCORE_KEY);
+        if (savedHighScore) {
+          set({ highScore: parseInt(savedHighScore, 10) });
         }
       },
       newGame: () =>
@@ -107,11 +107,11 @@ export const useGameStore = create<GameState>()(
           
           activePowerUpMode: null,
           powerUps: {
-            undo: 1,
-            rotate: 1,
-            discard: 1,
-            forcePlace: 1,
-            addSingle: 1,
+            undo: 0,
+            rotate: 0,
+            discard: 0,
+            forcePlace: 0,
+            addSingle: 0,
           },
           lastEarnedPowerUp: null,
           notificationId: 0,

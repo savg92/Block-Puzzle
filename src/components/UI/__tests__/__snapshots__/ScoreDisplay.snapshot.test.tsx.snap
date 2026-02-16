@@ -35,6 +35,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
           "letterSpacing": 1.5,
           "marginBottom": 2,
           "textTransform": "uppercase",
+          "userSelect": "none",
         }
       }
     >
@@ -46,6 +47,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
           "color": "#f8fafc",
           "fontSize": 28,
           "fontWeight": "bold",
+          "userSelect": "none",
         }
       }
       testID="current-score"
@@ -80,6 +82,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
           "letterSpacing": 1.5,
           "marginBottom": 2,
           "textTransform": "uppercase",
+          "userSelect": "none",
         }
       }
     >
@@ -91,6 +94,7 @@ exports[`ScoreDisplay Snapshots renders correctly with non-zero score 1`] = `
           "color": "#10b981",
           "fontSize": 28,
           "fontWeight": "bold",
+          "userSelect": "none",
         }
       }
       testID="high-score"
@@ -136,6 +140,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
           "letterSpacing": 1.5,
           "marginBottom": 2,
           "textTransform": "uppercase",
+          "userSelect": "none",
         }
       }
     >
@@ -147,6 +152,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
           "color": "#f8fafc",
           "fontSize": 28,
           "fontWeight": "bold",
+          "userSelect": "none",
         }
       }
       testID="current-score"
@@ -181,6 +187,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
           "letterSpacing": 1.5,
           "marginBottom": 2,
           "textTransform": "uppercase",
+          "userSelect": "none",
         }
       }
     >
@@ -192,6 +199,7 @@ exports[`ScoreDisplay Snapshots renders correctly with zero score 1`] = `
           "color": "#10b981",
           "fontSize": 28,
           "fontWeight": "bold",
+          "userSelect": "none",
         }
       }
       testID="high-score"

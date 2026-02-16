@@ -28,7 +28,7 @@
     "web": {
       "favicon": "./assets/favicon.png",
       "shortName": "Block Puzzle",
-      "themeColor": "#3b82f6",
+      "themeColor": "#020617",
       "backgroundColor": "#020617",
       "display": "standalone",
       "config": {

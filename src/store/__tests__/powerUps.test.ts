@@ -19,11 +19,11 @@ describe('Power-Ups State', () => {
   it('should initialize with inventory for all 5 power-ups', () => {
     const state = useGameStore.getState();
     expect(state.powerUps).toEqual({
-      undo: 1,
-      rotate: 1,
-      discard: 1,
-      forcePlace: 1,
-      addSingle: 1,
+      undo: 0,
+      rotate: 0,
+      discard: 0,
+      forcePlace: 0,
+      addSingle: 0,
     });
   });
 
@@ -107,6 +107,7 @@ describe('Power-Ups State', () => {
 
   describe('Discard Power-Up', () => {
     it('should toggle discard mode', () => {
+      useGameStore.setState({ powerUps: { ...useGameStore.getState().powerUps, discard: 1 } });
       useGameStore.getState().applyPowerUp('discard');
       expect(useGameStore.getState().activePowerUpMode).toBe('discard');
       

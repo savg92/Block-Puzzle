@@ -68,23 +68,23 @@ describe('haptics', () => {
 
     it('triggers vibrate for pickup', async () => {
       await triggerHaptic('pickup');
-      expect(global.navigator.vibrate).toHaveBeenCalledWith(10);
+      expect(global.navigator.vibrate).toHaveBeenCalledWith(20);
       expect(Haptics.impactAsync).not.toHaveBeenCalled();
     });
 
     it('triggers vibrate for place', async () => {
       await triggerHaptic('place');
-      expect(global.navigator.vibrate).toHaveBeenCalledWith(20);
+      expect(global.navigator.vibrate).toHaveBeenCalledWith(30);
     });
 
     it('triggers vibrate for clear', async () => {
       await triggerHaptic('clear');
-      expect(global.navigator.vibrate).toHaveBeenCalledWith([30, 50, 30]);
+      expect(global.navigator.vibrate).toHaveBeenCalledWith([40, 60, 40]);
     });
 
     it('triggers vibrate for gameOver', async () => {
       await triggerHaptic('gameOver');
-      expect(global.navigator.vibrate).toHaveBeenCalledWith(50);
+      expect(global.navigator.vibrate).toHaveBeenCalledWith(70);
     });
   });
 });

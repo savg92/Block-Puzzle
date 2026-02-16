@@ -57,16 +57,19 @@ export const ScoreDisplay: React.FC = () => {
       letterSpacing: 1.5,
       marginBottom: 2,
       textTransform: 'uppercase',
+      userSelect: 'none',
     },
     scoreText: {
       color: theme.isDark ? '#f8fafc' : '#000000',
       fontSize: 28,
       fontWeight: 'bold',
+      userSelect: 'none',
     },
     highScoreText: {
       color: theme.colors.secondary,
       fontSize: 28,
       fontWeight: 'bold',
+      userSelect: 'none',
     },
     divider: {
       width: 1,

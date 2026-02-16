@@ -10,7 +10,8 @@ describe('User Preferences State', () => {
     expect(preferences).toBeDefined();
     expect(preferences.soundVolume).toBe(1.0);
     expect(preferences.hapticIntensity).toBe('medium');
-    expect(preferences.isMuted).toBe(false);
+    expect(preferences.isMuted).toBe(true);
+    expect(preferences.showPieceShadow).toBe(false);
     expect(preferences.theme).toBe('system');
   });
 
@@ -22,7 +23,7 @@ describe('User Preferences State', () => {
     const { preferences } = useGameStore.getState();
     expect(preferences.soundVolume).toBe(0.5);
     expect(preferences.hapticIntensity).toBe('off');
-    expect(preferences.isMuted).toBe(false); // Unchanged
+    expect(preferences.isMuted).toBe(true); // Unchanged (default)
   });
 
   it('partialize includes preferences for persistence', () => {

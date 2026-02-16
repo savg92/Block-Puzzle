@@ -24,9 +24,15 @@
         flex: 1; 
       }
     </style>
-    <meta name="theme-color" content="#3b82f6">
+    <meta name="theme-color" content="#020617">
+    <meta name="background-color" content="#020617">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="/manifest.json" />
     <link rel="icon" href="/favicon.ico" />
+    <script>
+      document.addEventListener('contextmenu', event => event.preventDefault());
+      document.addEventListener('selectstart', event => event.preventDefault());
+    </script>
   </head>
   <body>
     <noscript>
