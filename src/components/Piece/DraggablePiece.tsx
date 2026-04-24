@@ -5,8 +5,10 @@
  * Fixes:
  * 1. Shadow alignment - tracks grab offset within piece
  * 2. Smooth return - no bounce animation
+ * 3. Two-layer touch target on mobile - entire tray slot is grabbable
  */
 import React, { memo, useCallback, useRef } from 'react';
+import { LayoutChangeEvent } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, { 
   useAnimatedStyle, 
@@ -14,12 +16,14 @@ import Animated, {
   withTiming,
   Easing,
   runOnJS,
+  withSpring,
 } from 'react-native-reanimated';
 import { PiecePreview } from './PiecePreview';
 import { Theme } from '../../styles/theme';
 import { useGameStore } from '../../store/gameStore';
 import { useSensoryFeedback } from '../../hooks/useSensoryFeedback';
 import { canPlacePiece } from '../../engine/board';
+import { isTouchDevice } from '../../utils/deviceUtils';
 
 interface Props {
   piece: number[][];
@@ -30,10 +34,12 @@ interface Props {
 }
 
 // How much to lift the piece above the touch point
-const DRAG_LIFT = 110;
+const DRAG_LIFT = 120;
 // Correction to move shadow UP (user reported shadow was below piece)
 // Increasing this value makes the system think the piece is higher up
 const CALC_LIFT = DRAG_LIFT;
+
+const IS_TOUCH = isTouchDevice();
 
 // Helper to calculate positions (exported for testing)
 export const calculatePiecePosition = (
@@ -74,6 +80,8 @@ export const DraggablePiece: React.FC<Props> = memo(({
   const offsetX = useSharedValue(0);
   const offsetY = useSharedValue(0);
   const scale = useSharedValue(1);
+  const glow = useSharedValue(0);
+  const haloScale = useSharedValue(0);
   
   // Track where user grabbed within the piece (relative to piece top-left)
   const initialGrabX = useSharedValue(0);
@@ -81,27 +89,41 @@ export const DraggablePiece: React.FC<Props> = memo(({
   const effectiveGrabX = useSharedValue(0);
   const effectiveGrabY = useSharedValue(0);
   
+  // Slot dimensions for touch target (measured via onLayout on touch devices)
+  const slotWidth = useSharedValue(0);
+  const slotHeight = useSharedValue(0);
+  
   // Piece measurements
   const gap = 2;
-  const width = piece[0].length * (size + gap);
-  const height = piece.length * (size + gap);
+  const pieceRows = piece.length;
+  const pieceCols = piece[0].length;
+  const width = pieceCols * (size + gap);
+  const height = pieceRows * (size + gap);
   
+  // Detect thin pieces
+  const isThin = pieceRows === 1 || pieceCols === 1;
+  const isTiny = pieceRows === 1 && pieceCols === 1;
+
   // Track last hover position to avoid redundant updates
   const lastHover = useRef<string | null>(null);
+
+  // Measure the slot on touch devices so we can calculate piece offset
+  const handleSlotLayout = useCallback((event: LayoutChangeEvent) => {
+    slotWidth.value = event.nativeEvent.layout.width;
+    slotHeight.value = event.nativeEvent.layout.height;
+  }, [slotWidth, slotHeight]);
 
   // Helper to check if a specific placement is valid (Logic mirrored from Grid/Engine)
   const isValidPlacement = useCallback((r: number, c: number) => {
       const isForcePlace = activePowerUpMode === 'forcePlace';
       
       // Basic bounds check (forcePlace still needs to be on grid)
-      const pieceRows = piece.length;
-      const pieceCols = piece[0].length;
       if (r < 0 || c < 0 || r + pieceRows > 10 || c + pieceCols > 10) return false;
 
       // Logic check
       if (isForcePlace) return true;
       return canPlacePiece(grid, piece, r, c);
-  }, [grid, piece, activePowerUpMode]);
+  }, [grid, piece, activePowerUpMode, pieceRows, pieceCols]);
 
   // Helper to find the best placement cell using distance-based snapping
   const getSmartSnapPos = useCallback((centerX: number, centerY: number) => {
@@ -122,8 +144,8 @@ export const DraggablePiece: React.FC<Props> = memo(({
       const fingerColFloat = (centerX - innerX) / cellWidth;
 
       // Where the top-left of the piece should be in grid units (if snapped exactly to finger)
-      const pieceCenterRowOff = piece.length / 2;
-      const pieceCenterColOff = piece[0].length / 2;
+      const pieceCenterRowOff = pieceRows / 2;
+      const pieceCenterColOff = pieceCols / 2;
       
       const targetRow = fingerRowFloat - pieceCenterRowOff;
       const targetCol = fingerColFloat - pieceCenterColOff;
@@ -146,8 +168,8 @@ export const DraggablePiece: React.FC<Props> = memo(({
                   const distSq = dr * dr + dc * dc;
 
                   if (distSq < minDistanceSq) {
-                      minDistanceSq = distSq;
-                      bestPos = { row: r, col: c };
+                       minDistanceSq = distSq;
+                       bestPos = { row: r, col: c };
                   }
               }
           }
@@ -158,7 +180,7 @@ export const DraggablePiece: React.FC<Props> = memo(({
       if (minDistanceSq > 1.5 * 1.5) return null;
 
       return bestPos;
-  }, [gridLayout, piece, isValidPlacement]);
+  }, [gridLayout, pieceRows, pieceCols, isValidPlacement]);
 
   // Called when drag starts
   const onStart = useCallback(() => {
@@ -191,19 +213,37 @@ export const DraggablePiece: React.FC<Props> = memo(({
   const pan = Gesture.Pan()
     .onStart((e) => {
       'worklet';
-      initialGrabX.value = e.x;
-      initialGrabY.value = e.y;
+      // On touch devices, the gesture view is the full slot (larger than the piece).
+      // Convert touch position from slot-relative to piece-relative coords.
+      // The piece is centered in the slot.
+      const pieceOffsetX = IS_TOUCH && slotWidth.value > 0
+        ? (slotWidth.value - width) / 2 : 0;
+      const pieceOffsetY = IS_TOUCH && slotHeight.value > 0
+        ? (slotHeight.value - height) / 2 : 0;
+
+      const grabX = e.x - pieceOffsetX;
+      const grabY = e.y - pieceOffsetY;
+
+      initialGrabX.value = grabX;
+      initialGrabY.value = grabY;
       
-      // Initialize effective grab to current finger position
-      effectiveGrabX.value = e.x;
-      effectiveGrabY.value = e.y;
+      // Initialize effective grab to current finger position (relative to piece)
+      effectiveGrabX.value = grabX;
+      effectiveGrabY.value = grabY;
       
-      // Animate effective grab to center of piece
-      effectiveGrabX.value = withTiming(width / 2, { duration: 200 });
-      effectiveGrabY.value = withTiming(height / 2, { duration: 200 });
+      // Animate effective grab to center of piece - FASTER for mobile response
+      effectiveGrabX.value = withTiming(width / 2, { duration: 100 });
+      effectiveGrabY.value = withTiming(height / 2, { duration: 100 });
       
+      // Subtle scale boost for "picked up" feedback
+      const targetScale = 1.1;
+
       offsetY.value = -DRAG_LIFT;
-      scale.value = 1.1;
+      scale.value = withSpring(targetScale, { damping: 15 });
+      glow.value = withTiming(1, { duration: 200 });
+      
+      // Remove halo animation
+      haloScale.value = 0;
       
       runOnJS(onStart)();
     })
@@ -248,14 +288,14 @@ export const DraggablePiece: React.FC<Props> = memo(({
       const returnConfig = { duration: 200, easing: Easing.out(Easing.quad) };
       
       // Reset centering offsets so piece returns to original visual box
-      // (This might need tweaking depending on how onDragEnd handles placement, 
-      // but for returning to tray, we just want to zero everything out)
       effectiveGrabX.value = withTiming(initialGrabX.value, returnConfig);
       effectiveGrabY.value = withTiming(initialGrabY.value, returnConfig);
       
       offsetX.value = withTiming(0, returnConfig);
       offsetY.value = withTiming(0, returnConfig);
       scale.value = withTiming(1, returnConfig);
+      glow.value = withTiming(0, returnConfig);
+      haloScale.value = 0;
     });
 
   const tap = Gesture.Tap().onEnd(() => {
@@ -265,16 +305,69 @@ export const DraggablePiece: React.FC<Props> = memo(({
 
   const gesture = Gesture.Exclusive(pan, tap);
 
-  // Animated styles
-  const style = useAnimatedStyle(() => ({
+  // Animated style for the piece (inner view that moves)
+  const pieceStyle = useAnimatedStyle(() => ({
+    width,
+    height,
     transform: [
       { translateX: offsetX.value },
       { translateY: offsetY.value },
       { scale: scale.value },
     ],
     zIndex: scale.value > 1 ? 1000 : 1,
+    shadowOpacity: glow.value * 0.3,
+    shadowRadius: glow.value * 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    // For Web glow effect
+    filter: glow.value > 0 ? `drop-shadow(0 0 ${glow.value * 8}px rgba(255,255,255,0.4))` : 'none',
+    // Display web touch actions to prevent interference with drag
+    touchAction: 'none',
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'visible',
   }));
 
+  // On touch devices: two-layer approach
+  // - Outer view fills the parent slot (large touch target)
+  // - Inner animated view is the piece that moves
+  if (IS_TOUCH) {
+    return (
+      <GestureDetector gesture={gesture}>
+        <Animated.View
+          testID="draggable-piece-slot"
+          onLayout={handleSlotLayout}
+          style={{
+            flex: 1,
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            // Nearly invisible background to ensure touch capture
+            backgroundColor: 'rgba(0,0,0,0.01)',
+            overflow: 'visible',
+            cursor: 'grab',
+          } as any}
+        >
+          <Animated.View
+            testID="draggable-piece"
+            // @ts-ignore - Exposing for testing simulation
+            onDragStart={onStart}
+            // @ts-ignore - Exposing for testing simulation
+            onDragMove={onMove}
+            // @ts-ignore - Exposing for testing simulation
+            onDragEnd={onEnd}
+            // @ts-ignore - Exposing for testing simulation
+            onPiecePress={onPress}
+            style={pieceStyle}
+          >
+            <PiecePreview piece={piece} color={color} size={size} />
+          </Animated.View>
+        </Animated.View>
+      </GestureDetector>
+    );
+  }
+
+  // On desktop: single-layer (piece IS the touch target)
   return (
     <GestureDetector gesture={gesture}>
       <Animated.View 
@@ -287,7 +380,7 @@ export const DraggablePiece: React.FC<Props> = memo(({
         onDragEnd={onEnd}
         // @ts-ignore - Exposing for testing simulation
         onPiecePress={onPress}
-        style={[style, { cursor: 'grab' } as any]}
+        style={[pieceStyle, { cursor: 'grab' } as any]}
         hitSlop={{ top: 40, bottom: 40, left: 40, right: 40 }}
       >
         <PiecePreview piece={piece} color={color} size={size} />

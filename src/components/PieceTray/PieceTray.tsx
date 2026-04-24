@@ -78,7 +78,6 @@ export const PieceTray: React.FC = () => {
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: rs.trayMinHeight,
-      paddingVertical: Math.floor(10 * rs.scale),
     },
   });
 

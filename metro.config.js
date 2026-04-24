@@ -8,8 +8,7 @@ if (!config.resolver.assetExts.includes('ogg')) {
   config.resolver.assetExts.push('ogg');
 }
 
-// Prioritize CJS builds for web compatibility to avoid 'import.meta' errors
-config.resolver.resolverMainFields = ['main', 'browser', 'module'];
+// Removed custom resolverMainFields to allow web builds to correctly resolve the 'browser' and 'module' fields instead of forcing 'main' (which causes Node.js modules to be bundled on web).
 
 // Alias zustand to CJS build for web compatibility
 config.resolver.extraNodeModules = {
