@@ -72,16 +72,18 @@ export const Grid: React.FC = memo(() => {
        gridLayout.width, 
        gridLayout.height, 
        10, 
-       8 // padding (4 border + 4 padding)
+       8 // padding (4 border + 4 padding) for cell size calculation
     );
     
     // Calculate local position for the ghost
+    // Ghost is absolutely positioned INSIDE the grid View (inside border),
+    // so only CSS padding (4px) is needed, not border+padding (8px)
     const { x, y } = mapGridToLocal(
        hoverPosition.row, 
        hoverPosition.col, 
        cellWidth, 
        cellHeight,
-       8 // padding (4 border + 4 padding)
+       4 // Only CSS padding - border is already accounted for by absolute positioning
     );
 
     return {

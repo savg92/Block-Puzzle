@@ -3,27 +3,52 @@ import { Platform } from 'react-native';
 
 export type HapticType = 'pickup' | 'place' | 'clear' | 'gameOver' | 'tap' | 'success';
 
-// iOS 18+ PWA workaround: a hidden checkbox with 'switch' type triggers a light haptic on click
-let hapticSwitch: HTMLInputElement | null = null;
+// iOS 18+ PWA workaround: toggling a checkbox with 'switch' attribute
+// triggers a native system haptic click via the label element.
+// Using a label click is more reliable than checkbox.click() for
+// maintaining user activation context.
+let hapticCheckbox: HTMLInputElement | null = null;
+let hapticLabel: HTMLLabelElement | null = null;
+
+const ensureHapticElements = () => {
+  if (typeof document === 'undefined') return false;
+
+  if (!hapticCheckbox) {
+    hapticCheckbox = document.createElement('input');
+    hapticCheckbox.type = 'checkbox';
+    hapticCheckbox.id = '__haptic_switch';
+    // @ts-ignore - 'switch' is a non-standard attribute supported in iOS 18 Safari
+    hapticCheckbox.setAttribute('switch', '');
+    hapticCheckbox.style.position = 'fixed';
+    hapticCheckbox.style.opacity = '0';
+    hapticCheckbox.style.pointerEvents = 'none';
+    hapticCheckbox.style.width = '0';
+    hapticCheckbox.style.height = '0';
+    hapticCheckbox.style.left = '-9999px';
+    hapticCheckbox.style.top = '-9999px';
+    document.body.appendChild(hapticCheckbox);
+
+    hapticLabel = document.createElement('label');
+    hapticLabel.setAttribute('for', '__haptic_switch');
+    hapticLabel.style.position = 'fixed';
+    hapticLabel.style.opacity = '0';
+    hapticLabel.style.pointerEvents = 'none';
+    hapticLabel.style.width = '0';
+    hapticLabel.style.height = '0';
+    hapticLabel.style.left = '-9999px';
+    hapticLabel.style.top = '-9999px';
+    document.body.appendChild(hapticLabel);
+  }
+
+  return true;
+};
 
 const triggerIOS18Haptic = () => {
-  if (typeof document === 'undefined') return;
-  
-  if (!hapticSwitch) {
-    hapticSwitch = document.createElement('input');
-    hapticSwitch.type = 'checkbox';
-    // @ts-ignore - 'switch' is a non-standard attribute supported in iOS 18 Safari
-    hapticSwitch.setAttribute('switch', '');
-    hapticSwitch.style.position = 'absolute';
-    hapticSwitch.style.opacity = '0';
-    hapticSwitch.style.pointerEvents = 'none';
-    hapticSwitch.style.left = '-9999px';
-    hapticSwitch.style.top = '-9999px';
-    document.body.appendChild(hapticSwitch);
-  }
-  
-  // Triggering a click on this specific element type causes a tiny haptic on iOS 18+
-  hapticSwitch.click();
+  if (!ensureHapticElements() || !hapticLabel) return;
+
+  // Clicking the label toggles the associated checkbox,
+  // which triggers the native iOS haptic feedback
+  hapticLabel.click();
 };
 
 export const triggerHaptic = async (type: HapticType) => {
@@ -85,5 +110,6 @@ export const triggerHaptic = async (type: HapticType) => {
 
 /** @internal Only for testing purposes */
 export const resetHapticsForTesting = () => {
-  hapticSwitch = null;
+  hapticCheckbox = null;
+  hapticLabel = null;
 };

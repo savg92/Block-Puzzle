@@ -315,12 +315,6 @@ export const DraggablePiece: React.FC<Props> = memo(({
       { scale: scale.value },
     ],
     zIndex: scale.value > 1 ? 1000 : 1,
-    shadowOpacity: glow.value * 0.3,
-    shadowRadius: glow.value * 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    // For Web glow effect
-    filter: glow.value > 0 ? `drop-shadow(0 0 ${glow.value * 8}px rgba(255,255,255,0.4))` : 'none',
     // Display web touch actions to prevent interference with drag
     touchAction: 'none',
     justifyContent: 'center',
